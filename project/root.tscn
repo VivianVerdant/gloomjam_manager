@@ -1,0 +1,282 @@
+[gd_scene load_steps=8 format=3 uid="uid://p5kmi0q1hrcb"]
+
+[ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_pq8q7"]
+[ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://root.gd" id="2_vvh5c"]
+[ext_resource type="Script" uid="uid://dbba04dkc68br" path="res://addons/menubuttonpopulator/gdscript/menu_button_populator.gd" id="4_jnlp7"]
+[ext_resource type="Script" uid="uid://dapr2k5puj76y" path="res://scripts/tree.gd" id="5_jnlp7"]
+[ext_resource type="Script" uid="uid://db8ogu3qvpfsm" path="res://addons/menubuttonpopulator/gdscript/popup_child.gd" id="5_l8v81"]
+[ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="6_l8v81"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pq8q7"]
+bg_color = Color(0.18039216, 0.18039216, 0.18039216, 1)
+
+[node name="root" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_pq8q7")
+script = ExtResource("2_vvh5c")
+
+[node name="main_window" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="app_header" type="PanelContainer" parent="main_window"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pq8q7")
+
+[node name="app_header_margin" type="MarginContainer" parent="main_window/app_header"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 1
+
+[node name="h_box_container" type="HBoxContainer" parent="main_window/app_header/app_header_margin"]
+layout_mode = 2
+
+[node name="main_menu" type="HFlowContainer" parent="main_window/app_header/app_header_margin/h_box_container"]
+layout_mode = 2
+
+[node name="database_button" type="MenuButton" parent="main_window/app_header/app_header_margin/h_box_container/main_menu"]
+layout_mode = 2
+text = "Database"
+switch_on_hover = true
+script = ExtResource("4_jnlp7")
+metadata/_custom_type_script = "uid://dbba04dkc68br"
+
+[node name="new_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button"]
+script = ExtResource("5_l8v81")
+label_override = "New Database"
+metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+
+[node name="open_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button"]
+script = ExtResource("5_l8v81")
+label_override = "Open Database"
+metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+
+[node name="open_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button"]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 4
+popup_window = true
+force_native = true
+dialog_hide_on_ok = true
+file_mode = 0
+display_mode = 1
+access = 2
+filters = PackedStringArray("*.json")
+use_native_dialog = true
+folder_creation_enabled = false
+favorites_enabled = false
+layout_toggle_enabled = false
+
+[node name="save_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button"]
+script = ExtResource("5_l8v81")
+label_override = "Save Database"
+metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+
+[node name="save_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button"]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Save Database File"
+initial_position = 4
+minimize_disabled = false
+maximize_disabled = false
+dialog_hide_on_ok = true
+dialog_autowrap = true
+display_mode = 1
+access = 2
+filters = PackedStringArray("*.json")
+use_native_dialog = true
+
+[node name="h_box_container" type="HBoxContainer" parent="main_window/app_header/app_header_margin/h_box_container"]
+layout_mode = 2
+size_flags_horizontal = 10
+tooltip_text = "Comma separated list of language codes to
+set what language fields will be made by default 
+for any newly created chapters or pages."
+
+[node name="default_languages_edit_box" type="LineEdit" parent="main_window/app_header/app_header_margin/h_box_container/h_box_container"]
+layout_mode = 2
+tooltip_text = "Comma separated list of language codes to
+set what language fields will be made by default 
+for any newly created chapters or pages."
+text = "en,es"
+placeholder_text = "language code"
+alignment = 2
+emoji_menu_enabled = false
+select_all_on_focus = true
+
+[node name="label" type="Label" parent="main_window/app_header/app_header_margin/h_box_container/h_box_container"]
+layout_mode = 2
+text = "Default Languages"
+
+[node name="app_console_split" type="VSplitContainer" parent="main_window"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="app_body_split" type="HSplitContainer" parent="main_window/app_console_split"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+split_offset = 297
+
+[node name="tree_panel_container" type="PanelContainer" parent="main_window/app_console_split/app_body_split"]
+layout_mode = 2
+
+[node name="tree_box_container" type="VBoxContainer" parent="main_window/app_console_split/app_body_split/tree_panel_container"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="tree_header" type="PanelContainer" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pq8q7")
+
+[node name="tree_header_margin" type="MarginContainer" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="tree_menu" type="HFlowContainer" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin"]
+layout_mode = 2
+
+[node name="add_chapter_button" type="Button" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu"]
+layout_mode = 2
+text = "Add Chapter"
+
+[node name="add_page_button" type="Button" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu"]
+layout_mode = 2
+text = "Add Page"
+
+[node name="delete_selected_button" type="Button" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu"]
+layout_mode = 2
+text = "Delete Selected"
+
+[node name="tree_margin_container" type="MarginContainer" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="tree" type="Tree" parent="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_margin_container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+column_titles_visible = true
+select_mode = 1
+script = ExtResource("5_jnlp7")
+
+[node name="attributes_panel_container" type="PanelContainer" parent="main_window/app_console_split/app_body_split"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="app_console_container" type="PanelContainer" parent="main_window/app_console_split"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="margin_container" type="MarginContainer" parent="main_window/app_console_split/app_console_container"]
+layout_mode = 2
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="app_console_drawer_full" type="TextEdit" parent="main_window/app_console_split/app_console_container/margin_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 29)
+layout_mode = 2
+text = "Progam loaded"
+editable = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+virtual_keyboard_show_on_focus = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+indent_wrapped_lines = true
+
+[node name="confirm_clear_database_dialog" type="PopupPanel" parent="."]
+unique_name_in_owner = true
+transparent_bg = false
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(388, 106)
+always_on_top = true
+transparent = false
+script = ExtResource("6_l8v81")
+
+[node name="panel_container" type="PanelContainer" parent="confirm_clear_database_dialog"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 384.0
+offset_bottom = 102.0
+
+[node name="popup_panel" type="MarginContainer" parent="confirm_clear_database_dialog/panel_container"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="v_box_container" type="VBoxContainer" parent="confirm_clear_database_dialog/panel_container/popup_panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="label" type="RichTextLabel" parent="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+focus_mode = 2
+text = "Are you sure you want to discard any
+changes and create a new database?"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+drag_and_drop_selection_enabled = false
+
+[node name="h_box_container" type="HBoxContainer" parent="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 100
+
+[node name="accept" type="Button" parent="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container/h_box_container"]
+layout_mode = 2
+text = "Yes"
+
+[node name="cancel" type="Button" parent="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container/h_box_container"]
+layout_mode = 2
+text = "Cancel"
+
+[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/new_database_button" to="." method="_on_new_database_button_selected"]
+[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
+[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button" to="." method="_on_save_database_button_selected"]
+[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button/save_database_file_dialog" to="." method="_on_save_database_file_dialog_file_selected"]
+[connection signal="button_up" from="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu/add_chapter_button" to="." method="_on_add_chapter_button_up"]
+[connection signal="button_up" from="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu/add_page_button" to="." method="_on_add_page_button_up"]
+[connection signal="button_up" from="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_header/tree_header_margin/tree_menu/delete_selected_button" to="." method="_on_delete_selected_button_up"]
+[connection signal="cell_selected" from="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_margin_container/tree" to="." method="_on_tree_cell_selected"]
+[connection signal="item_selected" from="main_window/app_console_split/app_body_split/tree_panel_container/tree_box_container/tree_margin_container/tree" to="." method="_on_tree_cell_selected"]
+[connection signal="button_up" from="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container/h_box_container/accept" to="confirm_clear_database_dialog" method="_on_accept_button_up"]
+[connection signal="button_up" from="confirm_clear_database_dialog/panel_container/popup_panel/v_box_container/h_box_container/cancel" to="confirm_clear_database_dialog" method="_on_cancel_button_up"]

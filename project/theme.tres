@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://67rxcvupl8ld"]
+
+[resource]
+default_font_size = 14
+HSplitContainer/constants/autohide = 0
+VSplitContainer/constants/autohide = 0

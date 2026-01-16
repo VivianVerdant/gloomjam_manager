@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ndrh6netjus"]
+
+[ext_resource type="Script" uid="uid://dqp2baqa8rnt6" path="res://scripts/chapter_attributes_panel.gd" id="1_cyir8"]
+
+[node name="chapter_attributes_panel" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_cyir8")
+
+[node name="v_box_container" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="raw_text" type="TextEdit" parent="v_box_container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
+virtual_keyboard_show_on_focus = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+indent_wrapped_lines = true
+tab_input_mode = false

@@ -1,0 +1,347 @@
+{
+	"chapters": [
+		{
+			"id": "ch01",
+			"title": { "en": "No Turn Back", "es": "Sin vuelta atrás" },
+			"pages": [
+				{
+					"id": "ch1p1",
+					"chapter": "ch01",
+					"number": 1,
+					"initialized": true,
+					"thumbnail": "ch1p1_t.jpg",
+					"publication_date": "2025-10-17",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 1",
+							"image": "ch1p1_en.jpg",
+							"alt_text": "",
+							"comment": "Hello everyone! <br> I've been waiting for the right time to start publishing this series, but I finally decided on a random date or I would never get myself to start. Life is full of events made to prevent you from starting your webcomic, so one just has to start it. <br> I hope you enjoy this self indulgent story. <br> Special thanks to <a href='https://bsky.app/profile/trashbird.gay'>Rook</a>, who programmed this site's template. It's in test stage, but will soon be releasing a version that everyone can use. <i>-Lumaga</i>"
+						},
+						{
+							"code": "es",
+							"title": "página 1",
+							"image": "ch1p1_es.jpg",
+							"alt_text": "",
+							"comment": "Hola, todos! <br> He estado esperando por el momento justo para empezar a publicar esta serie, pero finalmente me decidí por un día cualquiera  o no empezaría nunca. La vida está llena de eventos hechos para  prevenir que empieces tu webcomic, así que solo hay que empezarlo. <br> Espero que disfruten de esta historia llena de cosas que me gustan. <br> Muchas gracias a <a href='https://bsky.app/profile/trashbird.gay'>Rook</a>, quien programó este sitio, está en etapa de testeo pero pronto estará disponible para que todos la usen para sus webcomcis."
+						}
+					]
+				},
+				{
+					"id": "ch1p2",
+					"chapter": "ch01",
+					"number": 2,
+					"initialized": true,
+					"thumbnail": "ch1p2_t.jpg",
+					"publication_date": "2025-10-17",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 2",
+							"image": "ch1p2_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 2",
+							"image": "ch1p2_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p3",
+					"chapter": "ch01",
+					"number": 3,
+					"initialized": true,
+					"thumbnail": "ch1p3_t.jpg",
+					"publication_date": "2025-10-17",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 3",
+							"image": "ch1p3_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 3",
+							"image": "ch1p3_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p4",
+					"chapter": "ch01",
+					"number": 4,
+					"initialized": true,
+					"thumbnail": "ch1p4_t.jpg",
+					"publication_date": "2025-10-17",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 4",
+							"image": "ch1p4_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 4",
+							"image": "ch1p4_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p5",
+					"chapter": "ch01",
+					"number": 5,
+					"initialized": true,
+					"thumbnail": "ch1p5_t.jpg",
+					"publication_date": "2025-10-17",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 5",
+							"image": "ch1p5_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 5",
+							"image": "ch1p5_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p6",
+					"chapter": "ch01",
+					"number": 6,
+					"initialized": true,
+					"thumbnail": "ch1p6_t.jpg",
+					"publication_date": "2025-10-27",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 6",
+							"image": "ch1p6_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 11",
+							"image": "ch1p6_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p7",
+					"chapter": "ch01",
+					"number": 7,
+					"initialized": true,
+					"thumbnail": "ch1p7_t.jpg",
+					"publication_date": "2025-11-03",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 7",
+							"image": "ch1p7_en.jpg",
+							"alt_text": "",
+							"comment": "This is sort of turning into Domak Monday, doesn't sound bad tbh. Though it still is Domingos de Domak for me because I start on Sunday.<br> Patreon folks have reached the end of the first part of chapter 1 with today's page. If you also want to read ahead and/or support me head over to <a href='https://www.patreon.com/posts/142728764?pr=true'>Patreon</a>."
+						},
+						{
+							"code": "es",
+							"title": "página 7",
+							"image": "ch1p7_es.jpg",
+							"alt_text": "",
+							"comment": "Esto medio que se está convirtiendo en Lunes de Domak (Domak Monday sounds better). Pero para mí continúa siendo un poco Domingos de Domak, porque empiezo a trabajar en las páginas en Domingo esperando postear ese mismo día y nunca pasa.<br> Los Patrons alcanzan con la página de hoy el final de la primera parte del capítulo 1. Si tú también quieres leer adelantado y/o apoyarme, ve a <a href='https://www.patreon.com/posts/142728764?pr=true'>Patreon</a>."
+						}
+					]
+				},
+				{
+					"id": "ch1p8",
+					"chapter": "ch01",
+					"number": 8,
+					"initialized": true,
+					"thumbnail": "ch1p8_t.jpg",
+					"publication_date": "2025-11-11",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 8",
+							"image": "ch1p8_en.jpg",
+							"alt_text": "",
+							"comment": "Oh no, the consequences of my actions."
+						},
+						{
+							"code": "es",
+							"title": "página 8",
+							"image": "ch1p8_es.jpg",
+							"alt_text": "",
+							"comment": "Oh no, las consecuencias de mis acciones."
+						}
+					]
+				},
+				{
+					"id": "ch1p9",
+					"chapter": "ch01",
+					"number": 9,
+					"initialized": true,
+					"thumbnail": "ch1p9_t.jpg",
+					"publication_date": "2025-11-18",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 9",
+							"image": "ch1p9_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 9",
+							"image": "ch1p9_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p10",
+					"chapter": "ch01",
+					"number": 10,
+					"initialized": true,
+					"thumbnail": "ch1p10_t.jpg",
+					"publication_date": "2025-11-24",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 10",
+							"image": "ch1p10_en.jpg",
+							"alt_text": "",
+							"comment": ""
+						},
+						{
+							"code": "es",
+							"title": "página 10",
+							"image": "ch1p10_es.jpg",
+							"alt_text": "",
+							"comment": ""
+						}
+					]
+				},
+				{
+					"id": "ch1p11",
+					"chapter": "ch01",
+					"number": 11,
+					"initialized": true,
+					"thumbnail": "ch1p11_t.jpg",
+					"publication_date": "2025-12-02",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 11",
+							"image": "ch1p11_en.jpg",
+							"alt_text": "",
+							"comment": "Where have I heard that word before?"
+						},
+						{
+							"code": "es",
+							"title": "página 11",
+							"image": "ch1p11_es.jpg",
+							"alt_text": "",
+							"comment": "¿Dónde fue que escuché esa palabra antes?"
+						}
+					]
+				},
+				{
+					"id": "ch1p12",
+					"chapter": "ch01",
+					"number": 12,
+					"initialized": true,
+					"thumbnail": "ch1p12_t.jpg",
+					"publication_date": "2025-12-25",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 12",
+							"image": "ch1p12_en.jpg",
+							"alt_text": "",
+							"comment": "Happy holidays!"
+						},
+						{
+							"code": "es",
+							"title": "página 12",
+							"image": "ch1p12_es.jpg",
+							"alt_text": "",
+							"comment": "Felices fiestas!"
+						}
+					]
+				},
+				{
+					"id": "ch1p13",
+					"chapter": "ch01",
+					"number": 13,
+					"initialized": true,
+					"thumbnail": "ch1p13_t.jpg",
+					"publication_date": "2025-12-31",
+					"additional_credits": "",
+					"comment_image": "",
+					"locales": [
+						{
+							"code": "en",
+							"title": "page 13",
+							"image": "ch1p13_en.jpg",
+							"alt_text": "",
+							"comment": "Last update of the year! </br>This page marks the end of the first scene of chapter one, so yay for milestones! I hope you have a wonderful new year."
+						},
+						{
+							"code": "es",
+							"title": "página 13",
+							"image": "ch1p13_es.jpg",
+							"alt_text": "",
+							"comment": "Última página del año! </br> Esta página marca el final de la primera escena del capítulo uno, yay por los hitos! Espero que tengan un gran año nuevo."
+						}
+					]
+				}
+			]
+		}
+	]}

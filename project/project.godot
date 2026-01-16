@@ -11,10 +11,35 @@ config_version=5
 [application]
 
 config/name="Gloomjam Manager"
+run/main_scene="uid://p5kmi0q1hrcb"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/stretch/aspect="expand"
+
+[editor]
+
+naming/node_name_num_separator=2
+naming/node_name_casing=2
+naming/script_name_casing=2
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/menubuttonpopulator/plugin.cfg")
+
+[filesystem]
+
+import/fbx2gltf/enabled=false
+import/blender/enabled=false
+
+[input_devices]
+
+pointing/android/enable_long_press_as_right_click=true
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+2d/snap/snap_2d_transforms_to_pixel=true
