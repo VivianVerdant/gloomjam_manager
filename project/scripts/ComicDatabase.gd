@@ -1,17 +1,19 @@
 class_name ComicDatabase
 extends Resource
 
-var chapters: Dictionary
+var id = "Comic"
+var chapters: Array = []
 
 func get_page_by_id(pid: String):
 	for chapter in chapters:
-		if chapters[chapter].get_page_by_id(pid):
-			return chapters[chapter].get_page_by_id(pid)
+		if chapter.get_page_by_id(pid):
+			return chapter.get_page_by_id(pid)
 	return false
 
 func get_chapter_by_id(cid: String):
-	if chapters.has(cid):
-		return chapters[cid]
+	for chapter: ComicChapter in chapters:
+		if chapter.id == cid:
+			return chapter
 	return false
 
 func get_resource_by_id(rid: String):
@@ -24,5 +26,30 @@ func get_resource_by_id(rid: String):
 	return false
 
 func add_chapter(chapter: ComicChapter) -> ComicChapter:
-	chapters[chapter.id] = chapter
+	chapters.append(chapter)
 	return chapter
+	
+func to_dict() -> Dictionary:
+	var chapters_array: Array = []
+	for chapter: ComicChapter in chapters:
+		chapters_array.append(chapter.to_dict())
+	var dict: Dictionary = {
+		"id": id,
+		"chapters": chapters_array
+	}
+	return dict
+
+func _init(dict: Dictionary) -> void:
+	if dict.has("id"):
+		id = dict.id
+	if dict.has("chapters"):
+		for chapter in dict.chapters:
+			chapters.append(ComicChapter.new(chapter))
+
+
+func move_item(item, target, mode):
+	match item.type:
+		ComicChapter:
+			pass
+		ComicPage:
+			pass

@@ -1,0 +1,58 @@
+{
+	"id": "Comic",
+	"chapters": [
+		{
+			"id": "ch1",
+			"title": {
+				"en": "Chapter 1",
+				"es": "Chapter 1"
+			},
+			"pages": [
+				{
+					"id": "ch1pg1",
+					"title": {
+						"en": "Page 1",
+						"es": "Page 1"
+					}
+				},
+				{
+					"id": "ch1pg2",
+					"title": {
+						"en": "Page 2",
+						"es": "Page 2"
+					}
+				}
+			]
+		},
+		{
+			"id": "ch2",
+			"title": {
+				"en": "Chapter 2",
+				"es": "Chapter 2"
+			},
+			"pages": [
+				{
+					"id": "ch2pg1",
+					"title": {
+						"en": "Page 1",
+						"es": "Page 1"
+					}
+				},
+				{
+					"id": "ch2pg2",
+					"title": {
+						"en": "Page 2",
+						"es": "Page 2"
+					}
+				},
+				{
+					"id": "ch2pg3",
+					"title": {
+						"en": "Page 3",
+						"es": "Page 3"
+					}
+				}
+			]
+		}
+	]
+}

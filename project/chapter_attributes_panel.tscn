@@ -11,7 +11,14 @@ script = ExtResource("1_cyir8")
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="raw_text" type="TextEdit" parent="v_box_container"]
+[node name="scroll_container" type="ScrollContainer" parent="v_box_container"]
+layout_mode = 2
+
+[node name="chapter_languages" type="Panel" parent="v_box_container/scroll_container"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="chapter_raw_text" type="TextEdit" parent="v_box_container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2

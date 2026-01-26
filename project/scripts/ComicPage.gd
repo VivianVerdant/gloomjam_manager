@@ -5,13 +5,28 @@ var type = ComicPage
 var id: String
 var raw_text: String
 
-var title: String
+var title: Dictionary
 
-func _init(pid: String) -> void:
-	id = pid
-	var split = pid.split("pg")
-	title = "Page " + var_to_str(int(pid.split("pg")[-1]))
+func _init(dict: Dictionary) -> void:
+	id = dict.id
+	if dict.has("title"):
+		title = dict.title
+	else:
+		var split = id.split("pg")
+		for lang in GlobalSettings.default_languages:
+			title[lang] = "Page " + var_to_str(int(id.split("pg")[-1]))
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
+
+func to_dict() -> Dictionary:
+	var dict: Dictionary = {
+		"id": id,
+		"title": title
+	}
+	return dict
+
+func initialize(dict: Dictionary):
+	if dict.has("title"):
+		title = dict.title

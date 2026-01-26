@@ -35,6 +35,7 @@ func _ready() -> void:
 	db_tree.set_column_title(0, "ID")
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
+	current_language = GlobalSettings.default_languages[0]
 
 func _on_open_database_file(path: String) -> void:
 	current_database_file = path
@@ -45,7 +46,9 @@ func _on_open_database_file(path: String) -> void:
 		var data_received = json.data
 		if typeof(data_received) == TYPE_DICTIONARY:
 			_print("Loaded File:", path)
-			current_database = data_received
+			current_database = ComicDatabase.new(data_received)
+			GlobalSettings.last_db_path = path.get_base_dir()
+			GlobalSettings.save_file()
 		else:
 			_print("Unexpected data")
 	else:
@@ -57,8 +60,8 @@ func on_database_updated(new_value: ComicDatabase):
 	
 	current_database = new_value
 	var root: TreeItem = db_tree.create_item();
-	root.set_text(0, "Comic")
-	_print("Loaded root: Comic")
+	root.set_text(0, current_database.id)
+	_print("Loaded root:", current_database.id)
 	for chapter in current_database.chapters:
 		_print("Loaded chapter:",chapter.title[current_language])
 		var chapter_obj = root.create_child()
@@ -67,8 +70,8 @@ func on_database_updated(new_value: ComicDatabase):
 		for page in chapter.pages:
 			var page_node = chapter_obj.create_child()
 			page_node.set_text(0, page.id)
-			page_node.set_text(1, page.locales[0].title)
-			_print("Loaded page:", page.locales[0].title)
+			page_node.set_text(1, page.title[current_language])
+			_print("Loaded page:", page.title[current_language])
 		if chapter != current_database.chapters[-1]:
 			chapter_obj.collapsed = true
 
@@ -103,7 +106,7 @@ func _on_tree_cell_selected() -> void:
 func create_new_database(result):
 	if result:
 		_print("Creating new Comic Database")
-		current_database = ComicDatabase.new()
+		current_database = ComicDatabase.new({})
 	else:
 		_print("Action canceled")
 
@@ -124,9 +127,9 @@ func _on_add_chapter_button_up() -> void:
 	var chapter_obj = db_tree.create_item()
 	var cid = "ch" + var_to_str(num_chapters + 1)
 	db_tree.get_root().add_child(chapter_obj)
-	var chapter = current_database.add_chapter(ComicChapter.new(cid))
+	var chapter = current_database.add_chapter(ComicChapter.new({"id":cid}))
 	chapter_obj.set_text(0, chapter.id)
-	chapter_obj.set_text(1, chapter.title)
+	chapter_obj.set_text(1, chapter.title[current_language])
 	var obj = db_tree.get_root().get_child(-1)
 	db_tree.set_selected(obj, 0)
 
@@ -162,11 +165,11 @@ func _on_add_page_button_up() -> void:
 	var chapter = current_database.get_chapter_by_id(chapter_obj.get_text(0))
 	var num_pages = chapter.pages.size()
 	var pid = chapter.id + "pg" + var_to_str(num_pages + 1)
-	var page = ComicPage.new(pid)
+	var page = ComicPage.new({"id":pid})
 	chapter.add_page(page)
 	var page_obj = chapter_obj.create_child()
 	page_obj.set_text(0, pid)
-	page_obj.set_text(1, page.title)
+	page_obj.set_text(1, page.title[current_language])
 
 func _on_delete_selected_button_up() -> void:
 	if not current_database:
@@ -182,14 +185,14 @@ func edit_chapter(chapter: ComicChapter):
 	%attributes_panel_container.add_child(chapter_attributes)
 	chapter_attributes.raw_text = var_to_str(chapter)
 
-
-
 func _on_save_database_file_dialog_file_selected(path: String) -> void:
 	_print(path)
-
+	var db_string = JSON.stringify(current_database.to_dict(), "\t", false)
+	var file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(db_string)
 
 func _on_save_database_button_selected() -> void:
 	var dialog = %save_database_file_dialog
-	dialog.current_file = "db.json"
+	dialog.current_file = GlobalSettings.last_db_path.path_join("db.json")
 	dialog.show()
 	
