@@ -1,1 +1,1 @@
-START ..\Godot_v4.5.1-stable_win64.exe project/project.godot
+START ../Godot_v4.6-stable_win64.exe project/project.godot

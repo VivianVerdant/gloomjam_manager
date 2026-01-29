@@ -2,29 +2,6 @@
 	"id": "Comic",
 	"chapters": [
 		{
-			"id": "ch1",
-			"title": {
-				"en": "Chapter 1",
-				"es": "Chapter 1"
-			},
-			"pages": [
-				{
-					"id": "ch1pg1",
-					"title": {
-						"en": "Page 1",
-						"es": "Page 1"
-					}
-				},
-				{
-					"id": "ch1pg2",
-					"title": {
-						"en": "Page 2",
-						"es": "Page 2"
-					}
-				}
-			]
-		},
-		{
 			"id": "ch2",
 			"title": {
 				"en": "Chapter 2",
@@ -33,6 +10,21 @@
 			"pages": [
 				{
 					"id": "ch2pg1",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 1",
+						"es": "Page 1"
+					}
+				},
+				{
+					"id": "ch3pg1",
+					"languages": [
+						"en",
+						"es"
+					],
 					"title": {
 						"en": "Page 1",
 						"es": "Page 1"
@@ -40,16 +32,108 @@
 				},
 				{
 					"id": "ch2pg2",
+					"languages": [
+						"en",
+						"es"
+					],
 					"title": {
 						"en": "Page 2",
 						"es": "Page 2"
 					}
 				},
 				{
-					"id": "ch2pg3",
+					"id": "ch3pg3",
+					"languages": [
+						"en",
+						"es"
+					],
 					"title": {
 						"en": "Page 3",
 						"es": "Page 3"
+					}
+				},
+				{
+					"id": "ch2pg3",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 3",
+						"es": "Page 3"
+					}
+				},
+				{
+					"id": "ch1pg1",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 1",
+						"es": "Page 1"
+					}
+				},
+				{
+					"id": "ch2pg4",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 4",
+						"es": "Page 4"
+					}
+				}
+			]
+		},
+		{
+			"id": "ch1",
+			"title": {
+				"en": "Chapter 1",
+				"es": "Chapter 1"
+			},
+			"pages": [
+				{
+					"id": "ch1pg2",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 2",
+						"es": "Page 2"
+					}
+				},
+				{
+					"id": "ch1pg3",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 3",
+						"es": "Page 3"
+					}
+				}
+			]
+		},
+		{
+			"id": "ch3",
+			"title": {
+				"en": "Chapter 3",
+				"es": "Chapter 3"
+			},
+			"pages": [
+				{
+					"id": "ch3pg2",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "Page 2",
+						"es": "Page 2"
 					}
 				}
 			]

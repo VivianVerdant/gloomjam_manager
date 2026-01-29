@@ -63,6 +63,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		#sprite_groups.append(item.get_meta("sprite_group"))
 	for i in data.size():
 		var item := data[i] as TreeItem
+		print(item.get_text(0))
 		if drop_section == -1:
 			item.move_before(other_item)
 			mode = "before"

@@ -1,21 +1,116 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2uqg81qxslox"]
+[gd_scene load_steps=3 format=3 uid="uid://c2uqg81qxslox"]
 
 [ext_resource type="Script" uid="uid://myfsjnvaqvj3" path="res://scripts/page_attributes_panel.gd" id="1_8fsyv"]
+[ext_resource type="Texture2D" uid="uid://ce5k4gfdgpxqc" path="res://icon.svg" id="2_2xhcj"]
 
 [node name="page_attributes_panel" type="PanelContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource("1_8fsyv")
 
-[node name="v_box_container" type="VBoxContainer" parent="."]
+[node name="scroll_container" type="ScrollContainer" parent="."]
 layout_mode = 2
-size_flags_horizontal = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
 
-[node name="raw_text" type="TextEdit" parent="v_box_container"]
+[node name="v_box_container" type="VBoxContainer" parent="scroll_container"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="language_code_label" type="Label" parent="scroll_container/v_box_container"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+text = "en"
+horizontal_alignment = 1
+
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/v_box_container"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/v_box_container/h_box_container"]
+layout_mode = 2
+text = "Page Title"
+
+[node name="page_title_text" type="LineEdit" parent="scroll_container/v_box_container/h_box_container"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Insert page title here"
+
+[node name="h_box_container_3" type="HBoxContainer" parent="scroll_container/v_box_container"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/v_box_container/h_box_container_3"]
+layout_mode = 2
+text = "Page Image"
+
+[node name="open_page_image_button" type="Button" parent="scroll_container/v_box_container/h_box_container_3"]
+layout_mode = 2
+text = "Open File"
+
+[node name="open_page_image_file_dialog" type="FileDialog" parent="scroll_container/v_box_container/h_box_container_3/open_page_image_button"]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 4
+popup_window = true
+force_native = true
+dialog_hide_on_ok = true
+file_mode = 0
+display_mode = 1
+access = 2
+use_native_dialog = true
+folder_creation_enabled = false
+favorites_enabled = false
+layout_toggle_enabled = false
+
+[node name="center_container" type="CenterContainer" parent="scroll_container/v_box_container"]
 layout_mode = 2
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="v_box_container" type="VBoxContainer" parent="scroll_container/v_box_container/center_container"]
+layout_mode = 2
+
+[node name="sprite_2d" type="TextureButton" parent="scroll_container/v_box_container/center_container/v_box_container"]
+layout_mode = 2
+size_flags_horizontal = 4
+button_mask = 0
+texture_normal = ExtResource("2_2xhcj")
+
+[node name="label" type="Label" parent="scroll_container/v_box_container/center_container/v_box_container"]
+layout_mode = 2
+text = "Drag and drop image here"
+
+[node name="h_box_container_2" type="HBoxContainer" parent="scroll_container/v_box_container"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/v_box_container/h_box_container_2"]
+layout_mode = 2
+text = "Author comment"
+
+[node name="author_comment_text" type="TextEdit" parent="scroll_container/v_box_container/h_box_container_2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Insert author comment here"
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="raw_text" type="TextEdit" parent="scroll_container/v_box_container"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+text = "asdf"
 editable = false
 emoji_menu_enabled = false
 deselect_on_focus_loss_enabled = false
@@ -26,3 +121,5 @@ middle_mouse_paste_enabled = false
 wrap_mode = 1
 indent_wrapped_lines = true
 tab_input_mode = false
+
+[connection signal="button_up" from="scroll_container/v_box_container/h_box_container_3/open_page_image_button" to="." method="_on_open_page_image_button_button_up"]

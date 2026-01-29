@@ -7,9 +7,12 @@ var current_language = "en"
 var current_database_file
 var current_database: ComicDatabase: set = on_database_updated
 var current_tree_selection
+var current_database_item_selected
 
 @onready var page_attributes_panel = load("res://page_attributes_panel.tscn")
 @onready var chapter_attributes_panel = load("res://chapter_attributes_panel.tscn")
+
+@onready var attributes_panel_scroll_container = %attributes_hbox_container
 
 var console_output = ""
 
@@ -81,18 +84,19 @@ func _on_tree_cell_selected() -> void:
 		return
 	current_tree_selection = selected
 	
-	for node in %attributes_panel_container.get_children():
+	for node in attributes_panel_scroll_container.get_children():
 		node.free()
 		
 	var id = selected.get_text(0)
 	
 	var obj = current_database.get_resource_by_id(id)
-	_print("selected:", selected.get_text(0))
+	current_database_item_selected = obj
+	#_print("selected:", selected.get_text(0))
 	
 	if not obj:
 		return
 
-	_print(obj)
+	#_print(obj)
 	
 	match obj.type:
 		ComicChapter:
@@ -176,13 +180,18 @@ func _on_delete_selected_button_up() -> void:
 		return
 
 func edit_page(page: ComicPage):
-	var page_attributes = page_attributes_panel.instantiate()
-	%attributes_panel_container.add_child(page_attributes)
-	page_attributes.raw_text = var_to_str(page)
+	%item_id_text.text = page.id
+	%item_id_text.editable = true
+	%add_language_text.editable = true
+	for language in page.languages:
+		var page_attributes = page_attributes_panel.instantiate()
+		attributes_panel_scroll_container.add_child(page_attributes)
+		page_attributes.language_code = language
+		page_attributes.raw_text = JSON.stringify(page.to_dict(), "\t")
 
 func edit_chapter(chapter: ComicChapter):
 	var chapter_attributes = chapter_attributes_panel.instantiate()
-	%attributes_panel_container.add_child(chapter_attributes)
+	attributes_panel_scroll_container.add_child(chapter_attributes)
 	chapter_attributes.raw_text = var_to_str(chapter)
 
 func _on_save_database_file_dialog_file_selected(path: String) -> void:
@@ -196,3 +205,16 @@ func _on_save_database_button_selected() -> void:
 	dialog.current_file = GlobalSettings.last_db_path.path_join("db.json")
 	dialog.show()
 	
+
+
+func _on_item_id_text_submitted(new_text: String) -> void:
+	new_text = new_text.strip_edges()
+	if current_database.get_resource_by_id(new_text):
+		_print("New ID must be unique!")
+		%item_id_text.text = current_database_item_selected.id
+		return
+	else:
+		_print("changed item ID from", current_database_item_selected.id, "to", new_text)
+		%item_id_text.text = new_text
+		current_tree_selection.set_text(0, new_text)
+		current_database_item_selected.id = new_text
