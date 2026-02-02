@@ -5,14 +5,20 @@ var type = ComicChapter
 var id: String
 var pages: Array
 
+var languages: Array
+
 var title: Dictionary
 
 func _init(dict: Dictionary) -> void:
 	id = dict.id
+	if dict.has("languages"):
+		languages = dict.languages
+	else:
+		languages =  GlobalSettings.default_languages
 	if dict.has("title"):
 		title = dict.title
 	else:
-		for lang in GlobalSettings.default_languages:
+		for lang in languages:
 			title[lang] = "Chapter " + var_to_str(int(id))
 	if dict.has("pages"):
 		for page in dict.pages:

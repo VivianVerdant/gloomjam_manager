@@ -39,6 +39,10 @@ func _ready() -> void:
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
 	current_language = GlobalSettings.default_languages[0]
+	get_viewport().files_dropped.connect(on_files_dropped)
+
+func on_files_dropped(files):
+	print(files)
 
 func _on_open_database_file(path: String) -> void:
 	current_database_file = path
@@ -80,8 +84,8 @@ func on_database_updated(new_value: ComicDatabase):
 
 func _on_tree_cell_selected() -> void:
 	var selected: TreeItem = db_tree.get_selected()
-	if selected == current_tree_selection:
-		return
+	#if selected == current_tree_selection:
+		#return
 	current_tree_selection = selected
 	
 	for node in attributes_panel_scroll_container.get_children():
@@ -94,6 +98,10 @@ func _on_tree_cell_selected() -> void:
 	#_print("selected:", selected.get_text(0))
 	
 	if not obj:
+		%add_language_text.editable = false
+		%add_language_button.disabled = true
+		%item_id_text.text = ""
+		%item_id_text.editable = false
 		return
 
 	#_print(obj)
@@ -106,14 +114,12 @@ func _on_tree_cell_selected() -> void:
 		_:
 			pass
 	
-
 func create_new_database(result):
 	if result:
 		_print("Creating new Comic Database")
 		current_database = ComicDatabase.new({})
 	else:
 		_print("Action canceled")
-
 
 func _on_new_database_button_selected() -> void:
 	if not current_database:
@@ -174,6 +180,7 @@ func _on_add_page_button_up() -> void:
 	var page_obj = chapter_obj.create_child()
 	page_obj.set_text(0, pid)
 	page_obj.set_text(1, page.title[current_language])
+	db_tree.set_selected(page_obj, 0)
 
 func _on_delete_selected_button_up() -> void:
 	if not current_database:
@@ -182,14 +189,24 @@ func _on_delete_selected_button_up() -> void:
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.id
 	%item_id_text.editable = true
+	%add_language_button.disabled = true if %add_language_text.text == "" else false
 	%add_language_text.editable = true
 	for language in page.languages:
 		var page_attributes = page_attributes_panel.instantiate()
 		attributes_panel_scroll_container.add_child(page_attributes)
 		page_attributes.language_code = language
+		page_attributes.page = page
+		page_attributes.panel_updated.connect(on_page_updated)
 		page_attributes.raw_text = JSON.stringify(page.to_dict(), "\t")
+		
+func on_page_updated(page, lang):
+	current_tree_selection.set_text(1, page.title[lang])
 
 func edit_chapter(chapter: ComicChapter):
+	%item_id_text.text = chapter.id
+	%item_id_text.editable = true
+	%add_language_text.editable = true
+	%add_language_button.disabled = true if %add_language_text.text == "" else false
 	var chapter_attributes = chapter_attributes_panel.instantiate()
 	attributes_panel_scroll_container.add_child(chapter_attributes)
 	chapter_attributes.raw_text = var_to_str(chapter)
@@ -205,8 +222,6 @@ func _on_save_database_button_selected() -> void:
 	dialog.current_file = GlobalSettings.last_db_path.path_join("db.json")
 	dialog.show()
 	
-
-
 func _on_item_id_text_submitted(new_text: String) -> void:
 	new_text = new_text.strip_edges()
 	if current_database.get_resource_by_id(new_text):
@@ -218,3 +233,16 @@ func _on_item_id_text_submitted(new_text: String) -> void:
 		%item_id_text.text = new_text
 		current_tree_selection.set_text(0, new_text)
 		current_database_item_selected.id = new_text
+
+
+func _on_add_language_text_changed(new_text: String) -> void:
+	if new_text != "" and current_database_item_selected and current_database_item_selected.get("languages"):
+		%add_language_button.disabled = false
+	else:
+		%add_language_button.disabled = true
+
+func _on_add_language_button_button_up() -> void:
+	var lang = %add_language_text.text.strip_edges()
+	if lang != "" and current_database_item_selected and current_database_item_selected.get("languages"):
+		current_database_item_selected.add_language(lang)
+		_on_tree_cell_selected()
