@@ -2,6 +2,7 @@ extends Node
 
 var default_languages: Array
 var last_db_path: String
+var last_db_name: String
 
 @onready var base_dir = "res://" if OS.has_feature("editor") else OS.get_executable_path().get_base_dir()
 
@@ -17,15 +18,16 @@ func _ready() -> void:
 func save_file():
 	var settings_object = {
 		"default_languages": default_languages,
-		"last_db_path": last_db_path
+		"last_db_path": last_db_path,
+		"last_db_name": last_db_name
 	}
 	var settings_string = JSON.stringify(settings_object, "\t")
-	var file = FileAccess.open(base_dir + "settings.ini", FileAccess.WRITE)
+	var file = FileAccess.open(base_dir + "\\settings.ini", FileAccess.WRITE)
 	file.store_string(settings_string)
 	return file
 
 func load_file():
-	var file = FileAccess.open(base_dir + "settings.ini", FileAccess.READ)
+	var file = FileAccess.open(base_dir + "\\settings.ini", FileAccess.READ)
 	if not file:
 		return false
 	var settings_string = file.get_as_text()
@@ -47,4 +49,5 @@ func load_file():
 func create_default_settings():
 	default_languages = ["en"]
 	last_db_path = base_dir
+	last_db_name = "db.json"
 	save_file()

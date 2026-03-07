@@ -8,15 +8,17 @@ var author_comment: String: set = on_author_comment_updated
 
 signal panel_updated(page, lang)
 
-@onready var raw_text_node = %raw_text
-var raw_text: String: set = on_update_raw_text
-
-func on_update_raw_text(value):
-	raw_text = value
-	raw_text_node.text =  value
+func on_file_dropped(file_path: String):
+	if not file_path:
+		return
+		
+	var extension = file_path.rsplit(".")[-1]
+	if (extension in ["jpg","png","bmp","tga","svg"]):
+		print(file_path)
+		image_filename = file_path
 
 func _on_open_page_image_button_button_up() -> void:
-	%open_page_image_file_dialog.show()
+	%open_image_file_dialog.show()
 
 func on_language_code_updated(value):
 	language_code = value
@@ -32,6 +34,19 @@ func on_title_updated(value):
 
 func on_image_filename_updated(value):
 	image_filename = value
+	if value == "":
+		%image_drop_container.show()
+		%image_preview_container.hide()
+		%page_image.texture = null
+		%delete_page_image_button.hide()
+	else:
+		%image_drop_container.hide()
+		%image_preview_container.show()
+		%delete_page_image_button.show()
+		var image = Image.load_from_file(value)
+		var texture = ImageTexture.create_from_image(image)
+		%page_image.texture = texture
+		
 	update_page()
 	
 func on_author_comment_updated(value):
@@ -43,14 +58,16 @@ func update_page():
 	page.image_filename[language_code] = image_filename
 	page.author_comment[language_code] = author_comment
 	
-	if language_code == page.languages[0]:
-		emit_signal("panel_updated", page, language_code)
+	emit_signal("panel_updated", page, language_code)
 	
 func update_panel():
 	if page.author_comment.has(language_code):
 		%author_comment_text.text = page.author_comment[language_code]
 	if page.title.has(language_code):
 		%page_title_text.text = page.title[language_code]
+	if page.image_filename.has(language_code):
+		
+		_on_open_image_file_dialog_file_selected(page.image_filename[language_code])
 
 func _on_accept_delete_button_up() -> void:
 	page.delete_language(language_code)
@@ -60,3 +77,15 @@ func _on_page_title_text_changed(new_text: String) -> void:
 
 func _on_author_comment_text_changed() -> void:
 	author_comment = %author_comment_text.text
+
+func _on_delete_page_image_button_up() -> void:
+	image_filename = ""
+
+func _on_open_image_file_dialog_file_selected(file_path: String) -> void:
+	if not file_path:
+		return
+		
+	var extension = file_path.rsplit(".")[-1]
+	if (extension in ["jpg","png","bmp","tga","svg"]):
+		print(file_path)
+		image_filename = file_path

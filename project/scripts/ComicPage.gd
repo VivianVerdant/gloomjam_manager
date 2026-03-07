@@ -2,6 +2,7 @@ class_name ComicPage
 extends Resource
 
 var type = ComicPage
+var original_id: String
 var id: String
 var raw_text: String
 
@@ -10,18 +11,29 @@ var title: Dictionary
 var image_filename: Dictionary
 var author_comment: Dictionary
 
+var dirty: bool
+var flagged_for_deletion: bool = false
+
 func _init(dict: Dictionary) -> void:
 	id = dict.id
+	original_id = dict.id
 	if dict.has("languages"):
 		languages = dict.languages
 	else:
 		languages =  GlobalSettings.default_languages
+	
 	if dict.has("title"):
 		title = dict.title
 	else:
 		var split = id.split("pg")
 		for lang in languages:
 			title[lang] = "Page " + var_to_str(int(id.split("pg")[-1]))
+	
+	if dict.has("image"):
+		image_filename = dict.image
+		
+	if dict.has("author_comment"):
+		author_comment = dict.author_comment
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,7 +43,9 @@ func to_dict() -> Dictionary:
 	var dict: Dictionary = {
 		"id": id,
 		"languages": languages,
-		"title": title
+		"title": title,
+		"image": image_filename,
+		"author_comment": author_comment
 	}
 	return dict
 

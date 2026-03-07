@@ -1,7 +1,7 @@
 class_name ComicDatabase
 extends Resource
 
-var id = "Comic"
+var id = "comic"
 var chapters: Array = []
 
 func get_page_by_id(pid: String):

@@ -5,7 +5,7 @@ extends Node
 var current_language = "en"
 
 var current_database_file
-var current_database: ComicDatabase: set = on_database_updated
+var current_database: ComicDatabase
 var current_tree_selection
 var current_database_item_selected
 
@@ -30,8 +30,8 @@ func _print(...args):
 		string = string.strip_edges(false)
 		var console = %app_console_drawer_full
 		console.text += string
-		console.scroll_vertical = console.get_line_count() + 100
 		print(string)
+		%app_console_container.title = "Console: " + string
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -42,8 +42,17 @@ func _ready() -> void:
 	get_viewport().files_dropped.connect(on_files_dropped)
 
 func on_files_dropped(files):
-	print(files)
-
+	var viewport = get_viewport()
+	#print(files)
+	viewport.get_window().grab_focus()
+	var input = InputEventMouseMotion.new()
+	input.position = viewport.get_mouse_position()
+	input.button_mask = 1
+	viewport.push_input(input)
+	var control = get_viewport().gui_get_hovered_control()
+	if control.has_method("recieve_dropped_file"):
+		control.recieve_dropped_file(files[0])
+	
 func _on_open_database_file(path: String) -> void:
 	current_database_file = path
 	var text = FileAccess.get_file_as_string(path)
@@ -54,27 +63,31 @@ func _on_open_database_file(path: String) -> void:
 		if typeof(data_received) == TYPE_DICTIONARY:
 			_print("Loaded File:", path)
 			current_database = ComicDatabase.new(data_received)
+			create_interactive_database(false)
 			GlobalSettings.last_db_path = path.get_base_dir()
+			GlobalSettings.last_db_name = path.get_file()
 			GlobalSettings.save_file()
 		else:
 			_print("Unexpected data")
 	else:
 		_print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
 
-func on_database_updated(new_value: ComicDatabase):
+func create_interactive_database(dirty: bool):
 	if db_tree.get_root():
 		db_tree.get_root().free()
 	
-	current_database = new_value
 	var root: TreeItem = db_tree.create_item();
 	root.set_text(0, current_database.id)
+	db_tree.set_selected(root, 0)
 	_print("Loaded root:", current_database.id)
 	for chapter in current_database.chapters:
 		_print("Loaded chapter:",chapter.title[current_language])
+		chapter.dirty = dirty
 		var chapter_obj = root.create_child()
 		chapter_obj.set_text(0, chapter.id)
 		chapter_obj.set_text(1, chapter.title[current_language])
 		for page in chapter.pages:
+			page.dirty = dirty
 			var page_node = chapter_obj.create_child()
 			page_node.set_text(0, page.id)
 			page_node.set_text(1, page.title[current_language])
@@ -102,9 +115,12 @@ func _on_tree_cell_selected() -> void:
 		%add_language_button.disabled = true
 		%item_id_text.text = ""
 		%item_id_text.editable = false
+		%raw_data.text = JSON.stringify(current_database.to_dict(), "\t", false)
 		return
 
 	#_print(obj)
+	
+	%raw_data.text = JSON.stringify(obj.to_dict(), "\t", false)
 	
 	match obj.type:
 		ComicChapter:
@@ -118,6 +134,7 @@ func create_new_database(result):
 	if result:
 		_print("Creating new Comic Database")
 		current_database = ComicDatabase.new({})
+		create_interactive_database(true)
 	else:
 		_print("Action canceled")
 
@@ -138,6 +155,7 @@ func _on_add_chapter_button_up() -> void:
 	var cid = "ch" + var_to_str(num_chapters + 1)
 	db_tree.get_root().add_child(chapter_obj)
 	var chapter = current_database.add_chapter(ComicChapter.new({"id":cid}))
+	chapter.dirty = true
 	chapter_obj.set_text(0, chapter.id)
 	chapter_obj.set_text(1, chapter.title[current_language])
 	var obj = db_tree.get_root().get_child(-1)
@@ -176,6 +194,7 @@ func _on_add_page_button_up() -> void:
 	var num_pages = chapter.pages.size()
 	var pid = chapter.id + "pg" + var_to_str(num_pages + 1)
 	var page = ComicPage.new({"id":pid})
+	page.dirty = true
 	chapter.add_page(page)
 	var page_obj = chapter_obj.create_child()
 	page_obj.set_text(0, pid)
@@ -183,8 +202,34 @@ func _on_add_page_button_up() -> void:
 	db_tree.set_selected(page_obj, 0)
 
 func _on_delete_selected_button_up() -> void:
+	%confirm_delete_item_dialog.show()
+	
+func _on_delete_selected_confirmed() -> void:
 	if not current_database:
 		return
+	
+	if not db_tree.get_root():
+		_print("No database loaded")
+		return
+	
+	if not current_tree_selection:
+		return
+	
+	if db_tree.get_root() == current_tree_selection:
+		return
+	
+	var rid = current_tree_selection.get_text(0)
+	var item = current_database.get_resource_by_id(rid)
+	
+	match item.type:
+		ComicChapter:
+			item.flagged_for_deletion = true
+			for page in item.pages:
+				page.flagged_for_deletion = true
+		ComicPage:
+			item.flagged_for_deletion = true
+		_:
+			return
 
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.id
@@ -197,29 +242,44 @@ func edit_page(page: ComicPage):
 		page_attributes.language_code = language
 		page_attributes.page = page
 		page_attributes.panel_updated.connect(on_page_updated)
-		page_attributes.raw_text = JSON.stringify(page.to_dict(), "\t")
 		
-func on_page_updated(page, lang):
-	current_tree_selection.set_text(1, page.title[lang])
+func on_page_updated(page: ComicPage, _lang):
+	current_tree_selection.set_text(1, page.title[page.languages[0]])
+	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func edit_chapter(chapter: ComicChapter):
 	%item_id_text.text = chapter.id
 	%item_id_text.editable = true
 	%add_language_text.editable = true
 	%add_language_button.disabled = true if %add_language_text.text == "" else false
-	var chapter_attributes = chapter_attributes_panel.instantiate()
-	attributes_panel_scroll_container.add_child(chapter_attributes)
-	chapter_attributes.raw_text = var_to_str(chapter)
+	for language in chapter.languages:
+		var chapter_attributes = chapter_attributes_panel.instantiate()
+		attributes_panel_scroll_container.add_child(chapter_attributes)
+		chapter_attributes.language_code = language
+		chapter_attributes.chapter = chapter
+		chapter_attributes.panel_updated.connect(on_chapter_updated)
+
+func on_chapter_updated(chapter: ComicChapter, _lang):
+	current_tree_selection.set_text(1, chapter.title[chapter.languages[0]])
+	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func _on_save_database_file_dialog_file_selected(path: String) -> void:
 	_print(path)
+	for chapter in current_database.chapters:
+		if chapter.dirty:
+			_print(chapter.id, "is dirty; processing")
+	for chapter in current_database.chapters:
+		for page in chapter.pages:
+			if page.dirty:
+				_print(page.id, "is dirty; processing")
+			
 	var db_string = JSON.stringify(current_database.to_dict(), "\t", false)
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(db_string)
 
 func _on_save_database_button_selected() -> void:
 	var dialog = %save_database_file_dialog
-	dialog.current_file = GlobalSettings.last_db_path.path_join("db.json")
+	dialog.current_file = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
 	dialog.show()
 	
 func _on_item_id_text_submitted(new_text: String) -> void:
@@ -231,9 +291,9 @@ func _on_item_id_text_submitted(new_text: String) -> void:
 	else:
 		_print("changed item ID from", current_database_item_selected.id, "to", new_text)
 		%item_id_text.text = new_text
+		current_database_item_selected.dirty = true
 		current_tree_selection.set_text(0, new_text)
 		current_database_item_selected.id = new_text
-
 
 func _on_add_language_text_changed(new_text: String) -> void:
 	if new_text != "" and current_database_item_selected and current_database_item_selected.get("languages"):
@@ -246,3 +306,13 @@ func _on_add_language_button_button_up() -> void:
 	if lang != "" and current_database_item_selected and current_database_item_selected.get("languages"):
 		current_database_item_selected.add_language(lang)
 		_on_tree_cell_selected()
+
+
+func _on_app_console_container_folding_changed(is_folded: bool) -> void:
+	if is_folded == true:
+		%app_console_split.split_offsets = PackedInt32Array()
+		%app_console_split.dragger_visibility = 2
+		%app_console_split.dragging_enabled = false
+	else:
+		%app_console_split.dragger_visibility = 0
+		%app_console_split.dragging_enabled = true

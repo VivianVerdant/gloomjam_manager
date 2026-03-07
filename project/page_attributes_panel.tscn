@@ -4,9 +4,17 @@
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="2_auva3"]
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="3_twvjm"]
 [ext_resource type="Script" uid="uid://c5eunv24i0ecv" path="res://scripts/image_container.gd" id="4_1dv34"]
+[ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_a4bi5"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="4_twvjm"]
 [ext_resource type="Texture2D" uid="uid://omanj4uqsngt" path="res://ch1p14_en.jpg" id="5_jyb5l"]
 [ext_resource type="Script" uid="uid://bot0cp3vf7qoo" path="res://addons/transform_container/transform_container.gd" id="5_vjitn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dv34"]
+bg_color = Color(0.12941177, 0.12941177, 0.12941177, 0.5568628)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [node name="page_attributes_panel" type="PanelContainer" unique_id=88779274]
 anchors_preset = 15
@@ -56,7 +64,7 @@ horizontal_alignment = 1
 [node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1718529773]
 layout_mode = 2
 size_flags_horizontal = 10
-text = "Delete"
+text = "Delete language"
 
 [node name="confirm_delete_language_dialog" type="PopupPanel" parent="scroll_container/margin_container/v_box_container/grid_container/button" unique_id=30506767]
 unique_name_in_owner = true
@@ -138,50 +146,89 @@ layout_mode = 2
 text = "Page Image"
 
 [node name="open_page_image_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=1189425853]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Open File"
+
+[node name="open_image_file_dialog" type="FileDialog" parent="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button" unique_id=1183042221]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 4
+popup_window = true
+force_native = true
+dialog_hide_on_ok = true
+file_mode = 0
+display_mode = 1
+access = 2
+filters = PackedStringArray("*.png", "*.jpg", "*.bmp", "*.tga", "*.svg")
+use_native_dialog = true
+folder_creation_enabled = false
+favorites_enabled = false
+layout_toggle_enabled = false
+
+[node name="delete_page_image_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=633260435]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Delete Image"
 
 [node name="image_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container" unique_id=2119931411]
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 0
 mouse_force_pass_scroll_events = false
-script = ExtResource("4_1dv34")
 
-[node name="center_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=1545320805]
-visible = false
-layout_mode = 2
-
-[node name="drop_target_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/image_container/center_container" unique_id=1269766863]
+[node name="image_drop_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=1545320805]
 unique_name_in_owner = true
 layout_mode = 2
+script = ExtResource("4_a4bi5")
 
-[node name="sprite_2d" type="TextureButton" parent="scroll_container/margin_container/v_box_container/image_container/center_container/drop_target_container" unique_id=1480321082]
+[node name="vbox_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container" unique_id=1269766863]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sprite_2d" type="TextureButton" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container/vbox_container" unique_id=1480321082]
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 button_mask = 0
 texture_normal = ExtResource("4_twvjm")
 
-[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/center_container/drop_target_container" unique_id=1694199024]
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container/vbox_container" unique_id=1694199024]
 layout_mode = 2
 text = "Drag and drop image here"
 
-[node name="panel_container" type="PanelContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=942403797]
+[node name="image_preview_container" type="PanelContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=591717115]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
+script = ExtResource("4_1dv34")
 
-[node name="transform_container" type="Container" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=384130825]
+[node name="transform_container" type="Container" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=384130825]
 clip_contents = true
 layout_mode = 2
 script = ExtResource("5_vjitn")
 metadata/_custom_type_script = "uid://bot0cp3vf7qoo"
 
-[node name="page_image" type="TextureRect" parent="scroll_container/margin_container/v_box_container/image_container/transform_container" unique_id=747309261]
+[node name="page_image" type="TextureRect" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/transform_container" unique_id=747309261]
 unique_name_in_owner = true
 layout_mode = 2
 texture = ExtResource("5_jyb5l")
 expand_mode = 2
 stretch_mode = 5
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=1135698391]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = -5
+theme_override_font_sizes/font_size = 11
+theme_override_styles/normal = SubResource("StyleBoxFlat_1dv34")
+text = "Scroll wheel: Zoom
+Click and drag: Pan
+Right click to reset"
 
 [node name="h_box_container_2" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=2068888274]
 layout_mode = 2
@@ -223,4 +270,8 @@ virtual_keyboard_show_on_focus = false
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/cancel" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
 [connection signal="text_changed" from="scroll_container/margin_container/v_box_container/h_box_container/page_title_text" to="." method="_on_page_title_text_changed"]
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button" to="." method="_on_open_page_image_button_button_up"]
+[connection signal="file_selected" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button/open_image_file_dialog" to="." method="_on_open_image_file_dialog_file_selected"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/delete_page_image_button" to="." method="_on_delete_page_image_button_up"]
+[connection signal="focus_exited" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container" method="_on_focus_exited"]
+[connection signal="focus_exited" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/transform_container" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container" method="_on_focus_exited"]
 [connection signal="text_changed" from="scroll_container/margin_container/v_box_container/h_box_container_2/author_comment_text" to="." method="_on_author_comment_text_changed"]

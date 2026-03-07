@@ -1,0 +1,31 @@
+{
+	"id": "Comic",
+	"chapters": [
+		{
+			"id": "ch1b",
+			"title": {
+				"en": "Chapter 1",
+				"es": "Chapter 1"
+			},
+			"pages": [
+				{
+					"id": "ch1pg1b",
+					"languages": [
+						"en",
+						"es"
+					],
+					"title": {
+						"en": "",
+						"es": ""
+					},
+					"image": {
+						"en": "C:\\Users\\Rook\\Documents\\godot\\gloomjam_manager\\project\\icon.svg"
+					},
+					"author_comment": {
+						"en": ""
+					}
+				}
+			]
+		}
+	]
+}
