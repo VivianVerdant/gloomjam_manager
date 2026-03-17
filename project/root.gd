@@ -16,25 +16,11 @@ var current_database_item_selected
 
 var console_output = ""
 
-func _print(...args):
-	if args.size() > 0:
-		var string: String = "\n"
-		
-		for a in args:
-			if typeof(a) == TYPE_STRING:
-				string += a
-			else:
-				string += var_to_str(a)
-			string += " "
-		
-		string = string.strip_edges(false)
-		var console = %app_console_drawer_full
-		console.text += string
-		print(string)
-		%app_console_container.title = "Console: " + string
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Console.full_console_node = %app_console_drawer_full
+	Console.last_console_node = %app_console_container
+	GlobalSettings.load_settings()
 	db_tree.set_column_title(0, "ID")
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
@@ -61,16 +47,16 @@ func _on_open_database_file(path: String) -> void:
 	if error == OK:
 		var data_received = json.data
 		if typeof(data_received) == TYPE_DICTIONARY:
-			_print("Loaded File:", path)
+			Console.print("Loaded File:", path)
 			current_database = ComicDatabase.new(data_received)
 			create_interactive_database(false)
 			GlobalSettings.last_db_path = path.get_base_dir()
 			GlobalSettings.last_db_name = path.get_file()
 			GlobalSettings.save_file()
 		else:
-			_print("Unexpected data")
+			Console.print("Unexpected data")
 	else:
-		_print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
+		Console.print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
 
 func create_interactive_database(dirty: bool):
 	if db_tree.get_root():
@@ -79,9 +65,9 @@ func create_interactive_database(dirty: bool):
 	var root: TreeItem = db_tree.create_item();
 	root.set_text(0, current_database.id)
 	db_tree.set_selected(root, 0)
-	_print("Loaded root:", current_database.id)
+	Console.print("Loaded root:", current_database.id)
 	for chapter in current_database.chapters:
-		_print("Loaded chapter:",chapter.title[current_language])
+		Console.print("Loaded chapter:",chapter.title[current_language])
 		chapter.dirty = dirty
 		var chapter_obj = root.create_child()
 		chapter_obj.set_text(0, chapter.id)
@@ -91,7 +77,7 @@ func create_interactive_database(dirty: bool):
 			var page_node = chapter_obj.create_child()
 			page_node.set_text(0, page.id)
 			page_node.set_text(1, page.title[current_language])
-			_print("Loaded page:", page.title[current_language])
+			Console.print("Loaded page:", page.title[current_language])
 		if chapter != current_database.chapters[-1]:
 			chapter_obj.collapsed = true
 
@@ -108,7 +94,7 @@ func _on_tree_cell_selected() -> void:
 	
 	var obj = current_database.get_resource_by_id(id)
 	current_database_item_selected = obj
-	#_print("selected:", selected.get_text(0))
+	#Console.print("selected:", selected.get_text(0))
 	
 	if not obj:
 		%add_language_text.editable = false
@@ -118,7 +104,7 @@ func _on_tree_cell_selected() -> void:
 		%raw_data.text = JSON.stringify(current_database.to_dict(), "\t", false)
 		return
 
-	#_print(obj)
+	#Console.print(obj)
 	
 	%raw_data.text = JSON.stringify(obj.to_dict(), "\t", false)
 	
@@ -132,22 +118,22 @@ func _on_tree_cell_selected() -> void:
 	
 func create_new_database(result):
 	if result:
-		_print("Creating new Comic Database")
+		Console.print("Creating new Comic Database")
 		current_database = ComicDatabase.new({})
 		create_interactive_database(true)
 	else:
-		_print("Action canceled")
+		Console.print("Action canceled")
 
 func _on_new_database_button_selected() -> void:
 	if not current_database:
 		create_new_database(true)
 	else:
-		_print("Opening confirmation dialog")
+		Console.print("Opening confirmation dialog")
 		%confirm_clear_database_dialog.confirm_continue(create_new_database)
 
 func _on_add_chapter_button_up() -> void:
 	if not db_tree.get_root():
-		_print("No database loaded")
+		Console.print("No database loaded")
 		return
 	
 	var num_chapters = current_database.chapters.size()
@@ -164,12 +150,12 @@ func _on_add_chapter_button_up() -> void:
 
 func _on_add_page_button_up() -> void:
 	if not db_tree.get_root():
-		_print("No database loaded")
+		Console.print("No database loaded")
 		return
 	
 	if not current_tree_selection:
 		if not db_tree.get_root().get_child(-1):
-			_print("No chapters to add page to")
+			Console.print("No chapters to add page to")
 			return
 		var obj = db_tree.get_root().get_child(-1)
 		db_tree.set_selected(obj, 0)
@@ -209,7 +195,7 @@ func _on_delete_selected_confirmed() -> void:
 		return
 	
 	if not db_tree.get_root():
-		_print("No database loaded")
+		Console.print("No database loaded")
 		return
 	
 	if not current_tree_selection:
@@ -264,14 +250,14 @@ func on_chapter_updated(chapter: ComicChapter, _lang):
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func _on_save_database_file_dialog_file_selected(path: String) -> void:
-	_print(path)
+	Console.print(path)
 	for chapter in current_database.chapters:
 		if chapter.dirty:
-			_print(chapter.id, "is dirty; processing")
+			Console.print(chapter.id, "is dirty; processing")
 	for chapter in current_database.chapters:
 		for page in chapter.pages:
 			if page.dirty:
-				_print(page.id, "is dirty; processing")
+				Console.print(page.id, "is dirty; processing")
 			
 	var db_string = JSON.stringify(current_database.to_dict(), "\t", false)
 	var file = FileAccess.open(path, FileAccess.WRITE)
@@ -285,11 +271,11 @@ func _on_save_database_button_selected() -> void:
 func _on_item_id_text_submitted(new_text: String) -> void:
 	new_text = new_text.strip_edges()
 	if current_database.get_resource_by_id(new_text):
-		_print("New ID must be unique!")
+		Console.print("New ID must be unique!")
 		%item_id_text.text = current_database_item_selected.id
 		return
 	else:
-		_print("changed item ID from", current_database_item_selected.id, "to", new_text)
+		Console.print("changed item ID from", current_database_item_selected.id, "to", new_text)
 		%item_id_text.text = new_text
 		current_database_item_selected.dirty = true
 		current_tree_selection.set_text(0, new_text)
@@ -316,3 +302,7 @@ func _on_app_console_container_folding_changed(is_folded: bool) -> void:
 	else:
 		%app_console_split.dragger_visibility = 0
 		%app_console_split.dragging_enabled = true
+
+
+func _on_write_database_button_selected() -> void:
+	ComicFilesystem.write_to_filesystem(current_database, GlobalSettings.last_db_path)

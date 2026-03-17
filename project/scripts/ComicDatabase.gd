@@ -58,7 +58,7 @@ func move_item(item, target, mode):
 	match item.type:
 		ComicChapter:
 			var chapter_position = chapters.find(item)
-			var pop_chapter = chapters.pop_at(chapter_position)
+			var _pop_chapter = chapters.pop_at(chapter_position)
 			
 			var target_position = chapters.find(target)
 			match mode:
@@ -66,12 +66,12 @@ func move_item(item, target, mode):
 					chapters.insert(target_position, item)
 				'after':
 					chapters.insert(target_position + 1, item)
-			print(self)
+			Console.print(self)
 		
 		ComicPage:
 			var page_chapter = get_chapter_by_page_id(item.id)
 			var page_position = page_chapter.pages.find(item)
-			var pop_page = page_chapter.pages.pop_at(page_position)
+			var _pop_page = page_chapter.pages.pop_at(page_position)
 			
 			var target_chapter = get_chapter_by_page_id(target.id)
 			var target_position = target_chapter.pages.find(target)
@@ -80,4 +80,4 @@ func move_item(item, target, mode):
 					target_chapter.pages.insert(target_position, item)
 				'after':
 					target_chapter.pages.insert(target_position + 1, item)
-			print(self)
+			Console.print(self)

@@ -20,7 +20,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 		v.add_child(l)
 		next = get_next_selected(next)
 	set_drag_preview(v)
-	root._print("initial item", items[0].get_text(0))
+	Console.print("initial item", items[0].get_text(0))
 	# items is an array of selected items that are being dragged
 	return items
 
@@ -32,8 +32,8 @@ func _can_drop_data(at_position: Vector2, data: Variant) -> bool:
 	if drop_section == -100:
 		return false
 	var item := get_item_at_position(at_position)
-	# root._print("drop target", item.get_text(0))
-	# root._print("dragging", data[0].get_text(0))
+	# Console.print("drop target", item.get_text(0))
+	# Console.print("dragging", data[0].get_text(0))
 	if item in data:
 		return false
 	
@@ -63,7 +63,7 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		#sprite_groups.append(item.get_meta("sprite_group"))
 	for i in data.size():
 		var item := data[i] as TreeItem
-		print(item.get_text(0))
+		Console.print(item.get_text(0))
 		if drop_section == -1:
 			item.move_before(other_item)
 			mode = "before"
@@ -74,6 +74,6 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 			else:
 				item.move_after(data[i - 1])
 	
-	root._print("node moved:", dragged_node.id)
-	root._print("moved", mode, dragged_target.id)
+	Console.print("node moved:", dragged_node.id)
+	Console.print("moved", mode, dragged_target.id)
 	root.current_database.move_item(dragged_node, dragged_target, mode)

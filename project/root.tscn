@@ -136,6 +136,11 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
+[node name="write_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button" unique_id=1873301830]
+script = ExtResource("5_l8v81")
+label_override = "Write Database to Filesystem"
+metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+
 [node name="h_box_container" type="HBoxContainer" parent="main_window/app_header/app_header_margin/h_box_container" unique_id=1196068768]
 layout_mode = 2
 size_flags_horizontal = 10
@@ -457,10 +462,10 @@ layout_mode = 2
 text = "Cancel"
 
 [connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/new_database_button" to="." method="_on_new_database_button_selected"]
-[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button/open_database_file_dialog" method="show"]
 [connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
 [connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button" to="." method="_on_save_database_button_selected"]
 [connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button/save_database_file_dialog" to="." method="_on_save_database_file_dialog_file_selected"]
+[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/write_database_button" to="." method="_on_write_database_button_selected"]
 [connection signal="editing_toggled" from="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" to="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" method="_on_editing_toggled"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_chapter_button" to="." method="_on_add_chapter_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_page_button" to="." method="_on_add_page_button_up"]

@@ -6,7 +6,7 @@ var last_db_name: String
 
 @onready var base_dir = "res://" if OS.has_feature("editor") else OS.get_executable_path().get_base_dir()
 
-func _ready() -> void:
+func load_settings() -> void:
 	var settings_obj = load_file()
 	
 	if not settings_obj:
@@ -37,11 +37,11 @@ func load_file():
 	if error == OK:
 		settings_obj = json.data
 		if typeof(settings_obj) == TYPE_DICTIONARY:
-			print(settings_obj)
+			Console.print(settings_obj)
 		else:
-			print("Unexpected data")
+			Console.print("Unexpected data")
 	else:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", settings_string, " at line ", json.get_error_line())
+		Console.print("JSON Parse Error: ", json.get_error_message(), " in ", settings_string, " at line ", json.get_error_line())
 		return false
 
 	return settings_obj
