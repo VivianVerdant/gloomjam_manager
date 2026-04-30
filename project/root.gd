@@ -4,7 +4,7 @@ extends Node
 
 var current_language = "en"
 
-var current_database_file
+var current_database_file: String 	# absolute path to database file
 var current_database: ComicDatabase
 var current_tree_selection
 var current_database_item_selected
@@ -25,6 +25,9 @@ func _ready() -> void:
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
 	current_language = GlobalSettings.default_languages[0]
+	%default_languages_edit_box.text = GlobalSettings.default_languages.reduce(func(str,i):return str + "," + String(i))
+	%open_database_file_dialog.current_path = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
+	%open_database_file_dialog.current_file = GlobalSettings.last_db_name
 	get_viewport().files_dropped.connect(on_files_dropped)
 
 func on_files_dropped(files):
@@ -53,6 +56,8 @@ func _on_open_database_file(path: String) -> void:
 			GlobalSettings.last_db_path = path.get_base_dir()
 			GlobalSettings.last_db_name = path.get_file()
 			GlobalSettings.save_file()
+			for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
+				node.disabled = false
 		else:
 			Console.print("Unexpected data")
 	else:
@@ -121,6 +126,8 @@ func create_new_database(result):
 		Console.print("Creating new Comic Database")
 		current_database = ComicDatabase.new({})
 		create_interactive_database(true)
+		for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
+			node.disabled = false
 	else:
 		Console.print("Action canceled")
 
@@ -249,19 +256,21 @@ func on_chapter_updated(chapter: ComicChapter, _lang):
 	current_tree_selection.set_text(1, chapter.title[chapter.languages[0]])
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
-func _on_save_database_file_dialog_file_selected(path: String) -> void:
+func save_database_file(path: String) -> void:
 	Console.print(path)
-	for chapter in current_database.chapters:
-		if chapter.dirty:
-			Console.print(chapter.id, "is dirty; processing")
-	for chapter in current_database.chapters:
-		for page in chapter.pages:
-			if page.dirty:
-				Console.print(page.id, "is dirty; processing")
-			
+	# current_database.write_to_filesystem(current_database_file)
 	var db_string = JSON.stringify(current_database.to_dict(), "\t", false)
 	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_string(db_string)
+	
+func _on_save_database_button_pressed() -> void:
+	if not current_database_file:
+		return
+		
+	save_database_file(current_database_file)
+	
+func _on_save_database_file_dialog_file_selected(path: String) -> void:
+	save_database_file(path)
 
 func _on_save_database_button_selected() -> void:
 	var dialog = %save_database_file_dialog
@@ -304,5 +313,9 @@ func _on_app_console_container_folding_changed(is_folded: bool) -> void:
 		%app_console_split.dragging_enabled = true
 
 
-func _on_write_database_button_selected() -> void:
-	ComicFilesystem.write_to_filesystem(current_database, GlobalSettings.last_db_path)
+func _on_commit_database_button_selected() -> void:
+	if not current_database or not current_database_file:
+		return
+		
+	current_database.write_to_filesystem(current_database_file)
+	#ComicFilesystem.write_to_filesystem(current_database, GlobalSettings.last_db_path)

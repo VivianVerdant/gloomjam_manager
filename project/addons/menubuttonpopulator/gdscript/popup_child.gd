@@ -3,6 +3,8 @@ extends Node
 
 class_name PopupChildGD
 
+@export var enabled : bool = true
+
 @export var is_separator : bool
 
 @export var label_override : String
@@ -10,4 +12,5 @@ class_name PopupChildGD
 signal on_popup_item_selected
 
 func select():
-	on_popup_item_selected.emit()
+	if enabled:
+		on_popup_item_selected.emit()

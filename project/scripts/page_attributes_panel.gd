@@ -34,12 +34,16 @@ func on_title_updated(value):
 
 func on_image_filename_updated(value):
 	image_filename = value
+	
+	
 	if value == "":
 		%image_drop_container.show()
 		%image_preview_container.hide()
 		%page_image.texture = null
 		%delete_page_image_button.hide()
 	else:
+		if image_filename.is_relative_path():
+			value = GlobalSettings.last_db_path.path_join(image_filename)
 		%image_drop_container.hide()
 		%image_preview_container.show()
 		%delete_page_image_button.show()

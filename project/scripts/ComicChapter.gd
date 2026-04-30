@@ -3,12 +3,20 @@ extends Resource
 
 var type = ComicChapter
 var original_id: String
-var id: String
+
+var id: String:
+	set(value):
+		id = value
+		dirty = true
+		
 var pages: Array
 
 var languages: Array
 
-var title: Dictionary
+var title: Dictionary:
+	set(value):
+		title = value
+		dirty = true
 
 var dirty: bool
 var flagged_for_deletion: bool = false
@@ -64,3 +72,15 @@ func delete_language(lang: String):
 	languages.erase(lang)
 	if title.has(lang):
 		title.erase(lang)
+		
+func write_to_filesystem(dir: DirAccess):
+	# check if folder exists, create it if not
+	if not dir.dir_exists(id):
+		dir.make_dir(id)
+	dir.change_dir(id)
+	var root_folder = dir.get_current_dir()
+
+	for page: ComicPage in pages:
+		dir.change_dir(root_folder)
+		page.write_to_filesystem(dir)
+		

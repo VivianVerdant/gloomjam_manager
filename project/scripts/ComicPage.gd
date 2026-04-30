@@ -3,13 +3,28 @@ extends Resource
 
 var type = ComicPage
 var original_id: String
-var id: String
+var id: String:
+	set(value):
+		id = value
+		dirty = true
+
 var raw_text: String
 
 var languages: Array
-var title: Dictionary
-var image_filename: Dictionary
-var author_comment: Dictionary
+var title: Dictionary:
+	set(value):
+		title = value
+		dirty = true
+
+var image_filename: Dictionary:
+	set(value):
+		image_filename = value
+		dirty = true
+
+var author_comment: Dictionary:
+	set(value):
+		author_comment = value
+		dirty = true
 
 var dirty: bool
 var flagged_for_deletion: bool = false
@@ -69,3 +84,29 @@ func delete_language(lang: String):
 		image_filename.erase(lang)
 	if author_comment.has(lang):
 		author_comment.erase(lang)
+
+func write_to_filesystem(dir: DirAccess):
+	# check if folder exists, create it if not
+	if not dir.dir_exists(id):
+		dir.make_dir(id)
+	dir.change_dir(id)
+
+	for lang in image_filename.keys():
+		if image_filename.get(lang).is_relative_path():
+			return
+		
+		var filetype: String = image_filename.get(lang).get_extension()
+		var destination: String = dir.get_current_dir().path_join(id + "_" + lang + "." + filetype)
+		Console.print("Source:", image_filename.get(lang))
+		Console.print("Destination:", destination)
+		
+		var result = dir.copy(image_filename.get(lang), destination)
+		Console.print(error_string(result))
+		
+		var relative_path: String = destination.trim_prefix(GlobalSettings.last_db_path)
+		if OS.get_name() == "Windows":
+			relative_path = relative_path.substr(2, -1)
+		else:
+			relative_path = relative_path.substr(1, -1)
+		image_filename.set(lang, relative_path)
+		Console.print("Relative path:", relative_path)

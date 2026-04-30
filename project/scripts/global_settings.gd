@@ -4,16 +4,25 @@ var default_languages: Array
 var last_db_path: String
 var last_db_name: String
 
+var default_settings = {
+		"default_languages": ["en"],
+		"last_db_path": OS.get_executable_path(),
+		"last_db_name": "db.json",
+	}
+
 @onready var base_dir = "res://" if OS.has_feature("editor") else OS.get_executable_path().get_base_dir()
 
 func load_settings() -> void:
 	var settings_obj = load_file()
 	
-	if not settings_obj:
-		settings_obj = create_default_settings()
+	for key in default_settings.keys():
+		if not settings_obj.has(key):
+			settings_obj.set(key, default_settings.get(key))
 	
 	default_languages = settings_obj.default_languages
 	last_db_path = settings_obj.last_db_path
+	last_db_name = settings_obj.last_db_name
+	save_file()
 	
 func save_file():
 	var settings_object = {
@@ -45,9 +54,3 @@ func load_file():
 		return false
 
 	return settings_obj
-
-func create_default_settings():
-	default_languages = ["en"]
-	last_db_path = base_dir
-	last_db_name = "db.json"
-	save_file()

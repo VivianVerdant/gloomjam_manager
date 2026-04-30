@@ -2,9 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_pq8q7"]
 [ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://root.gd" id="2_vvh5c"]
-[ext_resource type="Script" uid="uid://dbba04dkc68br" path="res://addons/menubuttonpopulator/gdscript/menu_button_populator.gd" id="4_jnlp7"]
 [ext_resource type="Script" uid="uid://dapr2k5puj76y" path="res://scripts/tree.gd" id="5_jnlp7"]
-[ext_resource type="Script" uid="uid://db8ogu3qvpfsm" path="res://addons/menubuttonpopulator/gdscript/popup_child.gd" id="5_l8v81"]
 [ext_resource type="Script" uid="uid://l4mi83xljd5a" path="res://default_languages_edit_box.gd" id="5_vyht1"]
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="6_l8v81"]
 
@@ -15,6 +13,13 @@ border_color = Color(0, 0, 0, 0.23529412)
 border_blend = true
 shadow_color = Color(0, 0, 0, 0.22745098)
 shadow_size = 3
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tw3kd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd4vy"]
+bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jnlp7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_huihk"]
 bg_color = Color(0, 0, 0, 0.14901961)
@@ -82,25 +87,50 @@ theme_override_constants/separation = 0
 
 [node name="main_menu" type="HFlowContainer" parent="main_window/app_header/app_header_margin/h_box_container" unique_id=2023892419]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="database_button" type="MenuButton" parent="main_window/app_header/app_header_margin/h_box_container/main_menu" unique_id=2075257664]
+[node name="option_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu" unique_id=175487542]
 layout_mode = 2
-text = "Database"
-switch_on_hover = true
-script = ExtResource("4_jnlp7")
-metadata/_custom_type_script = "uid://dbba04dkc68br"
+text = "File"
+flat = true
 
-[node name="new_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button" unique_id=1587112240]
-script = ExtResource("5_l8v81")
-label_override = "New Database"
-metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+[node name="popup_menu" type="PopupPanel" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button" unique_id=1149754142]
+oversampling_override = 1.0
+position = Vector2i(3, 29)
+size = Vector2i(220, 131)
+visible = true
+always_on_top = true
+theme = ExtResource("1_pq8q7")
 
-[node name="open_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button" unique_id=1105421018]
-script = ExtResource("5_l8v81")
-label_override = "Open Database"
-metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+[node name="v_box_container" type="VBoxContainer" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" unique_id=2039421906]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 3
 
-[node name="open_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button" unique_id=485428141]
+[node name="new_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1733352695]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
+text = "New Database"
+alignment = 0
+
+[node name="open_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1286701450]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
+text = "Open Database"
+alignment = 0
+
+[node name="open_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=485428141]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"
@@ -117,12 +147,29 @@ folder_creation_enabled = false
 favorites_enabled = false
 layout_toggle_enabled = false
 
-[node name="save_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button" unique_id=1089879418]
-script = ExtResource("5_l8v81")
-label_override = "Save Database"
-metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+[node name="save_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1233408909]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
+disabled = true
+text = "Save Database"
+alignment = 0
 
-[node name="save_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button" unique_id=1921103653]
+[node name="save_database_as_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=505380971]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
+disabled = true
+text = "Save Database As..."
+alignment = 0
+
+[node name="save_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button" unique_id=1921103653]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Save Database File"
@@ -136,10 +183,19 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="write_database_button" type="Node" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button" unique_id=1873301830]
-script = ExtResource("5_l8v81")
-label_override = "Write Database to Filesystem"
-metadata/_custom_type_script = "uid://db8ogu3qvpfsm"
+[node name="h_separator" type="HSeparator" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=261787683]
+layout_mode = 2
+
+[node name="commit_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1569636810]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
+disabled = true
+text = "Commit Changes to Filesystem"
+alignment = 0
 
 [node name="h_box_container" type="HBoxContainer" parent="main_window/app_header/app_header_margin/h_box_container" unique_id=1196068768]
 layout_mode = 2
@@ -150,11 +206,11 @@ for any newly created chapters or pages."
 theme_override_constants/separation = 6
 
 [node name="default_languages_edit_box" type="LineEdit" parent="main_window/app_header/app_header_margin/h_box_container/h_box_container" unique_id=1161340136]
+unique_name_in_owner = true
 layout_mode = 2
 tooltip_text = "Comma separated list of language codes to
 set what language fields will be made by default 
 for any newly created chapters or pages."
-text = "en,es"
 placeholder_text = "language code"
 alignment = 2
 max_length = 50
@@ -232,10 +288,10 @@ transparent = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 276.0
-offset_bottom = 99.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 278.0
+offset_bottom = 101.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -415,10 +471,10 @@ script = ExtResource("6_l8v81")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 276.0
-offset_bottom = 99.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 278.0
+offset_bottom = 101.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -461,11 +517,19 @@ text = "Yes"
 layout_mode = 2
 text = "Cancel"
 
-[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/new_database_button" to="." method="_on_new_database_button_selected"]
-[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
-[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button" to="." method="_on_save_database_button_selected"]
-[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/save_database_button/save_database_file_dialog" to="." method="_on_save_database_file_dialog_file_selected"]
-[connection signal="on_popup_item_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/database_button/write_database_button" to="." method="_on_write_database_button_selected"]
+[connection signal="button_down" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="show"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="." method="_on_new_database_button_selected"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="." method="_on_save_database_button_pressed"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button/save_database_file_dialog" method="show"]
+[connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button/save_database_file_dialog" to="." method="_on_save_database_file_dialog_file_selected"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/commit_database_button" to="." method="_on_commit_database_button_selected"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/commit_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
 [connection signal="editing_toggled" from="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" to="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" method="_on_editing_toggled"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_chapter_button" to="." method="_on_add_chapter_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_page_button" to="." method="_on_add_page_button_up"]

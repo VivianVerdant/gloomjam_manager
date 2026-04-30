@@ -81,3 +81,12 @@ func move_item(item, target, mode):
 				'after':
 					target_chapter.pages.insert(target_position + 1, item)
 			Console.print(self)
+
+func write_to_filesystem(current_database_file: String):
+	var root_folder = current_database_file.get_base_dir()
+	var dir = DirAccess.open(root_folder)
+	
+	for chapter: ComicChapter in chapters:
+		dir.change_dir(root_folder)
+		chapter.write_to_filesystem(dir)
+	pass
