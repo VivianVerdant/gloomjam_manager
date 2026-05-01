@@ -1,6 +1,6 @@
 extends Node
 
-@onready var db_tree = %tree
+@onready var db_tree: Tree = %tree
 
 var current_language = "en"
 
@@ -25,10 +25,14 @@ func _ready() -> void:
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
 	current_language = GlobalSettings.default_languages[0]
-	%default_languages_edit_box.text = GlobalSettings.default_languages.reduce(func(str,i):return str + "," + String(i))
+	%default_languages_edit_box.text = GlobalSettings.default_languages.reduce(func(stri,i):return stri + "," + String(i))
 	%open_database_file_dialog.current_path = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
 	%open_database_file_dialog.current_file = GlobalSettings.last_db_name
 	get_viewport().files_dropped.connect(on_files_dropped)
+	if GlobalSettings.last_db_path == "":
+		GlobalSettings.last_db_path = OS.get_executable_path()
+		%open_previous.disabled = true
+	%new_or_open.visible = true
 
 func on_files_dropped(files):
 	var viewport = get_viewport()
@@ -41,6 +45,9 @@ func on_files_dropped(files):
 	var control = get_viewport().gui_get_hovered_control()
 	if control.has_method("recieve_dropped_file"):
 		control.recieve_dropped_file(files[0])
+	
+func _on_open_previous_button_up() -> void:
+	_on_open_database_file(GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name))
 	
 func _on_open_database_file(path: String) -> void:
 	current_database_file = path
@@ -223,6 +230,16 @@ func _on_delete_selected_confirmed() -> void:
 			item.flagged_for_deletion = true
 		_:
 			return
+			
+	for chapter: ComicChapter in current_database.chapters:
+		for page: ComicPage in chapter.pages:
+			if page.flagged_for_deletion:
+				chapter.pages.erase(page)
+				
+		if chapter.flagged_for_deletion:
+			current_database.chapters.erase(chapter)
+	
+	db_tree.get_selected().free()
 
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.id
