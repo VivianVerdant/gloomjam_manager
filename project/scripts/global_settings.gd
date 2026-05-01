@@ -6,7 +6,7 @@ var last_db_name: String
 
 var default_settings = {
 		"default_languages": ["en"],
-		"last_db_path": OS.get_executable_path(),
+		"last_db_path": "",
 		"last_db_name": "db.json",
 	}
 
@@ -14,6 +14,9 @@ var default_settings = {
 
 func load_settings() -> void:
 	var settings_obj = load_file()
+	
+	if not settings_obj:
+		settings_obj = default_settings
 	
 	for key in default_settings.keys():
 		if not settings_obj.has(key):

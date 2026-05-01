@@ -49,6 +49,16 @@ corner_radius_bottom_left = 3
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_huihk"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnlp7"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 16.0
+expand_margin_top = 16.0
+expand_margin_right = 16.0
+expand_margin_bottom = 16.0
+
 [node name="root" type="Control" unique_id=75229815]
 layout_mode = 3
 anchors_preset = 15
@@ -280,7 +290,7 @@ unique_name_in_owner = true
 transparent_bg = false
 oversampling_override = 1.0
 initial_position = 4
-size = Vector2i(277, 100)
+size = Vector2i(287, 110)
 always_on_top = true
 transparent = false
 
@@ -290,8 +300,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 278.0
-offset_bottom = 101.0
+offset_right = -3.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -462,7 +472,7 @@ unique_name_in_owner = true
 transparent_bg = false
 oversampling_override = 1.0
 initial_position = 4
-size = Vector2i(277, 100)
+size = Vector2i(287, 110)
 always_on_top = true
 transparent = false
 script = ExtResource("6_l8v81")
@@ -473,8 +483,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 278.0
-offset_bottom = 101.0
+offset_right = -3.0
+offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -517,6 +527,61 @@ text = "Yes"
 layout_mode = 2
 text = "Cancel"
 
+[node name="new_or_open" type="PanelContainer" parent="." unique_id=365884733]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="center" type="CenterContainer" parent="new_or_open" unique_id=238987025]
+layout_mode = 2
+
+[node name="container" type="PanelContainer" parent="new_or_open/center" unique_id=1687023035]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jnlp7")
+metadata/_edit_use_anchors_ = true
+
+[node name="v_box_container" type="VBoxContainer" parent="new_or_open/center/container" unique_id=277107267]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="label" type="RichTextLabel" parent="new_or_open/center/container/v_box_container" unique_id=1818342941]
+custom_minimum_size = Vector2(255, 0)
+layout_mode = 2
+focus_mode = 2
+text = "New Database or Open existing?"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+drag_and_drop_selection_enabled = false
+
+[node name="h_box_container" type="HBoxContainer" parent="new_or_open/center/container/v_box_container" unique_id=1699445433]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 32
+
+[node name="new" type="Button" parent="new_or_open/center/container/v_box_container/h_box_container" unique_id=367195744]
+layout_mode = 2
+text = "New"
+
+[node name="open_previous" type="Button" parent="new_or_open/center/container/v_box_container/h_box_container" unique_id=1261300832]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open Previous"
+
+[node name="open_file" type="Button" parent="new_or_open/center/container/v_box_container/h_box_container" unique_id=45139]
+layout_mode = 2
+text = "Open File"
+
 [connection signal="button_down" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="show"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="." method="_on_new_database_button_selected"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
@@ -535,6 +600,7 @@ text = "Cancel"
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_page_button" to="." method="_on_add_page_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button" to="." method="_on_delete_selected_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog/container/v_box_container/h_box_container/accept" to="." method="_on_delete_selected_confirmed"]
+[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog/container/v_box_container/h_box_container/accept" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog" method="hide"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog/container/v_box_container/h_box_container/cancel" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog" method="hide"]
 [connection signal="cell_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
@@ -544,3 +610,9 @@ text = "Cancel"
 [connection signal="folding_changed" from="main_window/margin_container/app_console_split/margin_container_2/app_console_container" to="." method="_on_app_console_container_folding_changed"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/accept" to="confirm_clear_database_dialog" method="_on_accept_button_up"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/cancel" to="confirm_clear_database_dialog" method="_on_cancel_button_up"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/new" to="." method="_on_new_database_button_selected"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/new" to="new_or_open" method="hide"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="." method="_on_open_previous_button_up"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="new_or_open" method="hide"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="new_or_open" method="hide"]
