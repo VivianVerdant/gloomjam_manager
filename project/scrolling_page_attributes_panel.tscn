@@ -1,0 +1,352 @@
+[gd_scene format=3 uid="uid://vndudspwt7pp"]
+
+[ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_0xwqw"]
+[ext_resource type="Script" uid="uid://l6qgsbbj4fb8" path="res://scripts/scrolling_page_attributes_panel.gd" id="2_0xwqw"]
+[ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="3_ioe74"]
+[ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_75tjh"]
+[ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="5_7inwy"]
+[ext_resource type="PackedScene" uid="uid://b24y67aa7nnsd" path="res://scrolling_page_data_container.tscn" id="7_e6wmm"]
+[ext_resource type="Texture2D" uid="uid://btvjxtimqt2j1" path="res://scrolling_imgs/01.png" id="7_jb2qy"]
+[ext_resource type="Texture2D" uid="uid://obgw67qvrb3k" path="res://scrolling_imgs/02.png" id="8_cvaqm"]
+[ext_resource type="Texture2D" uid="uid://bvpo8w4uptk3c" path="res://scrolling_imgs/03.png" id="9_74ml0"]
+[ext_resource type="Texture2D" uid="uid://bcc83ucshyhth" path="res://scrolling_imgs/04.png" id="10_ka7ux"]
+[ext_resource type="Texture2D" uid="uid://chbgwl1ovrekk" path="res://scrolling_imgs/05.png" id="11_ygwr2"]
+[ext_resource type="Texture2D" uid="uid://pbabn3pr508y" path="res://scrolling_imgs/06.png" id="12_eev6v"]
+[ext_resource type="Texture2D" uid="uid://k7tebnihgd1p" path="res://scrolling_imgs/07.png" id="13_v3wtv"]
+[ext_resource type="Texture2D" uid="uid://dnakbcb6tehsj" path="res://scrolling_imgs/08.png" id="14_dbl7l"]
+[ext_resource type="Texture2D" uid="uid://cc262pvh1myrh" path="res://scrolling_imgs/09.png" id="15_xqgcm"]
+[ext_resource type="Texture2D" uid="uid://ddyj8t3264gri" path="res://icons/minus.svg" id="16_cvaqm"]
+[ext_resource type="Texture2D" uid="uid://ctqq6jb7t1rsw" path="res://icons/plus.svg" id="17_74ml0"]
+
+[node name="scrolling_page_attributes_panel" type="PanelContainer" unique_id=88779274]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_0xwqw")
+script = ExtResource("2_0xwqw")
+
+[node name="scroll_container" type="ScrollContainer" parent="." unique_id=1671821938]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="margin_container" type="MarginContainer" parent="scroll_container" unique_id=276195077]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="v_box_container" type="VBoxContainer" parent="scroll_container/margin_container" unique_id=1169045596]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="grid_container" type="GridContainer" parent="scroll_container/margin_container/v_box_container" unique_id=582333522]
+visible = false
+layout_mode = 2
+columns = 3
+
+[node name="dummy" type="Control" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=283285876]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="language_code_label" type="Label" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1021738986]
+unique_name_in_owner = true
+layout_mode = 2
+text = "en"
+horizontal_alignment = 1
+
+[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1718529773]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Delete language"
+
+[node name="confirm_delete_language_dialog" type="PopupPanel" parent="scroll_container/margin_container/v_box_container/grid_container/button" unique_id=30506767]
+unique_name_in_owner = true
+transparent_bg = false
+oversampling_override = 1.0
+initial_position = 4
+size = Vector2i(277, 80)
+always_on_top = true
+transparent = false
+script = ExtResource("3_ioe74")
+
+[node name="container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" unique_id=1926303248]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 278.0
+offset_bottom = 81.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_edit_use_anchors_ = true
+
+[node name="v_box_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container" unique_id=648528527]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="label" type="RichTextLabel" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=250835531]
+custom_minimum_size = Vector2(255, 0)
+layout_mode = 2
+focus_mode = 2
+text = "Are you sure you want to delete this?"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+drag_and_drop_selection_enabled = false
+
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=664233562]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 100
+
+[node name="accept" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=958662495]
+layout_mode = 2
+text = "Yes"
+
+[node name="cancel" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=625746811]
+layout_mode = 2
+text = "Cancel"
+
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=1087577627]
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container" unique_id=242553247]
+layout_mode = 2
+text = "Episode Title"
+
+[node name="page_title_text" type="LineEdit" parent="scroll_container/margin_container/v_box_container/h_box_container" unique_id=1872678578]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Insert page title here"
+
+[node name="h_box_container_3" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=754304067]
+visible = false
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=269220295]
+layout_mode = 2
+text = "First Page Image"
+
+[node name="open_page_image_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=1189425853]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Open File"
+
+[node name="open_image_file_dialog" type="FileDialog" parent="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button" unique_id=1183042221]
+unique_name_in_owner = true
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 4
+popup_window = true
+force_native = true
+dialog_hide_on_ok = true
+file_mode = 0
+display_mode = 1
+access = 2
+filters = PackedStringArray("*.png", "*.jpg", "*.bmp", "*.tga", "*.svg")
+use_native_dialog = true
+folder_creation_enabled = false
+favorites_enabled = false
+layout_toggle_enabled = false
+
+[node name="delete_page_image_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=633260435]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Delete Image"
+
+[node name="image_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container" unique_id=2119931411]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_force_pass_scroll_events = false
+
+[node name="image_drop_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=1545320805]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("4_75tjh")
+
+[node name="vbox_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container" unique_id=1269766863]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="sprite_2d" type="TextureButton" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container/vbox_container" unique_id=1480321082]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+button_mask = 0
+texture_normal = ExtResource("5_7inwy")
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container/vbox_container" unique_id=1694199024]
+layout_mode = 2
+text = "Drag and drop first image here"
+horizontal_alignment = 1
+
+[node name="label_2" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_drop_container/vbox_container" unique_id=1879721839]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.6509804)
+theme_override_font_sizes/font_size = 11
+text = "Images files must be numbered 
+at the end of the filename"
+horizontal_alignment = 1
+
+[node name="image_preview_container" type="PanelContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=591717115]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="scroll_container" type="ScrollContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=1687974591]
+layout_mode = 2
+follow_focus = true
+
+[node name="strip_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container" unique_id=1661582201]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="scrolling_page_data_container" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=740606876 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("7_jb2qy")
+
+[node name="scrolling_page_data_container_2" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=2044885224 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("8_cvaqm")
+
+[node name="scrolling_page_data_container_3" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=635734069 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("9_74ml0")
+
+[node name="scrolling_page_data_container_4" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1195244704 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("10_ka7ux")
+
+[node name="scrolling_page_data_container_5" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1803616338 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("11_ygwr2")
+
+[node name="scrolling_page_data_container_6" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1888665879 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("12_eev6v")
+
+[node name="scrolling_page_data_container_7" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=981484643 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("13_v3wtv")
+
+[node name="scrolling_page_data_container_8" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1354386567 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("14_dbl7l")
+
+[node name="scrolling_page_data_container_9" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1247657052 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+panel_image = ExtResource("15_xqgcm")
+
+[node name="scrolling_page_data_container_10" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1850715569 instance=ExtResource("7_e6wmm")]
+layout_mode = 2
+
+[node name="zoom_controlls_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=1452999285]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container" unique_id=436116592]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="zoom_out_button" type="TextureButton" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container" unique_id=592435356]
+layout_mode = 2
+texture_normal = ExtResource("16_cvaqm")
+stretch_mode = 0
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container" unique_id=1135698391]
+layout_mode = 2
+text = "Zoom:"
+
+[node name="zoom_percent_label" type="Label" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container" unique_id=205838782]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50%"
+
+[node name="zoom_in_button" type="TextureButton" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container" unique_id=1374458109]
+layout_mode = 2
+texture_normal = ExtResource("17_74ml0")
+
+[node name="h_box_container_2" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=2068888274]
+layout_mode = 2
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container_2" unique_id=524580037]
+layout_mode = 2
+text = "Author comment"
+
+[node name="author_comment_text" type="TextEdit" parent="scroll_container/margin_container/v_box_container/h_box_container_2" unique_id=308277199]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Insert author comment here"
+wrap_mode = 1
+scroll_fit_content_height = true
+
+[node name="raw_text" type="TextEdit" parent="scroll_container/margin_container/v_box_container" unique_id=2012401839]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+text = "asdf"
+editable = false
+emoji_menu_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+wrap_mode = 1
+indent_wrapped_lines = true
+tab_input_mode = false
+virtual_keyboard_enabled = false
+virtual_keyboard_show_on_focus = false
+
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="show"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="." method="_on_accept_delete_button_up"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/cancel" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
+[connection signal="text_changed" from="scroll_container/margin_container/v_box_container/h_box_container/page_title_text" to="." method="_on_page_title_text_changed"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button" to="." method="_on_open_page_image_button_button_up"]
+[connection signal="file_selected" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button/open_image_file_dialog" to="." method="_on_open_image_file_dialog_file_selected"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/delete_page_image_button" to="." method="_on_delete_page_image_button_up"]
+[connection signal="focus_exited" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container" method="_on_focus_exited"]
+[connection signal="button_down" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" method="set_modulate" binds= [Color(1, 1, 1, 1)]]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" to="." method="_on_zoom_out_button_up"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" method="set_modulate" binds= [Color(0, 0, 0, 1)]]
+[connection signal="mouse_entered" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" method="set_modulate" binds= [Color(0, 0, 0, 1)]]
+[connection signal="mouse_exited" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_out_button" method="set_modulate" binds= [Color(1, 1, 1, 1)]]
+[connection signal="button_down" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" method="set_modulate" binds= [Color(1, 1, 1, 1)]]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" to="." method="_on_zoom_in_button_up"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" method="set_modulate" binds= [Color(0, 0, 0, 1)]]
+[connection signal="mouse_entered" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" method="set_modulate" binds= [Color(0, 0, 0, 1)]]
+[connection signal="mouse_exited" from="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" to="scroll_container/margin_container/v_box_container/image_container/image_preview_container/zoom_controlls_container/h_box_container/zoom_in_button" method="set_modulate" binds= [Color(1, 1, 1, 1)]]
+[connection signal="text_changed" from="scroll_container/margin_container/v_box_container/h_box_container_2/author_comment_text" to="." method="_on_author_comment_text_changed"]

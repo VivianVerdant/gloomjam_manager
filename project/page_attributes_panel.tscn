@@ -80,10 +80,10 @@ script = ExtResource("3_twvjm")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 276.0
-offset_bottom = 79.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 278.0
+offset_bottom = 81.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -206,6 +206,7 @@ layout_mode = 2
 script = ExtResource("4_1dv34")
 
 [node name="transform_container" type="Container" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=384130825]
+unique_name_in_owner = true
 clip_contents = true
 layout_mode = 2
 script = ExtResource("5_vjitn")

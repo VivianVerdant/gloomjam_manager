@@ -1,8 +1,17 @@
 class_name ComicDatabase
 extends Resource
 
+enum page_types {
+	PAGINATED,
+	SCROLLING
+}
+
 var id = "comic"
+var type = ComicDatabase
+var page_type: page_types = page_types.PAGINATED
 var chapters: Array = []
+
+var dirty = false
 
 func get_page_by_id(pid: String):
 	for chapter in chapters:
@@ -24,6 +33,9 @@ func get_chapter_by_page_id(cid: String):
 	return false
 
 func get_resource_by_id(rid: String):
+	if id == rid:
+		return self
+	
 	if get_chapter_by_id(rid):
 		return get_chapter_by_id(rid)
 		
@@ -42,6 +54,7 @@ func to_dict() -> Dictionary:
 		chapters_array.append(chapter.to_dict())
 	var dict: Dictionary = {
 		"id": id,
+		"page_type": page_type,
 		"chapters": chapters_array
 	}
 	return dict
@@ -52,6 +65,8 @@ func _init(dict: Dictionary) -> void:
 	if dict.has("chapters"):
 		for chapter in dict.chapters:
 			chapters.append(ComicChapter.new(chapter))
+	if dict.has("page_type"):
+		page_type = dict.page_type
 
 
 func move_item(item, target, mode):

@@ -1,6 +1,6 @@
 extends Container
 
-@onready var image = $transform_container
+@onready var image = %transform_container
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_mask & 8:

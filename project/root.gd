@@ -9,6 +9,7 @@ var current_database: ComicDatabase
 var current_tree_selection
 var current_database_item_selected
 
+@onready var comic_attributes_panel = load("res://comic_attributes_panel.tscn")
 @onready var page_attributes_panel = load("res://page_attributes_panel.tscn")
 @onready var chapter_attributes_panel = load("res://chapter_attributes_panel.tscn")
 
@@ -121,6 +122,8 @@ func _on_tree_cell_selected() -> void:
 	%raw_data.text = JSON.stringify(obj.to_dict(), "\t", false)
 	
 	match obj.type:
+		ComicDatabase:
+			edit_comic(obj)
 		ComicChapter:
 			edit_chapter(obj)
 		ComicPage:
@@ -160,6 +163,7 @@ func _on_add_chapter_button_up() -> void:
 	chapter_obj.set_text(1, chapter.title[current_language])
 	var obj = db_tree.get_root().get_child(-1)
 	db_tree.set_selected(obj, 0)
+	Console.print("Created chapter:", chapter.id)
 
 
 func _on_add_page_button_up() -> void:
@@ -175,6 +179,10 @@ func _on_add_page_button_up() -> void:
 		db_tree.set_selected(obj, 0)
 	
 	if db_tree.get_root() == current_tree_selection:
+		if db_tree.get_root().get_child_count() == 0:
+			Console.print("Must have at least 1 chapter to add pages to.")
+			return
+			
 		var obj = db_tree.get_root().get_child(-1)
 		db_tree.set_selected(obj, 0)
 	
@@ -200,6 +208,7 @@ func _on_add_page_button_up() -> void:
 	page_obj.set_text(0, pid)
 	page_obj.set_text(1, page.title[current_language])
 	db_tree.set_selected(page_obj, 0)
+	Console.print("Created page:", pid)
 
 func _on_delete_selected_button_up() -> void:
 	%confirm_delete_item_dialog.show()
@@ -240,6 +249,18 @@ func _on_delete_selected_confirmed() -> void:
 			current_database.chapters.erase(chapter)
 	
 	db_tree.get_selected().free()
+
+func edit_comic(comic: ComicDatabase):
+	%item_id_text.text = comic.id
+	%item_id_text.editable = true
+	var comic_attributes = comic_attributes_panel.instantiate()
+	attributes_panel_scroll_container.add_child(comic_attributes)
+	comic_attributes.comic = comic
+	%raw_data.text = JSON.stringify(comic.to_dict(), "\t", false)
+	comic_attributes.panel_updated.connect(on_comic_updated)
+	
+func on_comic_updated(comic: ComicDatabase):
+	%raw_data.text = JSON.stringify(comic.to_dict(), "\t", false)
 
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.id
@@ -306,6 +327,8 @@ func _on_item_id_text_submitted(new_text: String) -> void:
 		current_database_item_selected.dirty = true
 		current_tree_selection.set_text(0, new_text)
 		current_database_item_selected.id = new_text
+		%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
+
 
 func _on_add_language_text_changed(new_text: String) -> void:
 	if new_text != "" and current_database_item_selected and current_database_item_selected.get("languages"):
