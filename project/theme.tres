@@ -1,5 +1,14 @@
 [gd_resource type="Theme" format=3 uid="uid://67rxcvupl8ld"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_05tig"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.15686275, 0.15686275, 0.15686275, 1)
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e1x85"]
 content_margin_left = 1.0
 content_margin_top = 1.0
@@ -61,6 +70,7 @@ FoldableContainer/icons/expanded_arrow = null
 FoldableContainer/icons/expanded_arrow_mirrored = null
 FoldableContainer/icons/folded_arrow = null
 FoldableContainer/icons/folded_arrow_mirrored = null
+FoldableContainer/styles/panel = SubResource("StyleBoxFlat_05tig")
 FoldableContainer/styles/title_collapsed_hover_panel = SubResource("StyleBoxFlat_e1x85")
 FoldableContainer/styles/title_collapsed_panel = SubResource("StyleBoxFlat_cjfk0")
 FoldableContainer/styles/title_hover_panel = SubResource("StyleBoxFlat_vj6dk")

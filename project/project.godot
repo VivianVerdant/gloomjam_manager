@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Gloomjam Manager"
-run/main_scene="uid://vndudspwt7pp"
+run/main_scene="uid://p5kmi0q1hrcb"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 

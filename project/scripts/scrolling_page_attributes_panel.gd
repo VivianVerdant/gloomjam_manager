@@ -14,6 +14,7 @@ signal panel_zoom_changed(value)
 func _ready():
 	for node in %strip_container.get_children():
 		panel_zoom_changed.connect(node.set_panel_zoom)
+	_on_background_color_picker_color_changed(GlobalSettings.bg_color)
 
 func on_file_dropped(file_path: String):
 	if not file_path:
@@ -113,3 +114,15 @@ func on_panel_zoome_updated(value):
 	panel_zoom = value
 	panel_zoom_changed.emit(value)
 	%zoom_percent_label.text = str(value).left(-2) + "%"
+
+func _on_background_color_picker_color_changed(color: Color) -> void:
+	var container = %image_preview_container
+	var new_style=StyleBoxFlat.new()
+	new_style.bg_color = color
+	container.add_theme_stylebox_override("panel",new_style)
+	GlobalSettings.bg_color = color.to_html(false)
+
+
+func _on_foldable_background_color_picker_container_folding_changed(is_folded: bool) -> void:
+	if is_folded:
+		GlobalSettings.save_file()

@@ -17,6 +17,8 @@ var current_database_item_selected
 
 var console_output = ""
 
+# TODO load page type into control dropdown, spawn correct type of control scene for pages
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Console.full_console_node = %app_console_drawer_full

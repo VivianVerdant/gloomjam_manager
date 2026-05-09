@@ -6,8 +6,7 @@
 [ext_resource type="Script" uid="uid://c2mmgcldjdsxy" path="res://scripts/panel_scaling_container.gd" id="5_136ka"]
 [ext_resource type="Texture2D" uid="uid://dop2ldrlsqxtw" path="res://scrolling_imgs/10.png" id="5_ccxi0"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wq6kb"]
-bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ccxi0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lrydb"]
 
@@ -22,7 +21,7 @@ offset_bottom = 170.0
 grow_horizontal = 2
 size_flags_vertical = 0
 theme = ExtResource("1_fqmkd")
-theme_override_styles/panel = SubResource("StyleBoxFlat_wq6kb")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ccxi0")
 script = ExtResource("1_wq6kb")
 panel_image = ExtResource("5_ccxi0")
 
@@ -46,7 +45,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 script = ExtResource("5_136ka")
-_scale = 50.0
 
 [node name="panel_image_container" type="TextureRect" parent="h_box_container/panel_input_container/panel_scaling_container" unique_id=1294628482]
 unique_name_in_owner = true

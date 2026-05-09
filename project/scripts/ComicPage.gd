@@ -26,6 +26,8 @@ var author_comment: Dictionary:
 		author_comment = value
 		dirty = true
 
+var page_type: String
+
 var dirty: bool
 var flagged_for_deletion: bool = false
 

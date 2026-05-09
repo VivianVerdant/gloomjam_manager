@@ -3,11 +3,15 @@ extends Node
 var default_languages: Array
 var last_db_path: String
 var last_db_name: String
+var bg_color: String
+var page_type: String
 
 var default_settings = {
 		"default_languages": ["en"],
 		"last_db_path": "",
 		"last_db_name": "db.json",
+		"page_type": "paginated",
+		"bg_color": "4d4d4d"
 	}
 
 @onready var base_dir = "res://" if OS.has_feature("editor") else OS.get_executable_path().get_base_dir()
@@ -25,13 +29,17 @@ func load_settings() -> void:
 	default_languages = settings_obj.default_languages
 	last_db_path = settings_obj.last_db_path
 	last_db_name = settings_obj.last_db_name
+	page_type = settings_obj.page_type
+	bg_color = settings_obj.bg_color
 	save_file()
 	
 func save_file():
 	var settings_object = {
 		"default_languages": default_languages,
 		"last_db_path": last_db_path,
-		"last_db_name": last_db_name
+		"last_db_name": last_db_name,
+		"page_type": page_type,
+		"bg_color": bg_color
 	}
 	var settings_string = JSON.stringify(settings_object, "\t")
 	var file = FileAccess.open(base_dir + "\\settings.ini", FileAccess.WRITE)
