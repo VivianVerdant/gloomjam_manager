@@ -10,17 +10,17 @@ func on_comic_updated(value):
 
 func update_panel():
 	var dropdown = %page_type_selector
-	match comic.page_type:
-		ComicDatabase.page_types.PAGINATED:
+	match comic.attributes.page_type:
+		"paginated":
 			dropdown.select(0)
-		ComicDatabase.page_types.SCROLLING:
+		"scrolling":
 			dropdown.select(0)
 
 func _on_page_type_selector_item_selected(index: int) -> void:
 	match index:
 		0:
-			comic.page_type = ComicDatabase.page_types.PAGINATED
+			comic.attributes.page_type = "paginated"
 		1:
-			comic.page_type = ComicDatabase.page_types.SCROLLING
+			comic.attributes.page_type = "scrolling"
 	
 	panel_updated.emit(comic)

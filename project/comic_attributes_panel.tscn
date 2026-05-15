@@ -129,7 +129,7 @@ layout_mode = 2
 
 [node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container_2" unique_id=333093826]
 layout_mode = 2
-text = "Page type"
+text = "Default Page type"
 
 [node name="page_type_selector" type="OptionButton" parent="scroll_container/margin_container/v_box_container/h_box_container_2" unique_id=1435977664]
 unique_name_in_owner = true
@@ -159,6 +159,41 @@ indent_wrapped_lines = true
 tab_input_mode = false
 virtual_keyboard_enabled = false
 virtual_keyboard_show_on_focus = false
+
+[node name="h_box_container_3" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=732847295]
+layout_mode = 2
+
+[node name="margin_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=1826363408]
+layout_mode = 2
+theme_override_constants/margin_top = 4
+
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container_3/margin_container" unique_id=1797164239]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Languages"
+
+[node name="item_list" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=240398237]
+layout_mode = 2
+
+[node name="language_list_control" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=447345391]
+layout_mode = 2
+
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control" unique_id=944815526]
+layout_mode = 2
+
+[node name="line_edit" type="LineEdit" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control/h_box_container" unique_id=217989230]
+layout_mode = 2
+placeholder_text = "en"
+select_all_on_focus = true
+
+[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control/h_box_container" unique_id=802112554]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "del"
+
+[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=1046439280]
+layout_mode = 2
+text = "Add Language"
 
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="show"]
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="." method="_on_accept_delete_button_up"]

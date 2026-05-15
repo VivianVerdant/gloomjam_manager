@@ -1,39 +1,42 @@
 class_name ComicDatabase
 extends Resource
 
-enum page_types {
-	PAGINATED,
-	SCROLLING
-}
-
-var id = "comic"
 var type = ComicDatabase
-var page_type: page_types = page_types.PAGINATED
-var chapters: Array = []
+
+#var id = "comic"
+#var page_type: String = "paginated"
+#var chapters: Array = []
+
+var attributes: Dictionary = {
+	"id": "comic",
+	"page_type": "paginated",
+	"languages": ["en"],
+	"chapters": []
+}
 
 var dirty = false
 
 func get_page_by_id(pid: String):
-	for chapter in chapters:
+	for chapter: ComicChapter in attributes.chapters:
 		if chapter.get_page_by_id(pid):
 			return chapter.get_page_by_id(pid)
 	return false
 
 func get_chapter_by_id(cid: String):
-	for chapter: ComicChapter in chapters:
-		if chapter.id == cid:
+	for chapter: ComicChapter in attributes.chapters:
+		if chapter.attributes.id == cid:
 			return chapter
 	return false
 
 func get_chapter_by_page_id(cid: String):
-	for chapter: ComicChapter in chapters:
-		for page: ComicPage in chapter.pages:
-			if page.id == cid:
+	for chapter: ComicChapter in attributes.chapters:
+		for page: ComicPage in chapter.attributes.pages:
+			if page.attributes.id == cid:
 				return chapter
 	return false
 
 func get_resource_by_id(rid: String):
-	if id == rid:
+	if attributes.id == rid:
 		return self
 	
 	if get_chapter_by_id(rid):
@@ -45,42 +48,57 @@ func get_resource_by_id(rid: String):
 	return false
 
 func add_chapter(chapter: ComicChapter) -> ComicChapter:
-	chapters.append(chapter)
+	attributes.chapters.append(chapter)
 	return chapter
 	
 func to_dict() -> Dictionary:
-	var chapters_array: Array = []
-	for chapter: ComicChapter in chapters:
-		chapters_array.append(chapter.to_dict())
-	var dict: Dictionary = {
-		"id": id,
-		"page_type": page_type,
-		"chapters": chapters_array
-	}
+	var dict = attributes
+	attributes.chapters = attributes.chapters.map(
+		func(chapter): chapter.to_dict()
+	)
 	return dict
+	#var chapters_array: Array = []
+	#for chapter: ComicChapter in attributes.chapters:
+		#chapters_array.append(chapter.to_dict())
+	#var dict: Dictionary = {
+		#"id": id,
+		#"page_type": page_type,
+		#"chapters": chapters_array
+	#}
+	#return dict
 
 func _init(dict: Dictionary) -> void:
-	if dict.has("id"):
-		id = dict.id
-	if dict.has("chapters"):
-		for chapter in dict.chapters:
-			chapters.append(ComicChapter.new(chapter))
-	if dict.has("page_type"):
-		page_type = dict.page_type
-
+	for key in dict.keys():
+		if self[key]:
+			self[key] = dict[key]
+	for i in attributes.chapters.size():
+		var obj = attributes.chapters.pop_front()
+		match typeof(obj):
+			TYPE_DICTIONARY:
+				attributes.chapters.push_back(ComicChapter.new(obj))
+			_:
+				pass
+			
+	#if dict.has("id"):
+		#id = dict.id
+	#if dict.has("chapters"):
+		#for chapter in dict.chapters:
+			#chapters.append(ComicChapter.new(chapter))
+	#if dict.has("page_type"):
+		#page_type = dict.page_type
 
 func move_item(item, target, mode):
 	match item.type:
 		ComicChapter:
-			var chapter_position = chapters.find(item)
-			var _pop_chapter = chapters.pop_at(chapter_position)
+			var chapter_position = attributes.chapters.find(item)
+			var _pop_chapter = attributes.chapters.pop_at(chapter_position)
 			
-			var target_position = chapters.find(target)
+			var target_position = attributes.chapters.find(target)
 			match mode:
 				'before':
-					chapters.insert(target_position, item)
+					attributes.chapters.insert(target_position, item)
 				'after':
-					chapters.insert(target_position + 1, item)
+					attributes.chapters.insert(target_position + 1, item)
 			Console.print(self)
 		
 		ComicPage:
@@ -101,7 +119,7 @@ func write_to_filesystem(current_database_file: String):
 	var root_folder = current_database_file.get_base_dir()
 	var dir = DirAccess.open(root_folder)
 	
-	for chapter: ComicChapter in chapters:
+	for chapter: ComicChapter in attributes.chapters:
 		dir.change_dir(root_folder)
 		chapter.write_to_filesystem(dir)
 	pass
