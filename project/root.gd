@@ -18,7 +18,8 @@ var current_database_item_selected
 
 var console_output = ""
 
-# TODO load page type into control dropdown, spawn correct type of control scene for pages
+# TODO loading databases is broken?
+# TODO figure out storing and loading data for scrolling page filenames
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -28,8 +29,6 @@ func _ready() -> void:
 	db_tree.set_column_title(0, "ID")
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
-	current_language = GlobalSettings.default_languages[0]
-	%default_languages_edit_box.text = GlobalSettings.default_languages.reduce(func(stri,i):return stri + "," + String(i))
 	%open_database_file_dialog.current_path = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
 	%open_database_file_dialog.current_file = GlobalSettings.last_db_name
 	get_viewport().files_dropped.connect(on_files_dropped)
@@ -63,10 +62,10 @@ func _on_open_database_file(path: String) -> void:
 		if typeof(data_received) == TYPE_DICTIONARY:
 			Console.print("Loaded File:", path)
 			current_database = ComicDatabase.new(data_received)
+			current_language = current_database.attributes.languages[0]
 			create_interactive_database(false)
 			GlobalSettings.last_db_path = path.get_base_dir()
 			GlobalSettings.last_db_name = path.get_file()
-			GlobalSettings.save_file()
 			for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
 				node.disabled = false
 		else:
@@ -98,6 +97,7 @@ func create_interactive_database(dirty: bool):
 			chapter_obj.collapsed = true
 
 func _on_tree_cell_selected() -> void:
+	%change_page_type_panel.hide()
 	var selected: TreeItem = db_tree.get_selected()
 	#if selected == current_tree_selection:
 		#return
@@ -130,6 +130,7 @@ func _on_tree_cell_selected() -> void:
 		ComicChapter:
 			edit_chapter(obj)
 		ComicPage:
+			%change_page_type_panel.hide()
 			edit_page(obj)
 		_:
 			pass
@@ -160,17 +161,18 @@ func _on_add_chapter_button_up() -> void:
 	var chapter_obj = db_tree.create_item()
 	var cid = "ch" + var_to_str(num_chapters + 1)
 	db_tree.get_root().add_child(chapter_obj)
-	var dict = {
-		"id":cid
-	}
-	var chapter = current_database.add_chapter(ComicChapter.new(dict))
+	var chapter = current_database.add_chapter(ComicChapter.new({
+			"id": cid,
+			"title": {
+				current_database.attributes.languages[0]: ""
+			}
+		}))
 	chapter.dirty = true
 	chapter_obj.set_text(0, chapter.attributes.id)
-	chapter_obj.set_text(1, chapter.attributes.title[0])
+	chapter_obj.set_text(1, chapter.attributes.title[current_database.attributes.languages[0]])
 	var obj = db_tree.get_root().get_child(-1)
 	db_tree.set_selected(obj, 0)
 	Console.print("Created chapter:", chapter.attributes.id)
-
 
 func _on_add_page_button_up() -> void:
 	if not db_tree.get_root():
@@ -207,12 +209,18 @@ func _on_add_page_button_up() -> void:
 	var chapter = current_database.get_chapter_by_id(chapter_obj.get_text(0))
 	var num_pages = chapter.attributes.pages.size()
 	var pid = chapter.attributes.id + "pg" + var_to_str(num_pages + 1)
-	var page = ComicPage.new({"id":pid,"page_type":GlobalSettings.page_type})
+	var page = ComicPage.new({
+			"id" :pid,
+			"page_type" :current_database.attributes.page_type,
+			"title": {
+				current_database.attributes.languages[0]: ""
+			}
+		})
 	page.dirty = true
 	chapter.add_page(page)
 	var page_obj = chapter_obj.create_child()
 	page_obj.set_text(0, pid)
-	page_obj.set_text(1, page.attributes.title[current_language])
+	page_obj.set_text(1, page.attributes.title[current_database.attributes.languages[0]])
 	db_tree.set_selected(page_obj, 0)
 	Console.print("Created page:", pid)
 
@@ -271,9 +279,7 @@ func on_comic_updated(comic: ComicDatabase):
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.attributes.id
 	%item_id_text.editable = true
-	%add_language_button.disabled = true if %add_language_text.text == "" else false
-	%add_language_text.editable = true
-	for language in current_database.languages:
+	for language in current_database.attributes.languages:
 		var page_attributes
 		if page.attributes.page_type == "scrolling":
 			page_attributes = scrolling_page_attributes_panel.instantiate()
@@ -291,9 +297,7 @@ func on_page_updated(page: ComicPage, _lang):
 func edit_chapter(chapter: ComicChapter):
 	%item_id_text.text = chapter.attributes.id
 	%item_id_text.editable = true
-	%add_language_text.editable = true
-	%add_language_button.disabled = true if %add_language_text.text == "" else false
-	for language in current_database.languages:
+	for language in current_database.attributes.languages:
 		var chapter_attributes = chapter_attributes_panel.instantiate()
 		attributes_panel_scroll_container.add_child(chapter_attributes)
 		chapter_attributes.language_code = language

@@ -3,7 +3,6 @@
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_pq8q7"]
 [ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://root.gd" id="2_vvh5c"]
 [ext_resource type="Script" uid="uid://dapr2k5puj76y" path="res://scripts/tree.gd" id="5_jnlp7"]
-[ext_resource type="Script" uid="uid://l4mi83xljd5a" path="res://default_languages_edit_box.gd" id="5_vyht1"]
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="6_l8v81"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vyht1"]
@@ -68,6 +67,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 1
 theme = ExtResource("1_pq8q7")
 script = ExtResource("2_vvh5c")
 
@@ -206,31 +206,6 @@ disabled = true
 text = "Commit Changes to Filesystem"
 alignment = 0
 
-[node name="h_box_container" type="HBoxContainer" parent="main_window/app_header/app_header_margin/h_box_container" unique_id=1196068768]
-layout_mode = 2
-size_flags_horizontal = 10
-tooltip_text = "Comma separated list of language codes to
-set what language fields will be made by default 
-for any newly created chapters or pages."
-theme_override_constants/separation = 6
-
-[node name="default_languages_edit_box" type="LineEdit" parent="main_window/app_header/app_header_margin/h_box_container/h_box_container" unique_id=1161340136]
-unique_name_in_owner = true
-layout_mode = 2
-tooltip_text = "Comma separated list of language codes to
-set what language fields will be made by default 
-for any newly created chapters or pages."
-placeholder_text = "language code"
-alignment = 2
-max_length = 50
-expand_to_text_length = true
-emoji_menu_enabled = false
-script = ExtResource("5_vyht1")
-
-[node name="label" type="Label" parent="main_window/app_header/app_header_margin/h_box_container/h_box_container" unique_id=2110859557]
-layout_mode = 2
-text = "Default Languages"
-
 [node name="margin_container" type="MarginContainer" parent="main_window" unique_id=1268498277]
 layout_mode = 2
 size_flags_vertical = 3
@@ -360,32 +335,24 @@ theme_override_constants/margin_left = 3
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="h_box_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container" unique_id=2120172577]
+[node name="margin_container" type="MarginContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container" unique_id=803082673]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+
+[node name="h_box_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container" unique_id=2120172577]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="h_box_container_2" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container" unique_id=1028855676]
 layout_mode = 2
 
-[node name="add_language_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container" unique_id=964927556]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "Add language"
-
-[node name="add_language_text" type="LineEdit" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container" unique_id=2110760503]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(146, 0)
-layout_mode = 2
-placeholder_text = "Enter language code"
-editable = false
-
-[node name="margin_container" type="MarginContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container" unique_id=2023472453]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container" unique_id=1120105921]
+[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/h_box_container_2" unique_id=1120105921]
 layout_mode = 2
 text = "Item ID"
 
-[node name="item_id_text" type="LineEdit" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container" unique_id=1753957398]
+[node name="item_id_text" type="LineEdit" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/h_box_container_2" unique_id=1753957398]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 placeholder_text = "ID"
 editable = false
@@ -393,6 +360,25 @@ keep_editing_on_text_submit = true
 expand_to_text_length = true
 emoji_menu_enabled = false
 select_all_on_focus = true
+
+[node name="change_page_type_panel" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container" unique_id=681347689]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="label_2" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/change_page_type_panel" unique_id=1297335838]
+layout_mode = 2
+text = "Page type"
+
+[node name="page_type_selector" type="OptionButton" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/change_page_type_panel" unique_id=405945372]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+item_count = 2
+popup/item_0/text = "Paginated"
+popup/item_0/id = 0
+popup/item_1/text = "Scrolling"
+popup/item_1/id = 1
 
 [node name="attributes_panel_scroll_container" type="ScrollContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container" unique_id=280361636]
 layout_mode = 2
@@ -595,7 +581,6 @@ text = "Open File"
 [connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button/save_database_file_dialog" to="." method="_on_save_database_file_dialog_file_selected"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/commit_database_button" to="." method="_on_commit_database_button_selected"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/commit_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
-[connection signal="editing_toggled" from="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" to="main_window/app_header/app_header_margin/h_box_container/h_box_container/default_languages_edit_box" method="_on_editing_toggled"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_chapter_button" to="." method="_on_add_chapter_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/add_page_button" to="." method="_on_add_page_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button" to="." method="_on_delete_selected_button_up"]
@@ -604,9 +589,7 @@ text = "Open File"
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog/container/v_box_container/h_box_container/cancel" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree_menu/delete_selected_button/confirm_delete_item_dialog" method="hide"]
 [connection signal="cell_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container/add_language_button" to="." method="_on_add_language_button_button_up"]
-[connection signal="text_changed" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container/add_language_text" to="." method="_on_add_language_text_changed"]
-[connection signal="text_submitted" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/h_box_container/item_id_text" to="." method="_on_item_id_text_submitted"]
+[connection signal="text_submitted" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/h_box_container_2/item_id_text" to="." method="_on_item_id_text_submitted"]
 [connection signal="folding_changed" from="main_window/margin_container/app_console_split/margin_container_2/app_console_container" to="." method="_on_app_console_container_folding_changed"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/accept" to="confirm_clear_database_dialog" method="_on_accept_button_up"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/cancel" to="confirm_clear_database_dialog" method="_on_cancel_button_up"]

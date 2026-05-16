@@ -67,6 +67,7 @@ text = "en"
 horizontal_alignment = 1
 
 [node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1718529773]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 text = "Delete language"

@@ -5,7 +5,7 @@ var type = ComicChapter
 
 var attributes: Dictionary = {
 	"id": "",
-	"title": {"en":""},
+	"title": {},
 	"pages": []
 }
 
@@ -30,7 +30,7 @@ var flagged_for_deletion: bool = false
 
 func _init(dict: Dictionary) -> void:
 	for key in dict.keys():
-		if self.attributes[key]:
+		if self.attributes[key] != null:
 			self.attributes[key] = dict[key]
 	
 	for i in attributes.pages.size():
@@ -67,10 +67,10 @@ func add_page(page: ComicPage) -> ComicPage:
 	return page
 
 func to_dict() -> Dictionary:
-	var dict = attributes
-	attributes.pages = attributes.pages.map(
-		func(page): page.to_dict()
-	)
+	var dict = attributes.duplicate(true)
+	for page in dict.pages:
+		var pg: ComicPage = dict.pages.pop_front()
+		dict.pages.append(pg.to_dict())
 	return dict
 	#var pages_array: Array = []
 	#for page: ComicPage in pages:
@@ -83,19 +83,19 @@ func to_dict() -> Dictionary:
 	#return dict
 
 #func add_language(lang: String):
-	#if lang in languages:
+	#if lang in attributes.languages:
 		#return
 	#
-	#languages.append(lang)
-	#title[lang] = "" if title.keys().is_empty() else title[title.keys()[0]]
-	
+	#attributes.languages.append(lang)
+	#attributes.title[lang] = "" if attributes.title.keys().is_empty() else attributes.title[attributes.title.keys()[0]]
+	#
 #func delete_language(lang: String):
-	#if lang not in languages:
+	#if lang not in attributes.languages:
 		#return
 	#
-	#languages.erase(lang)
-	#if title.has(lang):
-		#title.erase(lang)
+	#attributes.languages.erase(lang)
+	#if attributes.title.has(lang):
+		#attributes.title.erase(lang)
 		
 func write_to_filesystem(dir: DirAccess):
 	# check if folder exists, create it if not

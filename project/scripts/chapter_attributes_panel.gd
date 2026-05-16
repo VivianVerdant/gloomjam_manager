@@ -19,13 +19,13 @@ func on_title_updated(value):
 	update_chapter()
 
 func update_chapter():
-	chapter.title[language_code] = title
+	chapter.attributes.title[language_code] = title
 	
 	emit_signal("panel_updated", chapter, language_code)
 	
 func update_panel():
-	if chapter.title.has(language_code):
-		%chapter_title_text.text = chapter.title[language_code]
+	if chapter.attributes.title.has(language_code):
+		%chapter_title_text.text = chapter.attributes.title[language_code]
 
 func _on_accept_delete_button_up() -> void:
 	chapter.delete_language(language_code)

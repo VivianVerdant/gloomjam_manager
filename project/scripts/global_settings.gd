@@ -1,16 +1,23 @@
 extends Node
 
-var default_languages: Array
-var last_db_path: String
-var last_db_name: String
-var bg_color: String
-var page_type: String
-
+var last_db_path: String:
+	set(value):
+		last_db_path = value
+		save_file()
+		
+var last_db_name: String:
+	set(value):
+		last_db_name = value
+		save_file()
+		
+var bg_color: String:
+	set(value):
+		bg_color = value
+		save_file()
+		
 var default_settings = {
-		"default_languages": ["en"],
 		"last_db_path": "",
 		"last_db_name": "db.json",
-		"page_type": "paginated",
 		"bg_color": "4d4d4d"
 	}
 
@@ -26,19 +33,15 @@ func load_settings() -> void:
 		if not settings_obj.has(key):
 			settings_obj.set(key, default_settings.get(key))
 	
-	default_languages = settings_obj.default_languages
 	last_db_path = settings_obj.last_db_path
 	last_db_name = settings_obj.last_db_name
-	page_type = settings_obj.page_type
 	bg_color = settings_obj.bg_color
 	save_file()
 	
 func save_file():
 	var settings_object = {
-		"default_languages": default_languages,
 		"last_db_path": last_db_path,
 		"last_db_name": last_db_name,
-		"page_type": page_type,
 		"bg_color": bg_color
 	}
 	var settings_string = JSON.stringify(settings_object, "\t")

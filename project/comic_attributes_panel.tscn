@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://c71157ub7yc5y"]
 
 [ext_resource type="Script" uid="uid://dq087fyc3lqbp" path="res://scripts/comic_attributes_panel.gd" id="1_onge7"]
-[ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="2_csqw6"]
 
 [node name="comic_attributes_panel" type="PanelContainer" unique_id=1033061735]
 anchors_preset = 15
@@ -9,6 +8,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_onge7")
 
 [node name="scroll_container" type="ScrollContainer" parent="." unique_id=1567997042]
@@ -31,99 +31,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="grid_container" type="GridContainer" parent="scroll_container/margin_container/v_box_container" unique_id=480514044]
-visible = false
-layout_mode = 2
-columns = 3
-
-[node name="dummy" type="Control" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1200199102]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="language_code_label" type="Label" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1009058702]
-unique_name_in_owner = true
-layout_mode = 2
-text = "en"
-horizontal_alignment = 1
-
-[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1294913697]
-layout_mode = 2
-size_flags_horizontal = 10
-text = "Delete language"
-
-[node name="confirm_delete_language_dialog" type="PopupPanel" parent="scroll_container/margin_container/v_box_container/grid_container/button" unique_id=43195014]
-unique_name_in_owner = true
-transparent_bg = false
-oversampling_override = 1.0
-initial_position = 4
-size = Vector2i(283, 115)
-always_on_top = true
-transparent = false
-script = ExtResource("2_csqw6")
-
-[node name="container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" unique_id=1094158925]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 279.0
-offset_bottom = 111.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-metadata/_edit_use_anchors_ = true
-
-[node name="v_box_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container" unique_id=1837456439]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/separation = 10
-
-[node name="label" type="RichTextLabel" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=1872431243]
-custom_minimum_size = Vector2(255, 0)
-layout_mode = 2
-focus_mode = 2
-text = "Are you sure you want to delete this?"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-selection_enabled = true
-drag_and_drop_selection_enabled = false
-
-[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=1826897053]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 100
-
-[node name="accept" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=204636828]
-layout_mode = 2
-text = "Yes"
-
-[node name="cancel" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=1225781015]
-layout_mode = 2
-text = "Cancel"
-
-[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=883312372]
-visible = false
-layout_mode = 2
-
-[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/h_box_container" unique_id=895184212]
-layout_mode = 2
-text = "Comic Title"
-
-[node name="chapter_title_text" type="LineEdit" parent="scroll_container/margin_container/v_box_container/h_box_container" unique_id=1845839400]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Insert comic title here"
-
 [node name="h_box_container_2" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=1358476036]
 layout_mode = 2
 
@@ -141,25 +48,6 @@ popup/item_0/id = 0
 popup/item_1/text = "Scrolling"
 popup/item_1/id = 1
 
-[node name="raw_text" type="TextEdit" parent="scroll_container/margin_container/v_box_container" unique_id=1062465728]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
-text = "asdf"
-editable = false
-emoji_menu_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
-middle_mouse_paste_enabled = false
-wrap_mode = 1
-indent_wrapped_lines = true
-tab_input_mode = false
-virtual_keyboard_enabled = false
-virtual_keyboard_show_on_focus = false
-
 [node name="h_box_container_3" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container" unique_id=732847295]
 layout_mode = 2
 
@@ -175,29 +63,31 @@ text = "Languages"
 [node name="item_list" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3" unique_id=240398237]
 layout_mode = 2
 
-[node name="language_list_control" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=447345391]
+[node name="language_list_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=447345391]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control" unique_id=944815526]
+[node name="language_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container" unique_id=944815526]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="line_edit" type="LineEdit" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control/h_box_container" unique_id=217989230]
+[node name="language_line_edit" type="LineEdit" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container" unique_id=217989230]
 layout_mode = 2
 placeholder_text = "en"
 select_all_on_focus = true
 
-[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_control/h_box_container" unique_id=802112554]
+[node name="delete_language_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container" unique_id=802112554]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 text = "del"
 
-[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=1046439280]
+[node name="add_language_button" type="Button" parent="scroll_container/margin_container/v_box_container/h_box_container_3/item_list" unique_id=1046439280]
 layout_mode = 2
 text = "Add Language"
 
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="show"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="." method="_on_accept_delete_button_up"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/cancel" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
-[connection signal="text_changed" from="scroll_container/margin_container/v_box_container/h_box_container/chapter_title_text" to="." method="_on_chapter_title_text_changed"]
 [connection signal="item_selected" from="scroll_container/margin_container/v_box_container/h_box_container_2/page_type_selector" to="." method="_on_page_type_selector_item_selected"]
+[connection signal="editing_toggled" from="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container/language_line_edit" to="." method="_on_language_line_edit_editing_toggled"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container/delete_language_button" to="." method="_on_delete_language_button_up"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container/delete_language_button" to="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/language_list_container/language_container" method="free"]
+[connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/item_list/add_language_button" to="." method="_on_add_language_button_up"]

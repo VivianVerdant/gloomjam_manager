@@ -58,18 +58,18 @@ func on_author_comment_updated(value):
 	update_page()
 	
 func update_page():
-	page.title[language_code] = title
-	page.image_filename[language_code] = image_filename
-	page.author_comment[language_code] = author_comment
+	page.attributes.title[language_code] = title
+	page.attributes.image_filename[language_code] = image_filename
+	page.attributes.author_comment[language_code] = author_comment
 	
 	emit_signal("panel_updated", page, language_code)
 	
 func update_panel():
-	if page.author_comment.has(language_code):
-		%author_comment_text.text = page.author_comment[language_code]
-	if page.title.has(language_code):
-		%page_title_text.text = page.title[language_code]
-	if page.image_filename.has(language_code):
+	if page.attributes.author_comment.has(language_code):
+		%author_comment_text.text = page.attributes.author_comment[language_code]
+	if page.attributes.title.has(language_code):
+		%page_title_text.text = page.attributes.title[language_code]
+	if page.attributes.image_filename.has(language_code):
 		
 		_on_open_image_file_dialog_file_selected(page.image_filename[language_code])
 

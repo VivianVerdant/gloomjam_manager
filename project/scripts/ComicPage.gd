@@ -42,8 +42,8 @@ var flagged_for_deletion: bool = false
 
 func _init(dict: Dictionary) -> void:
 	for key in dict.keys():
-		if self[key]:
-			self[key] = dict[key]
+		if self.attributes[key] != null:
+			self.attributes[key] = dict[key]
 	#dict.get_or_add("foo","bar")
 	#var props = self.get_property_list()
 	#var prop_names: PackedStringArray
@@ -79,25 +79,25 @@ func to_dict() -> Dictionary:
 	return attributes
 
 #func add_language(lang: String):
-	#if lang in languages:
+	#if lang in attributes.languages:
 		#return
 	#
-	#languages.append(lang)
-	#title[lang] = "" if title.keys().is_empty() else title[title.keys()[0]]
-	#image_filename[lang] = "" if image_filename.keys().is_empty() else image_filename[image_filename.keys()[0]]
-	#author_comment[lang] = "" if author_comment.keys().is_empty() else author_comment[author_comment.keys()[0]]
+	#attributes.languages.append(lang)
+	#attributes.title[lang] = "" if attributes.title.keys().is_empty() else attributes.title[attributes.title.keys()[0]]
+	#attributes.image_filename[lang] = "" if attributes.image_filename.keys().is_empty() else attributes.image_filename[attributes.image_filename.keys()[0]]
+	#attributes.author_comment[lang] = "" if attributes.author_comment.keys().is_empty() else attributes.author_comment[attributes.author_comment.keys()[0]]
 	#
 #func delete_language(lang: String):
-	#if lang not in languages:
+	#if lang not in attributes.languages:
 		#return
 	#
-	#languages.erase(lang)
-	#if title.has(lang):
-		#title.erase(lang)
-	#if image_filename.has(lang):
-		#image_filename.erase(lang)
-	#if author_comment.has(lang):
-		#author_comment.erase(lang)
+	#attributes.languages.erase(lang)
+	#if attributes.title.has(lang):
+		#attributes.title.erase(lang)
+	#if attributes.image_filename.has(lang):
+		#attributes.image_filename.erase(lang)
+	#if attributes.author_comment.has(lang):
+		#attributes.author_comment.erase(lang)
 
 func write_to_filesystem(dir: DirAccess):
 	# check if folder exists, create it if not

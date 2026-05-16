@@ -3,10 +3,6 @@ extends Resource
 
 var type = ComicDatabase
 
-#var id = "comic"
-#var page_type: String = "paginated"
-#var chapters: Array = []
-
 var attributes: Dictionary = {
 	"id": "comic",
 	"page_type": "paginated",
@@ -15,6 +11,18 @@ var attributes: Dictionary = {
 }
 
 var dirty = false
+
+func _init(dict: Dictionary) -> void:
+	for key in dict.keys():
+		if self.attributes[key] != null:
+			self.attributes[key] = dict[key]
+	for i in attributes.chapters.size():
+		var obj = attributes.chapters.pop_front()
+		match typeof(obj):
+			TYPE_DICTIONARY:
+				attributes.chapters.push_back(ComicChapter.new(obj))
+			_:
+				pass
 
 func get_page_by_id(pid: String):
 	for chapter: ComicChapter in attributes.chapters:
@@ -52,40 +60,11 @@ func add_chapter(chapter: ComicChapter) -> ComicChapter:
 	return chapter
 	
 func to_dict() -> Dictionary:
-	var dict = attributes
-	attributes.chapters = attributes.chapters.map(
-		func(chapter): chapter.to_dict()
-	)
+	var dict = attributes.duplicate(true)
+	for chapter in dict.chapters:
+		var ch: ComicChapter = dict.chapters.pop_front()
+		dict.chapters.append(ch.to_dict())
 	return dict
-	#var chapters_array: Array = []
-	#for chapter: ComicChapter in attributes.chapters:
-		#chapters_array.append(chapter.to_dict())
-	#var dict: Dictionary = {
-		#"id": id,
-		#"page_type": page_type,
-		#"chapters": chapters_array
-	#}
-	#return dict
-
-func _init(dict: Dictionary) -> void:
-	for key in dict.keys():
-		if self[key]:
-			self[key] = dict[key]
-	for i in attributes.chapters.size():
-		var obj = attributes.chapters.pop_front()
-		match typeof(obj):
-			TYPE_DICTIONARY:
-				attributes.chapters.push_back(ComicChapter.new(obj))
-			_:
-				pass
-			
-	#if dict.has("id"):
-		#id = dict.id
-	#if dict.has("chapters"):
-		#for chapter in dict.chapters:
-			#chapters.append(ComicChapter.new(chapter))
-	#if dict.has("page_type"):
-		#page_type = dict.page_type
 
 func move_item(item, target, mode):
 	match item.type:
