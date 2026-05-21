@@ -291,7 +291,7 @@ func edit_page(page: ComicPage):
 		page_attributes.panel_updated.connect(on_page_updated)
 		
 func on_page_updated(page: ComicPage, _lang):
-	current_tree_selection.set_text(1, page.attributes.title[current_database.languages[0]])
+	current_tree_selection.set_text(1, page.attributes.title[current_database.attributes.languages[0]])
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func edit_chapter(chapter: ComicChapter):
@@ -305,7 +305,7 @@ func edit_chapter(chapter: ComicChapter):
 		chapter_attributes.panel_updated.connect(on_chapter_updated)
 
 func on_chapter_updated(chapter: ComicChapter, _lang):
-	current_tree_selection.set_text(1, chapter.attributes.title[current_database.languages[0]])
+	current_tree_selection.set_text(1, chapter.attributes.title[current_database.attributes.languages[0]])
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func save_database_file(path: String) -> void:

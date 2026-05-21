@@ -71,7 +71,7 @@ func update_panel():
 		%page_title_text.text = page.attributes.title[language_code]
 	if page.attributes.image_filename.has(language_code):
 		
-		_on_open_image_file_dialog_file_selected(page.image_filename[language_code])
+		_on_open_image_file_dialog_file_selected(page.attributes.image_filename[language_code])
 
 func _on_accept_delete_button_up() -> void:
 	page.delete_language(language_code)

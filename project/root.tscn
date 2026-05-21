@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_pq8q7"]
 [ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://root.gd" id="2_vvh5c"]
+[ext_resource type="Script" uid="uid://b75unaeamgjm2" path="res://addons/file_dialog_web/file_dialog_web.gd" id="3_jnlp7"]
 [ext_resource type="Script" uid="uid://dapr2k5puj76y" path="res://scripts/tree.gd" id="5_jnlp7"]
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="6_l8v81"]
 
@@ -139,7 +140,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
 text = "Open Database"
 alignment = 0
 
-[node name="open_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=485428141]
+[node name="open_database_file_dialog" type="FileDialog" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=843805863]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"
@@ -155,6 +156,8 @@ use_native_dialog = true
 folder_creation_enabled = false
 favorites_enabled = false
 layout_toggle_enabled = false
+script = ExtResource("3_jnlp7")
+metadata/_custom_type_script = "uid://b75unaeamgjm2"
 
 [node name="save_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1233408909]
 unique_name_in_owner = true
@@ -514,7 +517,6 @@ text = "Cancel"
 
 [node name="new_or_open" type="PanelContainer" parent="." unique_id=365884733]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -572,7 +574,7 @@ text = "Open File"
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="." method="_on_new_database_button_selected"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
-[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="popup_file_dialog_web"]
 [connection signal="file_selected" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="." method="_on_save_database_button_pressed"]
 [connection signal="button_up" from="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
@@ -597,5 +599,5 @@ text = "Open File"
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/new" to="new_or_open" method="hide"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="." method="_on_open_previous_button_up"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="new_or_open" method="hide"]
-[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="popup_file_dialog_web"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="new_or_open" method="hide"]
