@@ -18,6 +18,9 @@ var current_database_item_selected
 
 var console_output = ""
 
+# TODO loading databases is broken?
+# TODO figure out storing and loading data for scrolling page filenames
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Console.full_console_node = %app_console_drawer_full
