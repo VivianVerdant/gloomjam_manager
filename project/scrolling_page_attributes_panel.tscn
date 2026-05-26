@@ -2,7 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_0xwqw"]
 [ext_resource type="Script" uid="uid://l6qgsbbj4fb8" path="res://scripts/scrolling_page_attributes_panel.gd" id="2_0xwqw"]
-[ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="3_ioe74"]
 [ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_75tjh"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="5_7inwy"]
 [ext_resource type="Texture2D" uid="uid://ddyj8t3264gri" path="res://icons/minus.svg" id="16_cvaqm"]
@@ -42,96 +41,26 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="grid_container" type="GridContainer" parent="scroll_container/margin_container/v_box_container" unique_id=582333522]
+[node name="center_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container" unique_id=1406138127]
 layout_mode = 2
-columns = 3
 
-[node name="dummy" type="Control" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=283285876]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="language_code_label" type="Label" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1021738986]
+[node name="language_code_label" type="Label" parent="scroll_container/margin_container/v_box_container/center_container" unique_id=1021738986]
 unique_name_in_owner = true
 layout_mode = 2
 text = "en"
 horizontal_alignment = 1
 
-[node name="button" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container" unique_id=1718529773]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 10
-text = "Delete language"
-
-[node name="confirm_delete_language_dialog" type="PopupPanel" parent="scroll_container/margin_container/v_box_container/grid_container/button" unique_id=30506767]
-unique_name_in_owner = true
-transparent_bg = false
-oversampling_override = 1.0
-initial_position = 4
-size = Vector2i(277, 80)
-always_on_top = true
-transparent = false
-script = ExtResource("3_ioe74")
-
-[node name="container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" unique_id=1926303248]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 278.0
-offset_bottom = 81.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-metadata/_edit_use_anchors_ = true
-
-[node name="v_box_container" type="VBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container" unique_id=648528527]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/separation = 10
-
-[node name="label" type="RichTextLabel" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=250835531]
-custom_minimum_size = Vector2(255, 0)
-layout_mode = 2
-focus_mode = 2
-text = "Are you sure you want to delete this?"
-fit_content = true
-horizontal_alignment = 1
-vertical_alignment = 1
-selection_enabled = true
-drag_and_drop_selection_enabled = false
-
-[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container" unique_id=664233562]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_constants/separation = 100
-
-[node name="accept" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=958662495]
-layout_mode = 2
-text = "Yes"
-
-[node name="cancel" type="Button" parent="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container" unique_id=625746811]
-layout_mode = 2
-text = "Cancel"
-
-[node name="margin_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container" unique_id=116271070]
+[node name="center_container_2" type="CenterContainer" parent="scroll_container/margin_container/v_box_container" unique_id=116271070]
 layout_mode = 2
 
-[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/margin_container" unique_id=1087577627]
+[node name="h_box_container" type="HBoxContainer" parent="scroll_container/margin_container/v_box_container/center_container_2" unique_id=1087577627]
 layout_mode = 2
 
-[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/margin_container/h_box_container" unique_id=242553247]
+[node name="label" type="Label" parent="scroll_container/margin_container/v_box_container/center_container_2/h_box_container" unique_id=242553247]
 layout_mode = 2
 text = "Episode Title"
 
-[node name="page_title_text" type="LineEdit" parent="scroll_container/margin_container/v_box_container/margin_container/h_box_container" unique_id=1872678578]
+[node name="page_title_text" type="LineEdit" parent="scroll_container/margin_container/v_box_container/center_container_2/h_box_container" unique_id=1872678578]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 2
@@ -310,11 +239,7 @@ tab_input_mode = false
 virtual_keyboard_enabled = false
 virtual_keyboard_show_on_focus = false
 
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="show"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="." method="_on_accept_delete_button_up"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/accept" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
-[connection signal="button_up" from="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog/container/v_box_container/h_box_container/cancel" to="scroll_container/margin_container/v_box_container/grid_container/button/confirm_delete_language_dialog" method="hide"]
-[connection signal="text_changed" from="scroll_container/margin_container/v_box_container/margin_container/h_box_container/page_title_text" to="." method="_on_page_title_text_changed"]
+[connection signal="text_changed" from="scroll_container/margin_container/v_box_container/center_container_2/h_box_container/page_title_text" to="." method="_on_page_title_text_changed"]
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button" to="." method="_on_open_page_image_button_button_up"]
 [connection signal="file_selected" from="scroll_container/margin_container/v_box_container/h_box_container_3/open_page_image_button/open_image_file_dialog" to="." method="_on_open_image_file_dialog_file_selected"]
 [connection signal="button_up" from="scroll_container/margin_container/v_box_container/h_box_container_3/delete_page_image_button" to="." method="_on_delete_page_image_button_up"]

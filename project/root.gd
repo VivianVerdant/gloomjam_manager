@@ -378,6 +378,8 @@ func _on_commit_database_button_selected() -> void:
 		return
 		
 	current_database.write_to_filesystem(current_database_file)
+	_on_save_database_button_pressed()
+	_on_tree_cell_selected()
 	#ComicFilesystem.write_to_filesystem(current_database, GlobalSettings.last_db_path)
 
 func _on_page_type_selector_item_selected(index: int) -> void:

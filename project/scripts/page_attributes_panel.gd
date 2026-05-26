@@ -8,6 +8,13 @@ var author_comment: String: set = on_author_comment_updated
 
 signal panel_updated(page, lang)
 
+func _ready() -> void:
+	_on_background_color_picker_color_changed(GlobalSettings.bg_color)
+	
+	%image_drop_container.show()
+	%image_preview_container.hide()
+	%delete_page_image_button.hide()
+
 func on_file_dropped(file_path: String):
 	if not file_path:
 		return
@@ -50,7 +57,6 @@ func on_image_filename_updated(value):
 		var image = Image.load_from_file(value)
 		var texture = ImageTexture.create_from_image(image)
 		%page_image.texture = texture
-		
 	update_page()
 	
 func on_author_comment_updated(value):
@@ -98,3 +104,14 @@ func image_selected(file_path: String):
 	
 	print(file_path)
 	image_filename = file_path
+
+func _on_foldable_background_color_picker_container_folding_changed(is_folded: bool) -> void:
+	if is_folded:
+		GlobalSettings.save_file()
+
+func _on_background_color_picker_color_changed(color: Color) -> void:
+	var container = %image_preview_container
+	var new_style=StyleBoxFlat.new()
+	new_style.bg_color = color
+	container.add_theme_stylebox_override("panel",new_style)
+	GlobalSettings.bg_color = color.to_html(false)

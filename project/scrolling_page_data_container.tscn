@@ -7,11 +7,11 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ccxi0"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lrydb"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccxi0"]
 border_width_top = 1
-expand_margin_right = 1000.0
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lrydb"]
 
 [node name="scrolling_page_data_container" type="PanelContainer" unique_id=635734069]
 anchors_preset = 10
@@ -22,6 +22,13 @@ size_flags_vertical = 0
 theme = ExtResource("1_fqmkd")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ccxi0")
 script = ExtResource("1_wq6kb")
+
+[node name="h_separator" type="HSeparator" parent="." unique_id=1538161533]
+layout_mode = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -1)
+theme_override_styles/separator = SubResource("StyleBoxFlat_ccxi0")
 
 [node name="h_box_container" type="HBoxContainer" parent="." unique_id=740606876]
 layout_mode = 2
@@ -68,19 +75,14 @@ text = "(0.0, 0.0)"
 [node name="margin_container" type="MarginContainer" parent="h_box_container" unique_id=2012511035]
 layout_mode = 2
 theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
 [node name="page_actions_container" type="VBoxContainer" parent="h_box_container/margin_container" unique_id=1864455378]
 layout_mode = 2
 
-[node name="h_separator" type="HSeparator" parent="h_box_container/margin_container/page_actions_container" unique_id=1538161533]
-layout_mode = 2
-theme_override_styles/separator = SubResource("StyleBoxFlat_ccxi0")
-
 [node name="h_box_container" type="HBoxContainer" parent="h_box_container/margin_container/page_actions_container" unique_id=1322832076]
-visible = false
 layout_mode = 2
 
 [node name="move_page_up_button" type="Button" parent="h_box_container/margin_container/page_actions_container/h_box_container" unique_id=1256324478]

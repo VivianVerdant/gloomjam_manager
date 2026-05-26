@@ -108,7 +108,7 @@ flat = true
 [node name="popup_menu" type="PopupPanel" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button" unique_id=1149754142]
 oversampling_override = 1.0
 position = Vector2i(3, 29)
-size = Vector2i(220, 131)
+size = Vector2i(198, 151)
 always_on_top = true
 theme = ExtResource("1_pq8q7")
 
@@ -118,10 +118,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 217.0
-offset_bottom = 128.0
+offset_right = 195.0
+offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 theme_override_constants/separation = 3
 
 [node name="new_database_button" type="Button" parent="main_window/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1733352695]
@@ -206,7 +208,8 @@ theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
 disabled = true
-text = "Commit Changes to Filesystem"
+text = "Save Database and Commit
+  Changes to Filesystem"
 alignment = 0
 
 [node name="margin_container" type="MarginContainer" parent="main_window" unique_id=1268498277]
@@ -428,7 +431,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 folded = true
-title = "Console: Program loaded"
 title_position = 1
 title_text_overrun_behavior = 4
 
@@ -441,10 +443,6 @@ theme_override_constants/line_spacing = -3
 theme_override_styles/normal = SubResource("StyleBoxEmpty_vyht1")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_bf3um")
 theme_override_styles/read_only = SubResource("StyleBoxEmpty_huihk")
-text = "Progam loaded
-Progam loaded
-Progam loaded
-Progam loaded"
 editable = false
 emoji_menu_enabled = false
 deselect_on_focus_loss_enabled = false

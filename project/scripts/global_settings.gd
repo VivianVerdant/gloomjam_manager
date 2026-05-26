@@ -27,6 +27,7 @@ func load_settings() -> void:
 	var settings_obj = load_file()
 	
 	if not settings_obj:
+		Console.print("Creating settings file with default values")
 		settings_obj = default_settings
 	
 	for key in default_settings.keys():
@@ -36,6 +37,7 @@ func load_settings() -> void:
 	last_db_path = settings_obj.last_db_path
 	last_db_name = settings_obj.last_db_name
 	bg_color = settings_obj.bg_color
+	Console.print("loaded settings:", settings_obj)
 	save_file()
 	
 func save_file():
@@ -52,17 +54,19 @@ func save_file():
 func load_file():
 	var file = FileAccess.open(base_dir + "\\settings.ini", FileAccess.READ)
 	if not file:
+		Console.print("No existing settings file found")
 		return false
+	Console.print("Found existing settings file at", file.get_path(), "loading")
 	var settings_string = file.get_as_text()
 	var json = JSON.new()
 	var error = json.parse(settings_string)
 	var settings_obj: Dictionary
 	if error == OK:
-		settings_obj = json.data
 		if typeof(settings_obj) == TYPE_DICTIONARY:
-			Console.print(settings_obj)
+			settings_obj = json.data
+			Console.print("Successfully loaded settings file")
 		else:
-			Console.print("Unexpected data")
+			Console.print("Unexpected data parsing settings.ini")
 	else:
 		Console.print("JSON Parse Error: ", json.get_error_message(), " in ", settings_string, " at line ", json.get_error_line())
 		return false
