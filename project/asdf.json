@@ -2,8 +2,7 @@
 	"id": "Comic",
 	"page_type": "scrolling",
 	"languages": [
-		"en",
-		"es"
+		"en"
 	],
 	"chapters": [
 		{
@@ -15,14 +14,15 @@
 				{
 					"id": "ch1pg1",
 					"page_type": "scrolling",
+					"page_length": 10,
 					"title": {
 						"en": ""
 					},
 					"image_filename": {
-
+						"en": ""
 					},
 					"author_comment": {
-
+						"en": ""
 					}
 				}
 			]

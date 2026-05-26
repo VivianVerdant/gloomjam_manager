@@ -517,6 +517,7 @@ text = "Cancel"
 
 [node name="new_or_open" type="PanelContainer" parent="." unique_id=365884733]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -592,6 +593,7 @@ text = "Open File"
 [connection signal="cell_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
 [connection signal="text_submitted" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/h_box_container_2/item_id_text" to="." method="_on_item_id_text_submitted"]
+[connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/change_page_type_panel/page_type_selector" to="." method="_on_page_type_selector_item_selected"]
 [connection signal="folding_changed" from="main_window/margin_container/app_console_split/margin_container_2/app_console_container" to="." method="_on_app_console_container_folding_changed"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/accept" to="confirm_clear_database_dialog" method="_on_accept_button_up"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/cancel" to="confirm_clear_database_dialog" method="_on_cancel_button_up"]

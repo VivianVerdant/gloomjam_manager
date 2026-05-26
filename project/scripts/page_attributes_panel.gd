@@ -88,8 +88,13 @@ func _on_delete_page_image_button_up() -> void:
 func _on_open_image_file_dialog_file_selected(file_path: String) -> void:
 	if not file_path:
 		return
-		
+	
+	image_selected(file_path)
+
+func image_selected(file_path: String):
 	var extension = file_path.rsplit(".")[-1]
-	if (extension in ["jpg","png","bmp","tga","svg"]):
-		print(file_path)
-		image_filename = file_path
+	if (extension not in ["jpg","png","bmp","tga","svg"]):
+		return
+	
+	print(file_path)
+	image_filename = file_path

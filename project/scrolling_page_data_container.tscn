@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://d0uv876m60d8i" path="res://scripts/scrolling_page_data_container.gd" id="1_wq6kb"]
 [ext_resource type="Script" uid="uid://bqg6pqp6erwhm" path="res://scripts/panel_input_container.gd" id="4_136ka"]
 [ext_resource type="Script" uid="uid://c2mmgcldjdsxy" path="res://scripts/panel_scaling_container.gd" id="5_136ka"]
-[ext_resource type="Texture2D" uid="uid://dop2ldrlsqxtw" path="res://scrolling_imgs/10.png" id="5_ccxi0"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ccxi0"]
 
@@ -23,7 +22,6 @@ size_flags_vertical = 0
 theme = ExtResource("1_fqmkd")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_ccxi0")
 script = ExtResource("1_wq6kb")
-panel_image = ExtResource("5_ccxi0")
 
 [node name="h_box_container" type="HBoxContainer" parent="." unique_id=740606876]
 layout_mode = 2
@@ -54,7 +52,6 @@ offset_bottom = 1280.0
 scale = Vector2(0.5, 0.5)
 size_flags_horizontal = 4
 size_flags_vertical = 0
-texture = ExtResource("5_ccxi0")
 stretch_mode = 4
 metadata/_edit_use_anchors_ = true
 
@@ -83,6 +80,7 @@ layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxFlat_ccxi0")
 
 [node name="h_box_container" type="HBoxContainer" parent="h_box_container/margin_container/page_actions_container" unique_id=1322832076]
+visible = false
 layout_mode = 2
 
 [node name="move_page_up_button" type="Button" parent="h_box_container/margin_container/page_actions_container/h_box_container" unique_id=1256324478]
@@ -100,7 +98,8 @@ text = "Custom javascript:"
 [node name="text_edit" type="TextEdit" parent="h_box_container/margin_container/page_actions_container" unique_id=357109400]
 custom_minimum_size = Vector2(300, 100)
 layout_mode = 2
-placeholder_text = "Javascript entered here will run when the page is scrolled into view on the reader's browser."
+placeholder_text = "Javascript entered here will run when the page is scrolled into view on the reader's browser.
+-NOT IMPLEMENTED YET-"
 wrap_mode = 1
 scroll_smooth = true
 scroll_past_end_of_file = true

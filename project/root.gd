@@ -39,15 +39,17 @@ func _ready() -> void:
 
 func on_files_dropped(files):
 	var viewport = get_viewport()
-	#print(files)
 	viewport.get_window().grab_focus()
 	var input = InputEventMouseMotion.new()
 	input.position = viewport.get_mouse_position()
 	input.button_mask = 1
 	viewport.push_input(input)
 	var control = get_viewport().gui_get_hovered_control()
-	if control.has_method("recieve_dropped_file"):
-		control.recieve_dropped_file(files[0])
+	var panel = control.find_parent("page_attributes_panel")
+	if not panel:
+		panel = control.find_parent("scrolling_page_attributes_panel")
+	if panel and panel.has_method("image_selected"):
+		panel.image_selected(files[0])
 	
 func _on_open_previous_button_up() -> void:
 	_on_open_database_file(GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name))
@@ -130,7 +132,7 @@ func _on_tree_cell_selected() -> void:
 		ComicChapter:
 			edit_chapter(obj)
 		ComicPage:
-			%change_page_type_panel.hide()
+			%change_page_type_panel.show()
 			edit_page(obj)
 		_:
 			pass
@@ -247,22 +249,24 @@ func _on_delete_selected_confirmed() -> void:
 	match item.type:
 		ComicChapter:
 			item.flagged_for_deletion = true
-			for page in item.pages:
+			for page in item.attributes.pages:
 				page.flagged_for_deletion = true
 		ComicPage:
 			item.flagged_for_deletion = true
 		_:
 			return
 			
-	for chapter: ComicChapter in current_database.chapters:
+	for chapter: ComicChapter in current_database.attributes.chapters:
 		for page: ComicPage in chapter.attributes.pages:
 			if page.flagged_for_deletion:
 				chapter.attributes.pages.erase(page)
 				
 		if chapter.flagged_for_deletion:
-			current_database.chapters.erase(chapter)
+			current_database.attributes.chapters.erase(chapter)
 	
 	db_tree.get_selected().free()
+	db_tree.set_selected(db_tree.get_root(), 0)
+	_on_tree_cell_selected()
 
 func edit_comic(comic: ComicDatabase):
 	%item_id_text.text = comic.attributes.id
@@ -279,6 +283,10 @@ func on_comic_updated(comic: ComicDatabase):
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.attributes.id
 	%item_id_text.editable = true
+	if page.attributes.page_type == "scrolling":
+		%page_type_selector.select(1)
+	else:
+		%page_type_selector.select(0)
 	for language in current_database.attributes.languages:
 		var page_attributes
 		if page.attributes.page_type == "scrolling":
@@ -356,7 +364,6 @@ func _on_add_language_button_button_up() -> void:
 		current_database_item_selected.add_language(lang)
 		_on_tree_cell_selected()
 
-
 func _on_app_console_container_folding_changed(is_folded: bool) -> void:
 	if is_folded == true:
 		%app_console_split.split_offsets = PackedInt32Array()
@@ -366,10 +373,13 @@ func _on_app_console_container_folding_changed(is_folded: bool) -> void:
 		%app_console_split.dragger_visibility = 0
 		%app_console_split.dragging_enabled = true
 
-
 func _on_commit_database_button_selected() -> void:
 	if not current_database or not current_database_file:
 		return
 		
 	current_database.write_to_filesystem(current_database_file)
 	#ComicFilesystem.write_to_filesystem(current_database, GlobalSettings.last_db_path)
+
+func _on_page_type_selector_item_selected(index: int) -> void:
+	current_database_item_selected.attributes.page_type = %page_type_selector.get_item_text(index).to_lower()
+	_on_tree_cell_selected()
