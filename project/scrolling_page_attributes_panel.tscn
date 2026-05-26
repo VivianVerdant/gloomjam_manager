@@ -5,16 +5,6 @@
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="3_ioe74"]
 [ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_75tjh"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="5_7inwy"]
-[ext_resource type="PackedScene" uid="uid://b24y67aa7nnsd" path="res://scrolling_page_data_container.tscn" id="7_e6wmm"]
-[ext_resource type="Texture2D" uid="uid://btvjxtimqt2j1" path="res://scrolling_imgs/01.png" id="7_jb2qy"]
-[ext_resource type="Texture2D" uid="uid://obgw67qvrb3k" path="res://scrolling_imgs/02.png" id="8_cvaqm"]
-[ext_resource type="Texture2D" uid="uid://bvpo8w4uptk3c" path="res://scrolling_imgs/03.png" id="9_74ml0"]
-[ext_resource type="Texture2D" uid="uid://bcc83ucshyhth" path="res://scrolling_imgs/04.png" id="10_ka7ux"]
-[ext_resource type="Texture2D" uid="uid://chbgwl1ovrekk" path="res://scrolling_imgs/05.png" id="11_ygwr2"]
-[ext_resource type="Texture2D" uid="uid://pbabn3pr508y" path="res://scrolling_imgs/06.png" id="12_eev6v"]
-[ext_resource type="Texture2D" uid="uid://k7tebnihgd1p" path="res://scrolling_imgs/07.png" id="13_v3wtv"]
-[ext_resource type="Texture2D" uid="uid://dnakbcb6tehsj" path="res://scrolling_imgs/08.png" id="14_dbl7l"]
-[ext_resource type="Texture2D" uid="uid://cc262pvh1myrh" path="res://scrolling_imgs/09.png" id="15_xqgcm"]
 [ext_resource type="Texture2D" uid="uid://ddyj8t3264gri" path="res://icons/minus.svg" id="16_cvaqm"]
 [ext_resource type="Texture2D" uid="uid://ctqq6jb7t1rsw" path="res://icons/plus.svg" id="17_74ml0"]
 
@@ -234,45 +224,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme_override_constants/separation = 0
-
-[node name="scrolling_page_data_container" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=740606876 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("7_jb2qy")
-
-[node name="scrolling_page_data_container_2" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=2044885224 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("8_cvaqm")
-
-[node name="scrolling_page_data_container_3" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=635734069 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("9_74ml0")
-
-[node name="scrolling_page_data_container_4" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1195244704 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("10_ka7ux")
-
-[node name="scrolling_page_data_container_5" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1803616338 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("11_ygwr2")
-
-[node name="scrolling_page_data_container_6" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1888665879 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("12_eev6v")
-
-[node name="scrolling_page_data_container_7" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=981484643 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("13_v3wtv")
-
-[node name="scrolling_page_data_container_8" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1354386567 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("14_dbl7l")
-
-[node name="scrolling_page_data_container_9" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1247657052 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
-panel_image = ExtResource("15_xqgcm")
-
-[node name="scrolling_page_data_container_10" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=1850715569 instance=ExtResource("7_e6wmm")]
-layout_mode = 2
 
 [node name="zoom_controlls_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=1452999285]
 layout_mode = 2
