@@ -32,6 +32,7 @@ func _ready() -> void:
 	%open_database_file_dialog.current_path = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
 	%open_database_file_dialog.current_file = GlobalSettings.last_db_name
 	get_viewport().files_dropped.connect(on_files_dropped)
+	
 	if GlobalSettings.last_db_path == "":
 		GlobalSettings.last_db_path = OS.get_executable_path()
 		%open_previous.disabled = true
