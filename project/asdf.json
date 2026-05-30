@@ -13,8 +13,9 @@
 			"pages": [
 				{
 					"id": "ch1pg1",
-					"page_type": "paginated",
-					"page_length": 10.0,
+					"page_type": "scrolling",
+					"page_length": 10,
+					"thumbnail": "ch1/ch1pg1/ch1pg1_thumb.jpg",
 					"title": {
 						"en": ""
 					},

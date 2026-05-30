@@ -14,22 +14,22 @@ signal panel_zoom_changed(value)
 @onready var scrolling_page_data_container = load("res://scrolling_page_data_container.tscn")
 
 func _ready():
-	for node in %strip_container.get_children():
-		panel_zoom_changed.connect(node.set_panel_zoom)
+	#for node in %strip_container.get_children():
+		#panel_zoom_changed.connect(node.set_panel_zoom)
 	_on_background_color_picker_color_changed(GlobalSettings.bg_color)
 
 	%image_drop_container.show()
 	%image_preview_container.hide()
 	%delete_page_image_button.hide()
-	for child in %strip_container.get_children():
-		child.queue_free()
+	#for child in %strip_container.get_children():
+		#child.queue_free()
 
 func on_file_dropped(file_path: String):
 	if not file_path:
 		return
 		
-	var extension = file_path.rsplit(".")[-1]
-	if (extension in ["jpg","png","bmp","tga","svg"]):
+	var extension = file_path.get_extension()
+	if (extension in GlobalSettings.VALID_IMAGETYPES):
 		print(file_path)
 		image_filename = file_path
 
@@ -71,6 +71,10 @@ func on_image_filename_updated(value):
 		var figures = splits[-1].length()
 		var directory = value.get_base_dir()
 		var base_name = file_name.left(-figures)
+		
+		for child in %strip_container.get_children():
+			child.free()
+		
 		var panel_array = []
 		for i in page.attributes.page_length:
 			var next_page_path = directory.path_join(base_name) + str(i + start_panel_num).pad_zeros(figures) + "." + extension
@@ -148,14 +152,27 @@ func _on_foldable_background_color_picker_container_folding_changed(is_folded: b
 		GlobalSettings.save_file()
 		
 func image_selected(file_path: String):
+	%image_drop_container.hide()
+	%image_preview_container.show()
 	var extension = file_path.rsplit(".")[-1]
-	if (extension not in ["jpg","png","bmp","tga","svg"]):
+	if (extension not in GlobalSettings.VALID_IMAGETYPES):
 		return
 	
 	print(file_path)
 	
+	if file_path.is_relative_path():
+		file_path = GlobalSettings.last_db_path.path_join(file_path)
+	
+	if not FileAccess.file_exists(file_path):
+		return
+	
+	# TODO: make this not break on paths with more than the one period in the file path and name
 	var file_name = file_path.get_file().get_slice(".", 0)
 	var splits = file_name.split("_")
+	
+	if not splits[-1].is_valid_int():
+		Console.warn("!Warning: filename must end with a number, instead found \"", file_name, "\"")
+		return
 
 	var start_panel_num = splits[-1].to_int()
 	var figures = splits[-1].length()
@@ -164,6 +181,7 @@ func image_selected(file_path: String):
 	var panel_array = [file_path]
 	var next_page_num = start_panel_num + 1
 	var next_page_path = directory.path_join(base_name) + str(next_page_num).pad_zeros(figures) + "." + extension
+	
 	var dir = DirAccess.open(directory)
 
 	while (dir.file_exists(next_page_path)):

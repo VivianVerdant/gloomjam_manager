@@ -3,7 +3,9 @@
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_0xwqw"]
 [ext_resource type="Script" uid="uid://l6qgsbbj4fb8" path="res://scripts/scrolling_page_attributes_panel.gd" id="2_0xwqw"]
 [ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_75tjh"]
+[ext_resource type="PackedScene" uid="uid://b24y67aa7nnsd" path="res://scrolling_page_data_container.tscn" id="5_0xwqw"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="5_7inwy"]
+[ext_resource type="Texture2D" uid="uid://dd585safrunh2" path="res://icons/warning.svg" id="6_ing1n"]
 [ext_resource type="Texture2D" uid="uid://ddyj8t3264gri" path="res://icons/minus.svg" id="16_cvaqm"]
 [ext_resource type="Texture2D" uid="uid://ctqq6jb7t1rsw" path="res://icons/plus.svg" id="17_74ml0"]
 
@@ -153,6 +155,10 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 theme_override_constants/separation = 0
+
+[node name="scrolling_page_data_container" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/scroll_container/strip_container" unique_id=635734069 instance=ExtResource("5_0xwqw")]
+layout_mode = 2
+panel_image = ExtResource("6_ing1n")
 
 [node name="zoom_controlls_container" type="MarginContainer" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container" unique_id=1452999285]
 layout_mode = 2

@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://c4dpu4yvxfgv5" path="res://image_drop_containier.gd" id="4_a4bi5"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="4_twvjm"]
 [ext_resource type="Script" uid="uid://bot0cp3vf7qoo" path="res://addons/transform_container/transform_container.gd" id="5_vjitn"]
+[ext_resource type="Texture2D" uid="uid://dd585safrunh2" path="res://icons/warning.svg" id="8_a4bi5"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1dv34"]
 bg_color = Color(0.12941177, 0.12941177, 0.12941177, 0.5568628)
@@ -180,7 +181,6 @@ mouse_force_pass_scroll_events = false
 
 [node name="image_drop_container" type="CenterContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=1545320805]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 script = ExtResource("4_a4bi5")
 
@@ -201,6 +201,7 @@ text = "Drag and drop image here"
 
 [node name="image_preview_container" type="PanelContainer" parent="scroll_container/margin_container/v_box_container/image_container" unique_id=591717115]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 script = ExtResource("4_1dv34")
 
@@ -214,6 +215,7 @@ metadata/_custom_type_script = "uid://bot0cp3vf7qoo"
 [node name="page_image" type="TextureRect" parent="scroll_container/margin_container/v_box_container/image_container/image_preview_container/transform_container" unique_id=747309261]
 unique_name_in_owner = true
 layout_mode = 2
+texture = ExtResource("8_a4bi5")
 expand_mode = 2
 stretch_mode = 5
 

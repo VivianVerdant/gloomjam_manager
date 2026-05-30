@@ -1,5 +1,7 @@
 extends Node
 
+const VALID_IMAGETYPES: PackedStringArray = ["bmp","dds","ktx","exr","hdr","jpg","jpeg","png","tga","svg","webp"]
+
 var last_db_path: String:
 	set(value):
 		last_db_path = value

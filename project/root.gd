@@ -23,6 +23,9 @@ var console_output = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	%app_console_drawer_full.syntax_highlighter.add_color_region("!", "", Color.YELLOW, true)
+	#%app_console_drawer_full.syntax_highlighter.add_keyword_color("Warning", Color.RED)
+	
 	Console.full_console_node = %app_console_drawer_full
 	Console.last_console_node = %app_console_container
 	GlobalSettings.load_settings()
@@ -37,6 +40,8 @@ func _ready() -> void:
 		GlobalSettings.last_db_path = OS.get_executable_path()
 		%open_previous.disabled = true
 	%new_or_open.visible = true
+	
+	%thumbnail_container.hide()
 
 func on_files_dropped(files):
 	var viewport = get_viewport()
@@ -46,11 +51,46 @@ func on_files_dropped(files):
 	input.button_mask = 1
 	viewport.push_input(input)
 	var control = get_viewport().gui_get_hovered_control()
+	if control.find_parent("thumbnail_container"):
+		Console.print("Dropped file:", files[0])
+		on_thumbnail_dropped(files[0])
+		_on_tree_cell_selected()
+		return
 	var panel = control.find_parent("page_attributes_panel")
-	if not panel:
-		panel = control.find_parent("scrolling_page_attributes_panel")
+	panel = control.find_parent("scrolling_page_attributes_panel")
 	if panel and panel.has_method("image_selected"):
 		panel.image_selected(files[0])
+
+func on_thumbnail_dropped(file_path: String) -> void:
+	if not file_path or current_database_item_selected.type != ComicPage:
+		Console.print("How did you get here?")
+		return
+	
+	var file_location = file_path
+	if file_location.is_relative_path():
+		file_location = GlobalSettings.last_db_path.path_join(file_location)
+	
+	var extension = file_path.get_extension()
+	if (extension in GlobalSettings.VALID_IMAGETYPES):
+		current_database_item_selected.attributes.thumbnail = file_path
+		%thumbnail_unloaded_container.hide()
+		%thumbnail_loaded_container.show()
+		if not FileAccess.file_exists(file_location):
+			Console.warn("!Warning: File does not exist at:", file_location)
+			return
+		var image = Image.load_from_file(file_location)
+		var texture = ImageTexture.create_from_image(image)
+		%thumbnail_display_rect.texture = texture
+	else:
+		Console.print("Invalid filetype:", file_path)
+	
+	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
+	
+func on_thumbnail_deleted() -> void:
+	current_database_item_selected.attributes.thumbnail = ""
+	%thumbnail_unloaded_container.show()
+	%thumbnail_loaded_container.hide()
+	_on_tree_cell_selected()
 	
 func _on_open_previous_button_up() -> void:
 	_on_open_database_file(GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name))
@@ -83,9 +123,9 @@ func create_interactive_database(dirty: bool):
 	var root: TreeItem = db_tree.create_item();
 	root.set_text(0, current_database.attributes.id)
 	db_tree.set_selected(root, 0)
-	Console.print("Loaded root:", current_database.attributes.id)
+	#Console.print("Loaded root:", current_database.attributes.id)
 	for chapter in current_database.attributes.chapters:
-		Console.print("Loaded chapter:",chapter.attributes.title[current_language])
+		#Console.print("Loaded chapter:",chapter.attributes.title[current_language])
 		chapter.dirty = dirty
 		var chapter_obj = root.create_child()
 		chapter_obj.set_text(0, chapter.attributes.id)
@@ -95,7 +135,7 @@ func create_interactive_database(dirty: bool):
 			var page_node = chapter_obj.create_child()
 			page_node.set_text(0, page.attributes.id)
 			page_node.set_text(1, page.attributes.title[current_language])
-			Console.print("Loaded page:", page.attributes.title[current_language])
+			#Console.print("Loaded page:", page.attributes.title[current_language])
 		if chapter != current_database.attributes.chapters[-1]:
 			chapter_obj.collapsed = true
 
@@ -127,6 +167,8 @@ func _on_tree_cell_selected() -> void:
 	
 	%raw_data.text = JSON.stringify(obj.to_dict(), "\t", false)
 	
+	Console.print("Selected item:", obj.attributes.id)
+	
 	match obj.type:
 		ComicDatabase:
 			edit_comic(obj)
@@ -134,6 +176,7 @@ func _on_tree_cell_selected() -> void:
 			edit_chapter(obj)
 		ComicPage:
 			%change_page_type_panel.show()
+			%thumbnail_container.show()
 			edit_page(obj)
 		_:
 			pass
@@ -284,6 +327,15 @@ func on_comic_updated(comic: ComicDatabase):
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.attributes.id
 	%item_id_text.editable = true
+	if page.attributes.thumbnail == "":
+		%thumbnail_unloaded_container.show()
+		%thumbnail_loaded_container.hide()
+	else:
+		var thumbnail_path:String = page.attributes.thumbnail
+		on_thumbnail_dropped(thumbnail_path)
+		%thumbnail_unloaded_container.hide()
+		%thumbnail_loaded_container.show()
+	
 	if page.attributes.page_type == "scrolling":
 		%page_type_selector.select(1)
 	else:
@@ -373,6 +425,7 @@ func _on_app_console_container_folding_changed(is_folded: bool) -> void:
 	else:
 		%app_console_split.dragger_visibility = 0
 		%app_console_split.dragging_enabled = true
+		%app_console_scroll_container.custom_minimum_size.y = min(150, %app_console_drawer_full.size.y)
 
 func _on_commit_database_button_selected() -> void:
 	if not current_database or not current_database_file:
@@ -386,3 +439,6 @@ func _on_commit_database_button_selected() -> void:
 func _on_page_type_selector_item_selected(index: int) -> void:
 	current_database_item_selected.attributes.page_type = %page_type_selector.get_item_text(index).to_lower()
 	_on_tree_cell_selected()
+
+func _on_app_console_split_dragged(offset: int) -> void:
+	%app_console_scroll_container.scroll_vertical = -offset - 23 + %app_console_drawer_full.size.y

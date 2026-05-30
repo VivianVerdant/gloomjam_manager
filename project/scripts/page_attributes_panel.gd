@@ -20,7 +20,7 @@ func on_file_dropped(file_path: String):
 		return
 		
 	var extension = file_path.rsplit(".")[-1]
-	if (extension in ["jpg","png","bmp","tga","svg"]):
+	if (extension in GlobalSettings.VALID_IMAGETYPES):
 		print(file_path)
 		image_filename = file_path
 
@@ -54,6 +54,9 @@ func on_image_filename_updated(value):
 		%image_drop_container.hide()
 		%image_preview_container.show()
 		%delete_page_image_button.show()
+		if not FileAccess.file_exists(value):
+			Console.warn("!Warning: File does not exist at:", value)
+			return
 		var image = Image.load_from_file(value)
 		var texture = ImageTexture.create_from_image(image)
 		%page_image.texture = texture
