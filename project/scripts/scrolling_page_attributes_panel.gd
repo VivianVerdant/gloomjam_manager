@@ -11,7 +11,7 @@ signal panel_updated(page, lang)
 var panel_zoom: float = 50.: set = on_panel_zoome_updated
 signal panel_zoom_changed(value)
 
-@onready var scrolling_page_data_container = load("res://scrolling_page_data_container.tscn")
+@onready var scrolling_page_data_container = load("res://scenes/scrolling_page_data_container.tscn")
 
 func _ready():
 	#for node in %strip_container.get_children():
@@ -30,10 +30,14 @@ func on_file_dropped(file_path: String):
 		
 	var extension = file_path.get_extension()
 	if (extension in GlobalSettings.VALID_IMAGETYPES):
-		print(file_path)
+		Console.print("Assigning ", file_path, "as image")
 		image_filename = file_path
 
 func _on_open_page_image_button_button_up() -> void:
+	if GlobalSettings.last_opened_image_location != "":
+		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	else:
+		%open_image_file_dialog.current_dir = GlobalSettings.last_db_path
 	%open_image_file_dialog.show()
 
 func on_language_code_updated(value):
@@ -107,7 +111,7 @@ func update_panel():
 		%page_title_text.text = page.attributes.title[language_code]
 	if page.attributes.image_filename.has(language_code):
 		
-		_on_open_image_file_dialog_file_selected(page.attributes.image_filename[language_code])
+		image_selected(page.attributes.image_filename[language_code])
 
 func _on_accept_delete_button_up() -> void:
 	page.delete_language(language_code)
@@ -126,6 +130,7 @@ func _on_open_image_file_dialog_file_selected(file_path: String) -> void:
 		return
 	
 	image_selected(file_path)
+	GlobalSettings.last_opened_image_location = file_path.get_base_dir()
 
 func _on_zoom_out_button_up() -> void:
 	panel_zoom -= 5.
@@ -157,9 +162,7 @@ func image_selected(file_path: String):
 	var extension = file_path.rsplit(".")[-1]
 	if (extension not in GlobalSettings.VALID_IMAGETYPES):
 		return
-	
-	print(file_path)
-	
+		
 	if file_path.is_relative_path():
 		file_path = GlobalSettings.last_db_path.path_join(file_path)
 	
@@ -189,7 +192,10 @@ func image_selected(file_path: String):
 		next_page_num += 1
 		next_page_path = directory.path_join(base_name) + str(next_page_num).pad_zeros(figures) + "." + extension
 	
-	Console.print(panel_array)
+	#Console.print(panel_array)
 	
-	page.attributes.page_length = panel_array.size()
+	if page.attributes.page_length > panel_array.size():
+		Console.warn("!Warning: Found fewer image files than expected, ", panel_array.size(), " out of ", page.attributes.page_length as int)
+	
+	page.attributes.page_length = panel_array.size() as int
 	image_filename = file_path

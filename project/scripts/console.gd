@@ -27,5 +27,5 @@ func write_text(args):
 		print(string)
 		#last_console_node.title = "Console: " + string
 		last_console_node.title = string
-		full_console_node.get_parent().scroll_vertical = full_console_node.size.y + 100
-		full_console_node.get_parent().call_deferred("scroll_vertical",[999999999999999])
+		#full_console_node.get_parent().scroll_vertical = full_console_node.size.y + 100
+		full_console_node.get_parent().call_deferred("set_v_scroll",-999999999999999)

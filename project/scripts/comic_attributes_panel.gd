@@ -28,6 +28,21 @@ func update_panel():
 		copy.get_child(1).show()
 		language_list_container.add_child(copy)
 	
+	%main_site_title.text		= str(comic.attributes.title)
+	%main_site_author.text		= str(comic.attributes.author)
+	%main_site_address.text		= str(comic.attributes.link)
+	%main_site_fileroot.text	= str(comic.attributes.fileroot)
+	if str(comic.attributes.fileroot) == "":
+		%main_site_fileroot.placeholder_text = str(comic.attributes.link)
+	
+	match comic.attributes.rss_content:
+		"thumb":
+			%rss_feed_content.selected = 0
+		"image":
+			%rss_feed_content.selected = 1
+		_:
+			%rss_feed_content.selected = 2
+	
 func _on_page_type_selector_item_selected(index: int) -> void:
 	match index:
 		0:
@@ -64,3 +79,33 @@ func _on_delete_language_button_up() -> void:
 func _on_language_line_edit_editing_toggled(toggled_on: bool) -> void:
 	if not toggled_on:
 		update_languages()
+
+func _on_main_site_title_text_changed(new_text: String) -> void:
+	comic.attributes.title = new_text
+	panel_updated.emit(comic)
+
+func _on_main_site_author_text_changed(new_text: String) -> void:
+	comic.attributes.author = new_text
+	panel_updated.emit(comic)
+
+func _on_main_site_address_text_changed(new_text: String) -> void:
+	comic.attributes.link = new_text
+	%main_site_fileroot.placeholder_text = new_text
+	if new_text == "":
+		%main_site_fileroot.placeholder_text = "https://example.com"
+		
+	panel_updated.emit(comic)
+
+func _on_main_site_fileroot_text_changed(new_text: String) -> void:
+	comic.attributes.fileroot = new_text
+	panel_updated.emit(comic)
+
+func _on_rss_feed_content_item_selected(index: int) -> void:
+	match index:
+		0:
+			comic.attributes.rss_content = "thumb"
+		1:
+			comic.attributes.rss_content = "image"
+		2:
+			comic.attributes.rss_content = "link"
+	panel_updated.emit(comic)

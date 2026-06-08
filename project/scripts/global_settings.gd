@@ -2,6 +2,8 @@ extends Node
 
 const VALID_IMAGETYPES: PackedStringArray = ["bmp","dds","ktx","exr","hdr","jpg","jpeg","png","tga","svg","webp"]
 
+var queued_file_changes: Array
+
 var last_db_path: String:
 	set(value):
 		last_db_path = value
@@ -22,6 +24,8 @@ var default_settings = {
 		"last_db_name": "db.json",
 		"bg_color": "4d4d4d"
 	}
+	
+var last_opened_image_location: String = ""
 
 @onready var base_dir = "res://" if OS.has_feature("editor") else OS.get_executable_path().get_base_dir()
 

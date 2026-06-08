@@ -25,6 +25,10 @@ func on_file_dropped(file_path: String):
 		image_filename = file_path
 
 func _on_open_page_image_button_button_up() -> void:
+	if GlobalSettings.last_opened_image_location != "":
+		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	else:
+		%open_image_file_dialog.current_dir = GlobalSettings.last_db_path
 	%open_image_file_dialog.show()
 
 func on_language_code_updated(value):
@@ -99,6 +103,7 @@ func _on_open_image_file_dialog_file_selected(file_path: String) -> void:
 		return
 	
 	image_selected(file_path)
+	GlobalSettings.last_opened_image_location = file_path.get_base_dir()
 
 func image_selected(file_path: String):
 	var extension = file_path.rsplit(".")[-1]

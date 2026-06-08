@@ -7,6 +7,11 @@ var attributes: Dictionary = {
 	"id": "comic",
 	"page_type": "paginated",
 	"languages": ["en"],
+	"title": "Comic",
+	"author": "Author",
+	"link": "https://example.com",
+	"fileroot": "",
+	"rss_content": "link",
 	"chapters": []
 }
 
@@ -14,7 +19,7 @@ var dirty = false
 
 func _init(dict: Dictionary) -> void:
 	for key in dict.keys():
-		if self.attributes[key] != null:
+		if self.attributes.has(key):
 			self.attributes[key] = dict[key]
 	for i in attributes.chapters.size():
 		var obj = attributes.chapters.pop_front()
@@ -96,7 +101,13 @@ func move_item(item, target, mode):
 
 func write_to_filesystem(current_database_file: String):
 	var root_folder = current_database_file.get_base_dir()
+	
 	var dir = DirAccess.open(root_folder)
+	
+	if not dir.dir_exists(attributes.id):
+		dir.make_dir(attributes.id)
+	dir.change_dir(attributes.id)
+	root_folder = dir.get_current_dir()
 	
 	for chapter: ComicChapter in attributes.chapters:
 		dir.change_dir(root_folder)

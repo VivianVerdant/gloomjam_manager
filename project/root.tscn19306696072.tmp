@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://p5kmi0q1hrcb"]
 
 [ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_pq8q7"]
-[ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://scripts/root.gd" id="2_vvh5c"]
+[ext_resource type="Script" uid="uid://dmnwtqo32fqdy" path="res://root.gd" id="2_vvh5c"]
+[ext_resource type="Script" uid="uid://b75unaeamgjm2" path="res://addons/file_dialog_web/file_dialog_web.gd" id="3_jnlp7"]
 [ext_resource type="Script" uid="uid://f63va8cc8kv" path="res://scripts/thumbnail_container.gd" id="5_bf3um"]
 [ext_resource type="Script" uid="uid://dapr2k5puj76y" path="res://scripts/tree.gd" id="5_jnlp7"]
 [ext_resource type="Texture2D" uid="uid://b05iolvkp3bwc" path="res://icons/drag-drop-svgrepo-com.svg" id="5_vyht1"]
 [ext_resource type="Texture2D" uid="uid://dd585safrunh2" path="res://icons/warning.svg" id="6_bf3um"]
 [ext_resource type="Script" uid="uid://f831akovge7d" path="res://scripts/confirm_clear_database_dialog.gd" id="6_l8v81"]
-[ext_resource type="Script" uid="uid://dqxqao4ilir4u" path="res://scripts/proposed_changes_display_tree.gd" id="8_tw3kd"]
 [ext_resource type="Script" uid="uid://clwsa56tq6pa5" path="res://scripts/rss.gd" id="9_huihk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_huihk"]
@@ -45,40 +45,7 @@ shadow_size = 3
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gd4vy"]
 bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
 
-[sub_resource type="InputEventKey" id="InputEventKey_tw3kd"]
-device = -1
-command_or_control_autoremap = true
-keycode = 78
-unicode = 110
-
-[sub_resource type="Shortcut" id="Shortcut_sq7yr"]
-events = [SubResource("InputEventKey_tw3kd")]
-
-[sub_resource type="InputEventKey" id="InputEventKey_gd4vy"]
-device = -1
-command_or_control_autoremap = true
-keycode = 79
-unicode = 111
-
-[sub_resource type="Shortcut" id="Shortcut_blcw0"]
-events = [SubResource("InputEventKey_gd4vy")]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jnlp7"]
-
-[sub_resource type="InputEventKey" id="InputEventKey_qw60f"]
-command_or_control_autoremap = true
-keycode = 83
-
-[sub_resource type="Shortcut" id="Shortcut_tw3kd"]
-events = [SubResource("InputEventKey_qw60f")]
-
-[sub_resource type="InputEventKey" id="InputEventKey_eji0w"]
-command_or_control_autoremap = true
-shift_pressed = true
-keycode = 83
-
-[sub_resource type="Shortcut" id="Shortcut_qwhpj"]
-events = [SubResource("InputEventKey_eji0w")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_br5xg"]
 content_margin_left = 0.0
@@ -88,14 +55,6 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sf3k"]
-bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blcw0"]
 bg_color = Color(0.18039216, 0.18039216, 0.18039216, 1)
@@ -111,10 +70,6 @@ number_color = Color(1, 1, 1, 1)
 symbol_color = Color(1, 1, 1, 1)
 function_color = Color(1, 1, 1, 1)
 member_variable_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdyim"]
-content_margin_right = 2.0
-content_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jnlp7"]
 corner_radius_top_left = 4
@@ -213,63 +168,41 @@ flat = true
 [node name="popup_menu" type="PopupPanel" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button" unique_id=1149754142]
 oversampling_override = 1.0
 position = Vector2i(3, 29)
-size = Vector2i(222, 151)
+size = Vector2i(198, 151)
 always_on_top = true
 theme = ExtResource("1_pq8q7")
 
 [node name="v_box_container" type="VBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" unique_id=2039421906]
-custom_minimum_size = Vector2(210, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = 219.0
+offset_right = 195.0
 offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 3
-accessibility_region = true
-
-[node name="h_box_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1601906013]
-visible = false
-layout_mode = 2
 
 [node name="new_database_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1733352695]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
-shortcut = SubResource("Shortcut_sq7yr")
 text = "New Database"
 alignment = 0
 
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" unique_id=2010665777]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -8.5
-offset_bottom = 8.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.5372549, 0.5372549, 0.5372549, 1)
-theme_override_font_sizes/font_size = 12
-text = "ctrl+N"
-
 [node name="open_database_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1286701450]
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
-shortcut = SubResource("Shortcut_blcw0")
 text = "Open Database"
 alignment = 0
 
-[node name="open_database_file_dialog" type="FileDialog" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=381711187]
+[node name="open_database_file_dialog" type="FileDialog" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=843805863]
 unique_name_in_owner = true
 oversampling_override = 1.0
 title = "Open a File"
@@ -285,58 +218,28 @@ use_native_dialog = true
 folder_creation_enabled = false
 favorites_enabled = false
 layout_toggle_enabled = false
-
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" unique_id=2115536264]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -8.5
-offset_bottom = 8.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.5372549, 0.5372549, 0.5372549, 1)
-theme_override_font_sizes/font_size = 12
-text = "ctrl+O"
+script = ExtResource("3_jnlp7")
+metadata/_custom_type_script = "uid://b75unaeamgjm2"
 
 [node name="save_database_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1233408909]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
 disabled = true
-shortcut = SubResource("Shortcut_tw3kd")
 text = "Save Database"
 alignment = 0
-
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" unique_id=1533518055]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -8.5
-offset_bottom = 8.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.5372549, 0.5372549, 0.5372549, 1)
-theme_override_font_sizes/font_size = 12
-text = "ctrl+S"
 
 [node name="save_database_as_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=505380971]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
 disabled = true
-shortcut = SubResource("Shortcut_qwhpj")
 text = "Save Database As..."
 alignment = 0
 
@@ -354,29 +257,13 @@ access = 2
 filters = PackedStringArray("*.json")
 use_native_dialog = true
 
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_as_button" unique_id=1067468663]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -36.0
-offset_top = -8.5
-offset_bottom = 8.5
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_colors/font_color = Color(0.5372549, 0.5372549, 0.5372549, 1)
-theme_override_font_sizes/font_size = 12
-text = "ctrl+shift+S"
-
 [node name="h_separator" type="HSeparator" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=261787683]
 layout_mode = 2
 
 [node name="commit_database_button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container" unique_id=1569636810]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_tw3kd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_gd4vy")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_jnlp7")
@@ -628,69 +515,9 @@ virtual_keyboard_enabled = false
 draw_tabs = true
 draw_spaces = true
 
-[node name="queued_file_changes_panel" type="PanelContainer" parent="main_window/margin_container/app_console_split/margin_container" unique_id=1765811391]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="margin_container" type="MarginContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel" unique_id=464559554]
-layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="panel_container" type="PanelContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container" unique_id=1390091964]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4sf3k")
-
-[node name="margin_container" type="MarginContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container" unique_id=1515290116]
-layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
-
-[node name="v_box_container" type="VBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container" unique_id=1318150438]
-layout_mode = 2
-
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container" unique_id=1869830633]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Proposed File Changes"
-
-[node name="proposed_changes_display_tree" type="Tree" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container" unique_id=1215154128]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/icon_max_width = 20
-columns = 4
-column_titles_visible = true
-allow_reselect = true
-hide_folding = true
-enable_recursive_folding = false
-enable_drag_unfolding = false
-hide_root = true
-script = ExtResource("8_tw3kd")
-
-[node name="h_box_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container" unique_id=2064244378]
-layout_mode = 2
-
-[node name="accept_write_changes" type="Button" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container" unique_id=1962767235]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Write all checked items to filesystem"
-
-[node name="cancel_write_changes" type="Button" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container" unique_id=15424331]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Cancel"
-
 [node name="margin_container_2" type="MarginContainer" parent="main_window/margin_container/app_console_split" unique_id=193294993]
 layout_mode = 2
 theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 0
 
 [node name="app_console_container" type="FoldableContainer" parent="main_window/margin_container/app_console_split/margin_container_2" unique_id=1634409456]
 unique_name_in_owner = true
@@ -730,15 +557,6 @@ virtual_keyboard_show_on_focus = false
 scroll_fit_content_height = true
 scroll_fit_content_width = true
 syntax_highlighter = SubResource("CodeHighlighter_tw3kd")
-
-[node name="version_number_label" type="Label" parent="main_window/margin_container" unique_id=1940458073]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme_override_colors/font_color = Color(1, 1, 1, 0.5019608)
-theme_override_font_sizes/font_size = 12
-theme_override_styles/normal = SubResource("StyleBoxEmpty_mdyim")
-text = "v0.1.0"
 
 [node name="confirm_clear_database_dialog" type="PopupPanel" parent="." unique_id=544495106]
 unique_name_in_owner = true
@@ -857,7 +675,6 @@ layout_mode = 2
 text = "Open File"
 
 [node name="RSS" type="Node" parent="." unique_id=1450218748]
-unique_name_in_owner = true
 script = ExtResource("9_huihk")
 
 [connection signal="dragged" from="main_window/margin_container/app_console_split" to="." method="_on_app_console_split_dragged"]
@@ -865,7 +682,7 @@ script = ExtResource("9_huihk")
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="." method="_on_new_database_button_selected"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/new_database_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="popup_file_dialog_web"]
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" to="." method="_on_open_database_file"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="." method="_on_save_database_button_pressed"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/save_database_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu" method="hide"]
@@ -884,15 +701,10 @@ script = ExtResource("9_huihk")
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/tree" to="." method="_on_tree_cell_selected"]
 [connection signal="text_submitted" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/h_box_container_2/item_id_text" to="." method="_on_item_id_text_submitted"]
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/change_page_type_panel/page_type_selector" to="." method="_on_page_type_selector_item_selected"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button" to="." method="_on_load_thumbnail_button_button_up"]
+[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button" to="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" method="show"]
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="_on_tree_cell_selected"]
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="on_thumbnail_dropped"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/v_box_container/margin_container/h_box_container/thumbnail_container/thumbnail_loaded_container/delete_thumbnail_button" to="." method="on_thumbnail_deleted"]
-[connection signal="item_edited" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" method="_on_item_edited"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/accept_write_changes" to="." method="_on_accept_write_changes_button_up"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/accept_write_changes" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel" method="hide"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/cancel_write_changes" to="." method="_on_cancel_write_changes_button_up"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/cancel_write_changes" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel" method="hide"]
 [connection signal="folding_changed" from="main_window/margin_container/app_console_split/margin_container_2/app_console_container" to="." method="_on_app_console_container_folding_changed"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/accept" to="confirm_clear_database_dialog" method="_on_accept_button_up"]
 [connection signal="button_up" from="confirm_clear_database_dialog/container/v_box_container/h_box_container/cancel" to="confirm_clear_database_dialog" method="_on_cancel_button_up"]
@@ -900,5 +712,5 @@ script = ExtResource("9_huihk")
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/new" to="new_or_open" method="hide"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="." method="_on_open_previous_button_up"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_previous" to="new_or_open" method="hide"]
-[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="show"]
+[connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="main_window/margin_container/app_console_split/margin_container/app_body_split/tree_panel_container/tree_box_container/app_header/app_header_margin/h_box_container/main_menu/option_button/popup_menu/v_box_container/open_database_button/open_database_file_dialog" method="popup_file_dialog_web"]
 [connection signal="button_up" from="new_or_open/center/container/v_box_container/h_box_container/open_file" to="new_or_open" method="hide"]

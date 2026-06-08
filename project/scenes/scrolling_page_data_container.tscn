@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://b24y67aa7nnsd"]
+
+[ext_resource type="Theme" uid="uid://67rxcvupl8ld" path="res://theme.tres" id="1_fqmkd"]
+[ext_resource type="Script" uid="uid://d0uv876m60d8i" path="res://scripts/scrolling_page_data_container.gd" id="1_wq6kb"]
+[ext_resource type="Script" uid="uid://c2mmgcldjdsxy" path="res://scripts/panel_scaling_container.gd" id="5_136ka"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ccxi0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ccxi0"]
+border_width_top = 1
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lrydb"]
+
+[node name="scrolling_page_data_container" type="PanelContainer" unique_id=635734069]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 170.0
+grow_horizontal = 2
+size_flags_vertical = 0
+theme = ExtResource("1_fqmkd")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ccxi0")
+script = ExtResource("1_wq6kb")
+
+[node name="h_separator" type="HSeparator" parent="." unique_id=1538161533]
+layout_mode = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -1)
+theme_override_styles/separator = SubResource("StyleBoxFlat_ccxi0")
+
+[node name="h_box_container" type="HBoxContainer" parent="." unique_id=740606876]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="panel_input_container" type="PanelContainer" parent="h_box_container" unique_id=903685435]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+focus_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_lrydb")
+
+[node name="panel_scaling_container" type="Control" parent="h_box_container/panel_input_container" unique_id=1229609884]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 640)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("5_136ka")
+
+[node name="panel_image_container" type="TextureRect" parent="h_box_container/panel_input_container/panel_scaling_container" unique_id=1294628482]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 800.00037
+offset_bottom = 1280.0
+scale = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+stretch_mode = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="size" type="Label" parent="h_box_container/panel_input_container/panel_scaling_container" unique_id=1091138923]
+visible = false
+layout_mode = 1
+offset_right = 107.0
+offset_bottom = 20.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 70
+text = "(0.0, 0.0)"
+
+[node name="margin_container" type="MarginContainer" parent="h_box_container" unique_id=2012511035]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="page_actions_container" type="VBoxContainer" parent="h_box_container/margin_container" unique_id=1864455378]
+layout_mode = 2
+
+[node name="h_box_container" type="HBoxContainer" parent="h_box_container/margin_container/page_actions_container" unique_id=1322832076]
+layout_mode = 2
+
+[node name="move_page_up_button" type="Button" parent="h_box_container/margin_container/page_actions_container/h_box_container" unique_id=1256324478]
+layout_mode = 2
+text = "Move Up"
+
+[node name="move_page_down_button" type="Button" parent="h_box_container/margin_container/page_actions_container/h_box_container" unique_id=518709418]
+layout_mode = 2
+text = "Move Down"
+
+[node name="label" type="Label" parent="h_box_container/margin_container/page_actions_container" unique_id=1811754672]
+layout_mode = 2
+text = "Custom javascript:"
+
+[node name="text_edit" type="TextEdit" parent="h_box_container/margin_container/page_actions_container" unique_id=357109400]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+placeholder_text = "Javascript entered here will run when the page is scrolled into view on the reader's browser.
+-NOT IMPLEMENTED YET-"
+wrap_mode = 1
+scroll_smooth = true
+scroll_past_end_of_file = true
+scroll_fit_content_height = true
+
+[connection signal="resized" from="h_box_container/panel_input_container/panel_scaling_container" to="h_box_container/panel_input_container/panel_scaling_container" method="_on_resized"]
