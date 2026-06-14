@@ -1,7 +1,7 @@
 class_name ComicDatabase
-extends Resource
+extends GloomjamDatabase
 
-var type = ComicDatabase
+const type = ComicDatabase
 
 var attributes: Dictionary = {
 	"id": "comic",

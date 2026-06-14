@@ -4,24 +4,27 @@ const VALID_IMAGETYPES: PackedStringArray = ["bmp","dds","ktx","exr","hdr","jpg"
 
 var queued_file_changes: Array
 
-var last_db_path: String:
+var last_db: String:
 	set(value):
-		last_db_path = value
+		last_db = value
+		Console.print("Set last_db: ", value)
 		save_file()
 		
-var last_db_name: String:
+var export_path: String:
 	set(value):
-		last_db_name = value
+		export_path = value
+		Console.print("Set export_path: ", value)
 		save_file()
 		
 var bg_color: String:
 	set(value):
 		bg_color = value
+		Console.print("Set bg_color: ", value)
 		save_file()
 		
 var default_settings = {
-		"last_db_path": "",
-		"last_db_name": "db.json",
+		"last_db": "",
+		"export_path": "",
 		"bg_color": "4d4d4d"
 	}
 	
@@ -40,21 +43,27 @@ func load_settings() -> void:
 		if not settings_obj.has(key):
 			settings_obj.set(key, default_settings.get(key))
 	
-	last_db_path = settings_obj.last_db_path
-	last_db_name = settings_obj.last_db_name
+	last_db = settings_obj.last_db
+	export_path = settings_obj.export_path
 	bg_color = settings_obj.bg_color
 	Console.print("loaded settings:", settings_obj)
 	save_file()
 	
 func save_file():
 	var settings_object = {
-		"last_db_path": last_db_path,
-		"last_db_name": last_db_name,
+		"last_db": last_db,
+		"export_path": export_path,
 		"bg_color": bg_color
 	}
 	var settings_string = JSON.stringify(settings_object, "\t")
-	var file = FileAccess.open(base_dir + "\\settings.ini", FileAccess.WRITE)
-	file.store_string(settings_string)
+	var settings_path = base_dir.path_join("settings.ini")
+	var file = FileAccess.open(settings_path, FileAccess.WRITE)
+	if file:
+		file.store_string(settings_string)
+		Console.print("Saved: settings.ini")
+	else:
+		var error = error_string(FileAccess.get_open_error())
+		Console.warn("!Error saving settings file: " + error)
 	return file
 
 func load_file():

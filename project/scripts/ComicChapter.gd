@@ -11,7 +11,6 @@ var attributes: Dictionary = {
 
 var original_id: String = attributes.id
 
-var dirty: bool
 var flagged_for_deletion: bool = false
 
 func _init(dict: Dictionary) -> void:

@@ -3,10 +3,13 @@ extends PanelContainer
 var page: ComicPage: set = on_page_updated
 var language_code: String: set = on_language_code_updated
 var title: String: set = on_title_updated
-var image_filename: String: set = on_image_filename_updated
 var author_comment: String: set = on_author_comment_updated
+var image_filename: String: set = on_image_filename_updated
 
 signal panel_updated(page, lang)
+
+#TODO: for some reason the comments are getting deleted if it tries to save over existing text?
+# it's only on the SECOND time viewing the page that it deletes its?
 
 func _ready() -> void:
 	_on_background_color_picker_color_changed(GlobalSettings.bg_color)
@@ -27,8 +30,10 @@ func on_file_dropped(file_path: String):
 func _on_open_page_image_button_button_up() -> void:
 	if GlobalSettings.last_opened_image_location != "":
 		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	elif GlobalSettings.export_path != "":
+		%open_image_file_dialog.current_dir = GlobalSettings.export_path
 	else:
-		%open_image_file_dialog.current_dir = GlobalSettings.last_db_path
+		%open_image_file_dialog.current_dir = GlobalSettings.last_db.get_base_dir()
 	%open_image_file_dialog.show()
 
 func on_language_code_updated(value):
@@ -37,15 +42,23 @@ func on_language_code_updated(value):
 
 func on_page_updated(value):
 	page = value
+	if page.attributes.title.has(language_code):
+		title = page.attributes.title[language_code]
+		
+	if page.attributes.image_filename.has(language_code):
+		image_filename = page.attributes.image_filename[language_code]
+		
+	if page.attributes.author_comment.has(language_code):
+		author_comment = page.attributes.author_comment[language_code]
+	
 	update_panel()
 
 func on_title_updated(value):
 	title = value
-	update_page()
+	call_deferred("update_page")
 
 func on_image_filename_updated(value):
 	image_filename = value
-	
 	
 	if value == "":
 		%image_drop_container.show()
@@ -54,7 +67,7 @@ func on_image_filename_updated(value):
 		%delete_page_image_button.hide()
 	else:
 		if image_filename.is_relative_path():
-			value = GlobalSettings.last_db_path.path_join(image_filename)
+			value = GlobalSettings.export_path.path_join(image_filename)
 		%image_drop_container.hide()
 		%image_preview_container.show()
 		%delete_page_image_button.show()
@@ -64,16 +77,17 @@ func on_image_filename_updated(value):
 		var image = Image.load_from_file(value)
 		var texture = ImageTexture.create_from_image(image)
 		%page_image.texture = texture
-	update_page()
+	call_deferred("update_page")
+	
 	
 func on_author_comment_updated(value):
 	author_comment = value
-	update_page()
+	call_deferred("update_page")
 	
 func update_page():
 	page.attributes.title[language_code] = title
 	page.attributes.image_filename[language_code] = image_filename
-	page.attributes.author_comment[language_code] = author_comment
+	page.attributes.author_comment[language_code] = author_comment #this is where it's breaking, comment hasn't been loaded in yet, why?
 	
 	emit_signal("panel_updated", page, language_code)
 	

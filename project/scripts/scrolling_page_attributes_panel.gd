@@ -36,8 +36,10 @@ func on_file_dropped(file_path: String):
 func _on_open_page_image_button_button_up() -> void:
 	if GlobalSettings.last_opened_image_location != "":
 		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	elif GlobalSettings.export_path != "":
+		%open_image_file_dialog.current_dir = GlobalSettings.export_path
 	else:
-		%open_image_file_dialog.current_dir = GlobalSettings.last_db_path
+		%open_image_file_dialog.current_dir = GlobalSettings.last_db.get_base_dir()
 	%open_image_file_dialog.show()
 
 func on_language_code_updated(value):
@@ -46,6 +48,15 @@ func on_language_code_updated(value):
 
 func on_page_updated(value):
 	page = value
+	if page.attributes.title.has(language_code):
+		title = page.attributes.title[language_code]
+		
+	if page.attributes.image_filename.has(language_code):
+		image_filename = page.attributes.image_filename[language_code]
+		
+	if page.attributes.author_comment.has(language_code):
+		author_comment = page.attributes.author_comment[language_code]
+		
 	update_panel()
 
 func on_title_updated(value):
@@ -62,7 +73,7 @@ func on_image_filename_updated(value):
 			child.queue_free()
 	else:
 		if image_filename.is_relative_path():
-			value = GlobalSettings.last_db_path.path_join(image_filename)
+			value = GlobalSettings.export_path.path_join(image_filename)
 			
 		%image_drop_container.hide()
 		%image_preview_container.show()
@@ -164,7 +175,7 @@ func image_selected(file_path: String):
 		return
 		
 	if file_path.is_relative_path():
-		file_path = GlobalSettings.last_db_path.path_join(file_path)
+		file_path = GlobalSettings.export_path.path_join(file_path)
 	
 	if not FileAccess.file_exists(file_path):
 		return

@@ -18,7 +18,6 @@ var original_id: String = attributes.id
 
 var raw_text: String
 
-var dirty: bool = false
 var flagged_for_deletion: bool = false
 
 func _init(dict: Dictionary) -> void:
@@ -83,7 +82,7 @@ func to_relative_path(path: String) -> String:
 	if path.is_relative_path():
 		return path
 	else:
-		return path.trim_prefix(GlobalSettings.last_db_path).lstrip("\\/")
+		return path.trim_prefix(GlobalSettings.export_path).lstrip("\\/")
 
 func copy_file_to_folder(dir: DirAccess, in_path: String, new_name: String) -> void:
 	var result = dir.copy(in_path, dir.get_current_dir().path_join(new_name))

@@ -18,8 +18,15 @@ var current_database_item_selected
 
 var console_output = ""
 
-# TODO loading databases is broken?
-# TODO figure out storing and loading data for scrolling page filenames
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("new"):
+		_on_new_db()
+	if event.is_action_pressed("open"):
+		_on_open_db()
+	if event.is_action_pressed("save"):
+		_on_save_database_button_pressed()
+	if event.is_action_pressed("save_as"):
+		%save_database_file_dialog.show()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,17 +40,24 @@ func _ready() -> void:
 	db_tree.set_column_title(0, "ID")
 	db_tree.set_column_title(1, "Title")
 	db_tree.root = self
-	%open_database_file_dialog.current_path = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
-	%open_database_file_dialog.current_file = GlobalSettings.last_db_name
+	%open_database_file_dialog.current_path = GlobalSettings.last_db.get_base_dir()
+	%open_database_file_dialog.current_file = GlobalSettings.last_db.get_file()
 	get_viewport().files_dropped.connect(on_files_dropped)
-	
-	if GlobalSettings.last_db_path == "":
-		GlobalSettings.last_db_path = OS.get_executable_path()
-		%open_previous.disabled = true
-	%new_or_open.visible = true
-	
 	%thumbnail_container.hide()
-
+	
+	var args = OS.get_cmdline_args()
+	print("CMD args: ", args)
+	if args.size() == 1:
+		var string: String = args[0]
+		if string.get_extension() == "jam":
+			GlobalSettings.last_db = string
+			_on_open_database_file(string)
+	else:
+		if GlobalSettings.last_db == "":
+			GlobalSettings.last_db = OS.get_executable_path()
+			%open_previous.disabled = true
+		%new_or_open.show()
+	
 func on_files_dropped(files):
 	Console.print("Dropped file(s):", files)
 	var viewport = get_viewport()
@@ -75,7 +89,7 @@ func on_thumbnail_dropped(file_path: String) -> void:
 	
 	var file_location = file_path
 	if file_location.is_relative_path():
-		file_location = GlobalSettings.last_db_path.path_join(file_location)
+		file_location = GlobalSettings.export_path.path_join(file_location)
 	
 	var extension = file_path.get_extension()
 	if (extension in GlobalSettings.VALID_IMAGETYPES):
@@ -102,7 +116,7 @@ func on_thumbnail_deleted() -> void:
 	_on_tree_cell_selected()
 	
 func _on_open_previous_button_up() -> void:
-	_on_open_database_file(GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name))
+	_on_open_database_file(GlobalSettings.last_db)
 	
 func _on_open_database_file(path: String) -> void:
 	current_database_file = path
@@ -113,34 +127,38 @@ func _on_open_database_file(path: String) -> void:
 		var data_received = json.data
 		if typeof(data_received) == TYPE_DICTIONARY:
 			Console.print("Loaded File:", path)
-			current_database = ComicDatabase.new(data_received)
-			current_language = current_database.attributes.languages[0]
-			create_interactive_database(false)
-			GlobalSettings.last_db_path = path.get_base_dir()
-			GlobalSettings.last_db_name = path.get_file()
-			for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
-				node.disabled = false
+			if not data_received.has("gjdb_type"):
+				data_received["gjdb_type"] = "ComicDatabase"
+			match data_received.gjdb_type:
+				"ComicDatabase":
+					current_database = ComicDatabase.new(data_received)
+					current_language = current_database.attributes.languages[0]
+					create_interactive_database()
+			
+					GlobalSettings.last_db = path
+					for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
+						node.disabled = false
+				"BlogDatabase":
+					pass
 		else:
 			Console.print("Unexpected data")
 	else:
 		Console.print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
 
-func create_interactive_database(dirty: bool):
+func create_interactive_database():
 	if db_tree.get_root():
 		db_tree.get_root().free()
-	
+		
 	var root: TreeItem = db_tree.create_item();
 	root.set_text(0, current_database.attributes.id)
 	db_tree.set_selected(root, 0)
 	#Console.print("Loaded root:", current_database.attributes.id)
 	for chapter in current_database.attributes.chapters:
 		#Console.print("Loaded chapter:",chapter.attributes.title[current_language])
-		chapter.dirty = dirty
 		var chapter_obj = root.create_child()
 		chapter_obj.set_text(0, chapter.attributes.id)
 		chapter_obj.set_text(1, chapter.attributes.title[current_language])
 		for page in chapter.attributes.pages:
-			page.dirty = dirty
 			var page_node = chapter_obj.create_child()
 			page_node.set_text(0, page.attributes.id)
 			page_node.set_text(1, page.attributes.title[current_language])
@@ -191,22 +209,38 @@ func _on_tree_cell_selected() -> void:
 		_:
 			pass
 	
-func create_new_database(result):
+func create_new_comic_database(result):
 	if result:
 		Console.print("Creating new Comic Database")
 		current_database = ComicDatabase.new({})
-		create_interactive_database(true)
+		current_database.dirty = true
+		create_interactive_database()
 		for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
 			node.disabled = false
 	else:
 		Console.print("Action canceled")
-
-func _on_new_database_button_selected() -> void:
-	if not current_database:
-		create_new_database(true)
+	
+func close_current_db(callable: Callable) -> void:
+	%confirm_unsaved_changes.confirm_continue(callable)
+		
+func _on_open_db() -> void:
+	if current_database:
+		close_current_db(%open_database_file_dialog.show)
 	else:
-		Console.print("Opening confirmation dialog")
-		%confirm_clear_database_dialog.confirm_continue(create_new_database)
+		%open_database_file_dialog.show()
+	
+func _on_new_db() -> void:
+	if current_database:
+		close_current_db(%select_new_db_type.show)
+		current_database_file = ""
+	else:
+		%select_new_db_type.show()
+	
+func _on_new_comicdb() -> void:
+	create_new_comic_database(true)
+
+func _on_new_blogdb() -> void:
+	pass
 
 func _on_add_chapter_button_up() -> void:
 	if not db_tree.get_root():
@@ -223,7 +257,6 @@ func _on_add_chapter_button_up() -> void:
 				current_database.attributes.languages[0]: ""
 			}
 		}))
-	chapter.dirty = true
 	chapter_obj.set_text(0, chapter.attributes.id)
 	chapter_obj.set_text(1, chapter.attributes.title[current_database.attributes.languages[0]])
 	var obj = db_tree.get_root().get_child(-1)
@@ -272,7 +305,6 @@ func _on_add_page_button_up() -> void:
 				current_database.attributes.languages[0]: ""
 			}
 		})
-	page.dirty = true
 	chapter.add_page(page)
 	var page_obj = chapter_obj.create_child()
 	page_obj.set_text(0, pid)
@@ -282,6 +314,7 @@ func _on_add_page_button_up() -> void:
 
 func _on_delete_selected_button_up() -> void:
 	%confirm_delete_item_dialog.show()
+	%accept_confirm_delete_item.grab_focus()
 	
 func _on_delete_selected_confirmed() -> void:
 	if not current_database:
@@ -380,14 +413,22 @@ func on_chapter_updated(chapter: ComicChapter, _lang):
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func save_database_file(path: String) -> void:
-	Console.print("Saved database:", path)
 	# current_database.write_to_filesystem(current_database_file)
-	var db_string = JSON.stringify(current_database.to_dict(), "\t", false)
+	var dict = current_database.to_dict()
+	match current_database.type:
+		ComicDatabase:
+			dict["gjdb_type"] = "ComicDatabase"
+	var db_string = JSON.stringify(dict, "\t", false)
 	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string(db_string)
+	var result = file.store_string(db_string)
+	if result:
+		Console.print("Saved database:", path)
+	else:
+		Console.warn("!Failed to save database")
+	GlobalSettings.last_db = path
 	
 func _on_save_database_button_pressed() -> void:
-	if not current_database_file:
+	if not current_database or current_database_file == "":
 		return
 		
 	save_database_file(current_database_file)
@@ -397,7 +438,7 @@ func _on_save_database_file_dialog_file_selected(path: String) -> void:
 
 func _on_save_database_button_selected() -> void:
 	var dialog = %save_database_file_dialog
-	dialog.current_file = GlobalSettings.last_db_path.path_join(GlobalSettings.last_db_name)
+	dialog.current_file = GlobalSettings.last_db
 	dialog.show()
 	
 func _on_item_id_text_submitted(new_text: String) -> void:
@@ -409,11 +450,9 @@ func _on_item_id_text_submitted(new_text: String) -> void:
 	else:
 		Console.print("changed item ID from", current_database_item_selected.attributes.id, "to", new_text)
 		%item_id_text.text = new_text
-		current_database_item_selected.dirty = true
 		current_tree_selection.set_text(0, new_text)
 		current_database_item_selected.attributes.id = new_text
 		%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
-
 
 func _on_add_language_text_changed(new_text: String) -> void:
 	if new_text != "" and current_database_item_selected and current_database_item_selected.get("languages"):
@@ -444,6 +483,32 @@ func _on_page_type_selector_item_selected(index: int) -> void:
 func _on_app_console_split_dragged(offset: int) -> void:
 	%app_console_scroll_container.scroll_vertical = -offset - 23 + %app_console_drawer_full.size.y
 
+func _on_accept_write_changes_button_up() -> void:
+	var dir_access = DirAccess.open(GlobalSettings.export_path)
+	for change: QueuedFileChange in GlobalSettings.queued_file_changes:
+		change.write_changes(dir_access)
+	
+	save_database_file(GlobalSettings.last_db)
+	save_database_file(GlobalSettings.export_path.path_join("db.json"))
+	
+	%RSS.write_rss(current_database)
+	GlobalSettings.queued_file_changes = []
+	%proposed_changes_display_tree.clear_list()
+	_on_save_database_button_pressed()
+	_on_tree_cell_selected()
+
+func _on_cancel_write_changes_button_up() -> void:
+	GlobalSettings.queued_file_changes = []
+	%proposed_changes_display_tree.clear_list()
+	_on_tree_cell_selected()
+
+func _on_load_thumbnail_button_button_up() -> void:
+	if GlobalSettings.last_opened_image_location != "":
+		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	else:
+		%open_image_file_dialog.current_dir = GlobalSettings.last_db.get_base_dir()
+	%open_image_file_dialog.show()
+
 func _on_commit_database_button_selected() -> void:
 	if not current_database or not current_database_file:
 		return
@@ -451,34 +516,59 @@ func _on_commit_database_button_selected() -> void:
 	_on_save_database_button_pressed()
 	GlobalSettings.queued_file_changes = []
 	current_database.write_to_filesystem(current_database_file)
-	if GlobalSettings.queued_file_changes.size() == 0:
+	if GlobalSettings.export_path == "":
 		%accept_write_changes.disabled = true
-		Console.print("No pending changes to filesystem")
+		Console.print("Must set export path")
 	else:
 		%accept_write_changes.disabled = false
 	%queued_file_changes_panel.show()
+	%export_path_lineedit.text = GlobalSettings.export_path
+	if GlobalSettings.export_path == "":
+		%db_file_export_path_lineedit.text = "Must set an export path"
+	else:
+		%db_file_export_path_lineedit.text = GlobalSettings.export_path.path_join("db.json")
+	
+	if GlobalSettings.export_path == "":
+		%rss_export_path_lineedit.text = "Must set an export path"
+	else:
+		%rss_export_path_lineedit.text = GlobalSettings.export_path.path_join("atom.xml")
+	
+	update_queued_changes_panel()
+	
+func update_queued_changes_panel():
+	var new_file = FileAccess.get_file_as_string(current_database_file)
+	var existing_file = FileAccess.get_file_as_string(GlobalSettings.export_path.path_join("db.json"))
+	if new_file != existing_file:
+		%db_export_new_icon.show()
+	else:
+		%db_export_new_icon.hide()
+	
+	var new_rss = %RSS.rss_string(current_database)
+	var existing_rss = FileAccess.get_file_as_string(GlobalSettings.export_path.path_join("atom.xml"))
+	if new_rss != existing_rss:
+		%rss_export_new_icon.show()
+	else:
+		%rss_export_new_icon.hide()
+	
+	%proposed_changes_display_tree.clear_list()
 	for item in GlobalSettings.queued_file_changes:
-		%proposed_changes_display_tree.add_row(item)
+			%proposed_changes_display_tree.add_row(item)
 
-func _on_accept_write_changes_button_up() -> void:
-	var dir_access = DirAccess.open(GlobalSettings.last_db_path)
-	for change: QueuedFileChange in GlobalSettings.queued_file_changes:
-		change.write_changes(dir_access)
+func _pick_export_path():
+	%pick_export_folder.current_path = GlobalSettings.last_db.get_base_dir()
+	%pick_export_folder.show()
+
+func _on_pick_export_folder_dir_selected(dir: String) -> void:
+	GlobalSettings.export_path = dir
 	
 	GlobalSettings.queued_file_changes = []
-	%proposed_changes_display_tree.clear()
-	%RSS.write_rss(current_database)
-	_on_save_database_button_pressed()
-	_on_tree_cell_selected()
-
-func _on_cancel_write_changes_button_up() -> void:
-	GlobalSettings.queued_file_changes = []
-	%proposed_changes_display_tree.clear()
-	_on_tree_cell_selected()
-
-func _on_load_thumbnail_button_button_up() -> void:
-	if GlobalSettings.last_opened_image_location != "":
-		%open_image_file_dialog.current_dir = GlobalSettings.last_opened_image_location
+	current_database.write_to_filesystem(current_database_file)
+	update_queued_changes_panel()
+	
+	%export_path_lineedit.text = dir
+	if dir != "":
+		%accept_write_changes.disabled = false
 	else:
-		%open_image_file_dialog.current_dir = GlobalSettings.last_db_path
-	%open_image_file_dialog.show()
+		%accept_write_changes.disabled = true
+	%db_file_export_path_lineedit.text =  GlobalSettings.export_path.path_join("db.json")
+	%rss_export_path_lineedit.text =  GlobalSettings.export_path.path_join("atom.xml")
