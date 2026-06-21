@@ -34,6 +34,7 @@ func update_panel():
 	%main_site_fileroot.text	= str(comic.attributes.fileroot)
 	if str(comic.attributes.fileroot) == "":
 		%main_site_fileroot.placeholder_text = str(comic.attributes.link)
+	%export_subdirectory.text	= str(comic.attributes.export_subdirectory)
 	
 	match comic.attributes.rss_content:
 		"thumb":
@@ -108,4 +109,8 @@ func _on_rss_feed_content_item_selected(index: int) -> void:
 			comic.attributes.rss_content = "image"
 		2:
 			comic.attributes.rss_content = "link"
+	panel_updated.emit(comic)
+
+func _on_export_subdirectory_text_changed(new_text: String) -> void:
+	comic.attributes.export_subdirectory = new_text
 	panel_updated.emit(comic)

@@ -18,9 +18,12 @@ func rss_string(comic: ComicDatabase) -> String:
 			ct = chapter.attributes.title[lang]
 		for p in chapter.attributes.pages.size():
 			var page = chapter.attributes.pages[p]
+			
+			if Time.get_unix_time_from_datetime_string(page.attributes.pub_date + "T00:00:00") > Time.get_unix_time_from_system():
+				continue
 
-			if Time.get_unix_time_from_datetime_string(page.attributes.pubDate) > Time.get_unix_time_from_datetime_string(str(latest_update_time)):
-				latest_update_time = page.attributes.pubDate
+			if Time.get_unix_time_from_datetime_string(page.attributes.pub_date + "T00:00:00") > Time.get_unix_time_from_datetime_string(str(latest_update_time)):
+				latest_update_time = page.attributes.pub_date + "T00:00:00"
 
 			var pt = "Page " + str(p+1)
 			if page.attributes.title.has(lang) and page.attributes.title[lang] != "":
@@ -30,7 +33,7 @@ func rss_string(comic: ComicDatabase) -> String:
 				"title": ct + " - " + pt,
 				"link": cannonical + "?page=" + page.attributes.id,
 				"rss_content": "",
-				"pubDate": page.attributes.pubDate
+				"pub_date": page.attributes.pub_date + "T00:00:00+00:00"
 			}
 			match comic.attributes.rss_content:
 				"thumb":
@@ -74,8 +77,8 @@ func rss_string(comic: ComicDatabase) -> String:
 		var id_string = "\t\t\t<id>%s</id>\n" % [item.link]
 		var author_string = "\t\t\t<author><name>%s</name></author>\n" % [comic_author]
 		var desc_string = "\t\t\t<content type=\"html\">\n\t\t\t\t%s\n\t\t\t</content>\n" % [content_string]
-		var pubdate_string = "\t\t\t<updated>%s+00:00</updated>\n" % [item.pubDate]
-		var inside_string = title_string + link_string + id_string + author_string + desc_string + pubdate_string
+		var pub_date_string = "\t\t\t<updated>%s</updated>\n" % [item.pub_date]
+		var inside_string = title_string + link_string + id_string + author_string + desc_string + pub_date_string
 		var xml_string = "\t\t<entry>\n%s\t\t</entry>\n" % [inside_string]
 		atom_string += xml_string
 	

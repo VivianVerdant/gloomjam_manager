@@ -15,10 +15,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Gloomjam Manager"
-config/version="0.1.3"
+config/version="0.1.4"
 run/main_scene="uid://p5kmi0q1hrcb"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="uid://ldacyashpdob"
+
+[audio]
+
+driver/driver="dummy"
 
 [autoload]
 

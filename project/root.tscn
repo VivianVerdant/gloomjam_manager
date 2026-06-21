@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cfbt0s650071r" path="res://icons/update-file.svg" id="7_tw3kd"]
 [ext_resource type="Script" uid="uid://dqxqao4ilir4u" path="res://scripts/proposed_changes_display_tree.gd" id="8_tw3kd"]
 [ext_resource type="Script" uid="uid://clwsa56tq6pa5" path="res://scripts/rss.gd" id="9_huihk"]
+[ext_resource type="Script" uid="uid://bj66fywei3tin" path="res://scripts/version_number_label.gd" id="10_gd4vy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_huihk"]
 bg_color = Color(0, 0, 0, 0.14901961)
@@ -203,8 +204,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = -3.0
-offset_bottom = -3.0
+offset_right = 219.0
+offset_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 0
@@ -466,11 +467,9 @@ theme_override_constants/separation = 3
 
 [node name="margin_container" type="MarginContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL" unique_id=803082673]
 layout_mode = 2
-theme_override_constants/margin_left = 40
 
 [node name="h_box_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container" unique_id=2120172577]
 layout_mode = 2
-theme_override_constants/separation = 40
 
 [node name="h_box_container_2" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container" unique_id=1028855676]
 layout_mode = 2
@@ -601,6 +600,19 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Delete image"
 
+[node name="pub_date_container" type="HBoxContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container" unique_id=1692919613]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/pub_date_container" unique_id=1444928057]
+layout_mode = 2
+text = "Pub Date"
+
+[node name="pub_date_text" type="LineEdit" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/pub_date_container" unique_id=121438869]
+unique_name_in_owner = true
+layout_mode = 2
+expand_to_text_length = true
+
 [node name="attributes_panel_scroll_container" type="ScrollContainer" parent="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL" unique_id=280361636]
 layout_mode = 2
 size_flags_vertical = 3
@@ -676,32 +688,6 @@ text = "Proposed File Changes"
 [node name="grid_container" type="GridContainer" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container" unique_id=181109967]
 layout_mode = 2
 columns = 3
-
-[node name="label" type="Label" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container" unique_id=2140055985]
-layout_mode = 2
-text = "Export path"
-horizontal_alignment = 2
-
-[node name="button" type="Button" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container" unique_id=125285415]
-layout_mode = 2
-text = "Pick"
-
-[node name="pick_export_folder" type="FileDialog" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container/button" unique_id=1718186868]
-unique_name_in_owner = true
-title = "Open a Directory"
-initial_position = 4
-dialog_hide_on_ok = true
-dialog_autowrap = true
-file_mode = 2
-display_mode = 1
-access = 2
-use_native_dialog = true
-
-[node name="export_path_lineedit" type="LineEdit" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container" unique_id=407052455]
-unique_name_in_owner = true
-layout_mode = 2
-editable = false
-expand_to_text_length = true
 
 [node name="label_2" type="Label" parent="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container" unique_id=140069873]
 layout_mode = 2
@@ -880,8 +866,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
 offset_top = 3.0
-offset_right = -3.0
-offset_bottom = -3.0
+offset_right = 417.0
+offset_bottom = 87.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -971,7 +957,8 @@ size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 1, 1, 0.5019608)
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxEmpty_mdyim")
-text = "v0.1.3"
+text = "0.1.4"
+script = ExtResource("10_gd4vy")
 
 [node name="RSS" type="Node" parent="." unique_id=1450218748]
 unique_name_in_owner = true
@@ -1007,8 +994,7 @@ script = ExtResource("9_huihk")
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="on_thumbnail_dropped"]
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="_on_tree_cell_selected"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_loaded_container/delete_thumbnail_button" to="." method="on_thumbnail_deleted"]
-[connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container/button" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container/button/pick_export_folder" method="show"]
-[connection signal="dir_selected" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/grid_container/button/pick_export_folder" to="." method="_on_pick_export_folder_dir_selected"]
+[connection signal="text_changed" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/pub_date_container/pub_date_text" to="." method="_on_pub_date_upadted"]
 [connection signal="item_edited" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" method="_on_item_edited"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/accept_write_changes" to="." method="_on_accept_write_changes_button_up"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/h_box_container/accept_write_changes" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel" method="hide"]

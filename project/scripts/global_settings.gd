@@ -24,7 +24,6 @@ var bg_color: String:
 		
 var default_settings = {
 		"last_db": "",
-		"export_path": "",
 		"bg_color": "4d4d4d"
 	}
 	
@@ -44,7 +43,6 @@ func load_settings() -> void:
 			settings_obj.set(key, default_settings.get(key))
 	
 	last_db = settings_obj.last_db
-	export_path = settings_obj.export_path
 	bg_color = settings_obj.bg_color
 	Console.print("loaded settings:", settings_obj)
 	save_file()
@@ -52,7 +50,6 @@ func load_settings() -> void:
 func save_file():
 	var settings_object = {
 		"last_db": last_db,
-		"export_path": export_path,
 		"bg_color": bg_color
 	}
 	var settings_string = JSON.stringify(settings_object, "\t")

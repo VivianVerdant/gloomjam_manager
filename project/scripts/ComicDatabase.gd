@@ -11,6 +11,7 @@ var attributes: Dictionary = {
 	"author": "Author",
 	"link": "https://example.com",
 	"fileroot": "",
+	"export_subdirectory": "",
 	"rss_content": "link",
 	"chapters": []
 }
@@ -64,11 +65,11 @@ func add_chapter(chapter: ComicChapter) -> ComicChapter:
 	attributes.chapters.append(chapter)
 	return chapter
 	
-func to_dict() -> Dictionary:
+func to_dict(for_export: bool = false) -> Dictionary:
 	var dict = attributes.duplicate(true)
 	for chapter in dict.chapters:
 		var ch: ComicChapter = dict.chapters.pop_front()
-		dict.chapters.append(ch.to_dict())
+		dict.chapters.append(ch.to_dict(for_export))
 	return dict
 
 func move_item(item, target, mode):
@@ -99,17 +100,7 @@ func move_item(item, target, mode):
 					target_chapter.pages.insert(target_position + 1, item)
 			Console.print(self)
 
-func write_to_filesystem(current_database_file: String):
-	var root_folder = current_database_file.get_base_dir()
-	
-	var dir = DirAccess.open(root_folder)
-	
-	if not dir.dir_exists(attributes.id):
-		dir.make_dir(attributes.id)
-	dir.change_dir(attributes.id)
-	root_folder = dir.get_current_dir()
-	
+func queue_export(root_folder):
 	for chapter: ComicChapter in attributes.chapters:
-		dir.change_dir(root_folder)
-		chapter.write_to_filesystem(dir)
+		chapter.queue_export(root_folder)
 	pass

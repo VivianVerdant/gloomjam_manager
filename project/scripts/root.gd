@@ -136,6 +136,10 @@ func _on_open_database_file(path: String) -> void:
 					create_interactive_database()
 			
 					GlobalSettings.last_db = path
+					if current_database.attributes.export_subdirectory != "":
+						GlobalSettings.export_path = current_database_file.get_base_dir().path_join(current_database.attributes.export_subdirectory)
+					else:
+						GlobalSettings.export_path = current_database_file.get_base_dir()
 					for node in [%save_database_button,%save_database_as_button,%commit_database_button]:
 						node.disabled = false
 				"BlogDatabase":
@@ -169,6 +173,7 @@ func create_interactive_database():
 func _on_tree_cell_selected() -> void:
 	%change_page_type_panel.hide()
 	%thumbnail_container.hide()
+	%pub_date_container.hide()
 	var selected: TreeItem = db_tree.get_selected()
 	#if selected == current_tree_selection:
 		#return
@@ -205,6 +210,7 @@ func _on_tree_cell_selected() -> void:
 		ComicPage:
 			%change_page_type_panel.show()
 			%thumbnail_container.show()
+			%pub_date_container.show()
 			edit_page(obj)
 		_:
 			pass
@@ -366,6 +372,10 @@ func edit_comic(comic: ComicDatabase):
 	
 func on_comic_updated(comic: ComicDatabase):
 	%raw_data.text = JSON.stringify(comic.to_dict(), "\t", false)
+	if comic.attributes.export_subdirectory != "":
+		GlobalSettings.export_path = current_database_file.get_base_dir().path_join(current_database.attributes.export_subdirectory)
+	else:
+		GlobalSettings.export_path = current_database_file.get_base_dir()
 
 func edit_page(page: ComicPage):
 	%item_id_text.text = page.attributes.id
@@ -378,6 +388,8 @@ func edit_page(page: ComicPage):
 		on_thumbnail_dropped(thumbnail_path)
 		%thumbnail_unloaded_container.hide()
 		%thumbnail_loaded_container.show()
+	
+	%pub_date_text.text = page.attributes.pub_date
 	
 	if page.attributes.page_type == "scrolling":
 		%page_type_selector.select(1)
@@ -413,7 +425,6 @@ func on_chapter_updated(chapter: ComicChapter, _lang):
 	%raw_data.text = JSON.stringify(current_database_item_selected.to_dict(), "\t", false)
 
 func save_database_file(path: String) -> void:
-	# current_database.write_to_filesystem(current_database_file)
 	var dict = current_database.to_dict()
 	match current_database.type:
 		ComicDatabase:
@@ -480,6 +491,9 @@ func _on_page_type_selector_item_selected(index: int) -> void:
 	current_database_item_selected.attributes.page_type = %page_type_selector.get_item_text(index).to_lower()
 	_on_tree_cell_selected()
 
+func _on_pub_date_upadted(value: String) -> void:
+	current_database_item_selected.attributes.pub_date = value
+
 func _on_app_console_split_dragged(offset: int) -> void:
 	%app_console_scroll_container.scroll_vertical = -offset - 23 + %app_console_drawer_full.size.y
 
@@ -515,29 +529,17 @@ func _on_commit_database_button_selected() -> void:
 		
 	_on_save_database_button_pressed()
 	GlobalSettings.queued_file_changes = []
-	current_database.write_to_filesystem(current_database_file)
-	if GlobalSettings.export_path == "":
-		%accept_write_changes.disabled = true
-		Console.print("Must set export path")
-	else:
-		%accept_write_changes.disabled = false
+	current_database.queue_export(GlobalSettings.export_path)
 	%queued_file_changes_panel.show()
-	%export_path_lineedit.text = GlobalSettings.export_path
-	if GlobalSettings.export_path == "":
-		%db_file_export_path_lineedit.text = "Must set an export path"
-	else:
-		%db_file_export_path_lineedit.text = GlobalSettings.export_path.path_join("db.json")
-	
-	if GlobalSettings.export_path == "":
-		%rss_export_path_lineedit.text = "Must set an export path"
-	else:
-		%rss_export_path_lineedit.text = GlobalSettings.export_path.path_join("atom.xml")
+	%db_file_export_path_lineedit.text = GlobalSettings.export_path.path_join("db.json")
+	%rss_export_path_lineedit.text = GlobalSettings.export_path.path_join("atom.xml")
 	
 	update_queued_changes_panel()
 	
 func update_queued_changes_panel():
-	var new_file = FileAccess.get_file_as_string(current_database_file)
-	var existing_file = FileAccess.get_file_as_string(GlobalSettings.export_path.path_join("db.json"))
+	var root_folder = current_database_file.get_base_dir().path_join(current_database.attributes.export_subdirectory)
+	var new_file = JSON.stringify(current_database.to_dict(true), "\t", false)
+	var existing_file = FileAccess.get_file_as_string(root_folder.path_join("db.json"))
 	if new_file != existing_file:
 		%db_export_new_icon.show()
 	else:
@@ -553,22 +555,3 @@ func update_queued_changes_panel():
 	%proposed_changes_display_tree.clear_list()
 	for item in GlobalSettings.queued_file_changes:
 			%proposed_changes_display_tree.add_row(item)
-
-func _pick_export_path():
-	%pick_export_folder.current_path = GlobalSettings.last_db.get_base_dir()
-	%pick_export_folder.show()
-
-func _on_pick_export_folder_dir_selected(dir: String) -> void:
-	GlobalSettings.export_path = dir
-	
-	GlobalSettings.queued_file_changes = []
-	current_database.write_to_filesystem(current_database_file)
-	update_queued_changes_panel()
-	
-	%export_path_lineedit.text = dir
-	if dir != "":
-		%accept_write_changes.disabled = false
-	else:
-		%accept_write_changes.disabled = true
-	%db_file_export_path_lineedit.text =  GlobalSettings.export_path.path_join("db.json")
-	%rss_export_path_lineedit.text =  GlobalSettings.export_path.path_join("atom.xml")

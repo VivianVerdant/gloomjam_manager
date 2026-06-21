@@ -79,7 +79,6 @@ func on_image_filename_updated(value):
 		%page_image.texture = texture
 	call_deferred("update_page")
 	
-	
 func on_author_comment_updated(value):
 	author_comment = value
 	call_deferred("update_page")
@@ -97,7 +96,6 @@ func update_panel():
 	if page.attributes.title.has(language_code):
 		%page_title_text.text = page.attributes.title[language_code]
 	if page.attributes.image_filename.has(language_code):
-		
 		_on_open_image_file_dialog_file_selected(page.attributes.image_filename[language_code])
 
 func _on_accept_delete_button_up() -> void:

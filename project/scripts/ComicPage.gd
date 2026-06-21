@@ -5,7 +5,7 @@ var type = ComicPage
 
 var attributes: Dictionary = {
 	"id": "",
-	"pubDate": Time.get_datetime_string_from_system(),
+	"pub_date": Time.get_datetime_string_from_system().substr(0,9),
 	"page_type": "paginated",
 	"page_length": int(1),
 	"thumbnail": "",
@@ -31,52 +31,43 @@ func _init(dict: Dictionary) -> void:
 func to_dict() -> Dictionary:
 	return attributes
 
-func write_to_filesystem(dir: DirAccess):
-	# check if folder exists, create it if not
-	if not dir.dir_exists(attributes.id):
-		dir.make_dir(attributes.id)
-	dir.change_dir(attributes.id)
+func queue_export(path: String):
+	if Time.get_unix_time_from_datetime_string(attributes.pub_date + "T00:00:00") > Time.get_unix_time_from_system():
+		return
 	
-	var new_dir = to_relative_path(dir.get_current_dir())
-	var new_path
+	var root_folder = path.path_join(attributes.id)
 	
 	if attributes.thumbnail != "" and attributes.thumbnail.is_absolute_path():
-		var path: String = attributes.thumbnail
-		var filetype: String = path.get_extension()
+		var old_path: String = attributes.thumbnail
+		var filetype: String = old_path.get_extension()
 		var new_name = attributes.id + "_thumb." + filetype
-		#copy_file_to_folder(dir, path, new_name)
-		new_path = new_dir.path_join(new_name)
-		queue_file_copy(path, new_path)
-		#self.attributes.thumbnail = new_path
+		var new_path = root_folder.path_join(new_name)
+		queue_file_copy(old_path, new_path)
 	
 	for lang in attributes.image_filename.keys():
-		var path: String = attributes.image_filename.get(lang)
+		var old_path: String = attributes.image_filename.get(lang)
 		
-		if path == "" or path.is_relative_path():
+		if old_path == "" or old_path.is_relative_path():
 			continue
 		
-		var filetype: String = path.get_extension()
+		var filetype: String = old_path.get_extension()
 		if attributes.page_length == 1:
 			var new_name = attributes.id + "_" + lang + "." + filetype
-			#copy_file_to_folder(dir, path, new_name)
-			new_path = new_dir.path_join(new_name)
-			queue_file_copy(path, new_path)
-			#self.attributes.image_filename[lang] = new_path
-			
+			var new_path = root_folder.path_join(new_name)
+			queue_file_copy(old_path, new_path)
 		else:
+			var new_path
 			var new_name
 			for i in attributes.page_length:
-				var splits = path.split(".")[0].get_file().split("_")
+				var splits = old_path.split(".")[0].get_file().split("_")
 				var figures = splits[-1].length()
-				var source_name = path.left(-(figures + filetype.length() + 1)) + str(i + 1).pad_zeros(figures) + "." + filetype
+				var source_name = old_path.left(-(figures + filetype.length() + 1)) + str(i + 1).pad_zeros(figures) + "." + filetype
 				new_name = attributes.id + "_" + lang + "_" + str(i + 1).pad_zeros(3) + "." + filetype
-				new_path = new_dir.path_join(new_name)
-				#copy_file_to_folder(dir, source_name, new_name)
+				new_path = root_folder.path_join(new_name)
 				queue_file_copy(source_name, new_path)
 				
-			new_name = attributes.id + "_" + lang + "_" + str(1).pad_zeros(3) + "." + filetype
-			new_path = new_dir.path_join(new_name)
-			#self.attributes.image_filename[lang] = new_path
+			#new_name = attributes.id + "_" + lang + "_" + str(1).pad_zeros(3) + "." + filetype
+			#new_path = root_folder.path_join(new_name)
 
 func to_relative_path(path: String) -> String:
 	if path.is_relative_path():
