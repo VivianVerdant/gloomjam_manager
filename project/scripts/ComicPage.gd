@@ -82,12 +82,13 @@ func copy_file_to_folder(dir: DirAccess, in_path: String, new_name: String) -> v
 func queue_file_copy(source: String, destination: String):
 	GlobalSettings.queued_file_changes.push_back(QueuedFileChange.new(source, destination, self))
 
-func make_relative(source_path, destination_path) -> Error:
+func make_relative(source_path: String, destination_path: String) -> Error:
+	var new_path = destination_path.trim_prefix(GlobalSettings.export_path).lstrip("/\\")
 	if attributes.thumbnail == source_path:
-		attributes.thumbnail = destination_path
+		attributes.thumbnail = new_path
 		return Error.OK
 	for key in attributes.image_filename.keys():
 		if attributes.image_filename[key] == source_path:
-			attributes.image_filename[key] = destination_path
+			attributes.image_filename[key] = new_path
 			return Error.OK
 	return Error.ERR_DOES_NOT_EXIST

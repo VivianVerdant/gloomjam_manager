@@ -100,7 +100,8 @@ func move_item(item, target, mode):
 					target_chapter.pages.insert(target_position + 1, item)
 			Console.print(self)
 
-func queue_export(root_folder):
+func queue_export(path: String):
+	var root_folder = path.path_join(attributes.id)
 	for chapter: ComicChapter in attributes.chapters:
 		chapter.queue_export(root_folder)
 	pass
