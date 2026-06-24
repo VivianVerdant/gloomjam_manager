@@ -13,6 +13,7 @@
 bg_color = Color(0.3019608, 0.3019608, 0.3019608, 1)
 
 [node name="scrolling_page_attributes_panel" type="PanelContainer" unique_id=88779274]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

@@ -8,14 +8,14 @@ var author_comment: String: set = on_author_comment_updated
 
 signal panel_updated(page, lang)
 
-var panel_zoom: float = 50.: set = on_panel_zoome_updated
+var panel_zoom: float = 50.: set = on_panel_zoom_updated
 signal panel_zoom_changed(value)
 
 @onready var scrolling_page_data_container = load("res://scenes/scrolling_page_data_container.tscn")
 
 func _ready():
-	#for node in %strip_container.get_children():
-		#panel_zoom_changed.connect(node.set_panel_zoom)
+	for node in %strip_container.get_children():
+		panel_zoom_changed.connect(node.set_panel_zoom)
 	_on_background_color_picker_color_changed(GlobalSettings.bg_color)
 
 	%image_drop_container.show()
@@ -99,8 +99,9 @@ func on_image_filename_updated(value):
 			var image = Image.load_from_file(img)
 			var texture = ImageTexture.create_from_image(image)
 			var panel = scrolling_page_data_container.instantiate()
-			panel.panel_image = texture
 			%strip_container.add_child(panel)
+			panel_zoom_changed.connect(panel.set_panel_zoom)
+			panel.panel_image = texture
 		
 	update_page()
 	
@@ -151,7 +152,7 @@ func _on_zoom_in_button_up() -> void:
 	panel_zoom += 5.
 	panel_zoom = clampf(panel_zoom, 20., 200.)
 
-func on_panel_zoome_updated(value):
+func on_panel_zoom_updated(value):
 	panel_zoom = value
 	panel_zoom_changed.emit(value)
 	%zoom_percent_label.text = str(value).left(-2) + "%"

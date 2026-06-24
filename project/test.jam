@@ -1,0 +1,40 @@
+{
+	"id": "comic",
+	"page_type": "paginated",
+	"languages": [
+		"en"
+	],
+	"title": "Comic",
+	"author": "Author",
+	"link": "https://example.com",
+	"fileroot": "",
+	"export_subdirectory": "",
+	"rss_content": "link",
+	"chapters": [
+		{
+			"id": "ch1",
+			"title": {
+				"en": ""
+			},
+			"pages": [
+				{
+					"id": "ch1pg1",
+					"pub_date": "2026-06-2",
+					"page_type": "scrolling",
+					"page_length": 1,
+					"thumbnail": "",
+					"title": {
+						"en": ""
+					},
+					"image_filename": {
+						"en": ""
+					},
+					"author_comment": {
+						"en": ""
+					}
+				}
+			]
+		}
+	],
+	"gjdb_type": "ComicDatabase"
+}
