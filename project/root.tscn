@@ -91,17 +91,8 @@ expand_margin_bottom = 16.0
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_blcw0"]
 bg_color = Color(0.18039216, 0.18039216, 0.18039216, 1)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vyht1"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bf3um"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_huihk"]
-
-[sub_resource type="CodeHighlighter" id="CodeHighlighter_tw3kd"]
-number_color = Color(1, 1, 1, 1)
-symbol_color = Color(1, 1, 1, 1)
-function_color = Color(1, 1, 1, 1)
-member_variable_color = Color(1, 1, 1, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2mblq"]
+content_margin_left = 6.0
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mdyim"]
 content_margin_right = 2.0
@@ -915,6 +906,8 @@ theme_override_constants/margin_right = 0
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/hover_font_color = Color(1, 1, 1, 1)
 folded = true
 title = "Test"
 title_position = 1
@@ -927,28 +920,32 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_blcw0")
 scroll_hint_mode = 1
 
-[node name="app_console_drawer_full" type="TextEdit" parent="main_window/margin_container/app_console_split/margin_container_2/app_console_container/app_console_scroll_container" unique_id=310150836]
+[node name="app_console_drawer_full" type="VBoxContainer" parent="main_window/margin_container/app_console_split/margin_container_2/app_console_container/app_console_scroll_container" unique_id=535054717]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
-theme_override_constants/line_spacing = -3
-theme_override_styles/normal = SubResource("StyleBoxEmpty_vyht1")
-theme_override_styles/focus = SubResource("StyleBoxEmpty_bf3um")
-theme_override_styles/read_only = SubResource("StyleBoxEmpty_huihk")
+theme_override_constants/separation = 0
+
+[node name="line_edit" type="TextEdit" parent="main_window/margin_container/app_console_split/margin_container_2/app_console_container/app_console_scroll_container/app_console_drawer_full" unique_id=608665601]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2mblq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2mblq")
+text = "Console Started"
 editable = false
-emoji_menu_enabled = false
-deselect_on_focus_loss_enabled = false
-drag_and_drop_selection_enabled = false
-middle_mouse_paste_enabled = false
-wrap_mode = 1
-indent_wrapped_lines = true
-virtual_keyboard_enabled = false
-virtual_keyboard_show_on_focus = false
 scroll_fit_content_height = true
 scroll_fit_content_width = true
-syntax_highlighter = SubResource("CodeHighlighter_tw3kd")
+
+[node name="line_edit_2" type="TextEdit" parent="main_window/margin_container/app_console_split/margin_container_2/app_console_container/app_console_scroll_container/app_console_drawer_full" unique_id=59265672]
+visible = false
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_2mblq")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2mblq")
+text = "Console Started"
+editable = false
+scroll_fit_content_height = true
+scroll_fit_content_width = true
 
 [node name="version_number_label" type="Label" parent="main_window/margin_container" unique_id=1940458073]
 layout_mode = 2
@@ -957,7 +954,7 @@ size_flags_vertical = 8
 theme_override_colors/font_color = Color(1, 1, 1, 0.5019608)
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxEmpty_mdyim")
-text = "0.1.6"
+text = "0.1.7"
 script = ExtResource("10_gd4vy")
 
 [node name="RSS" type="Node" parent="." unique_id=1450218748]
@@ -991,8 +988,8 @@ script = ExtResource("9_huihk")
 [connection signal="text_submitted" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/h_box_container_2/item_id_text" to="." method="_on_item_id_text_submitted"]
 [connection signal="item_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/change_page_type_panel/page_type_selector" to="." method="_on_page_type_selector_item_selected"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button" to="." method="_on_load_thumbnail_button_button_up"]
-[connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="on_thumbnail_dropped"]
 [connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="_on_tree_cell_selected"]
+[connection signal="file_selected" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_unloaded_container/load_thumbnail_button/open_image_file_dialog" to="." method="on_thumbnail_dropped"]
 [connection signal="button_up" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/thumbnail_container/thumbnail_loaded_container/delete_thumbnail_button" to="." method="on_thumbnail_deleted"]
 [connection signal="text_changed" from="main_window/margin_container/app_console_split/margin_container/app_body_split/panel_container/COMIC_EDITOR_PANEL/margin_container/h_box_container/pub_date_container/pub_date_text" to="." method="_on_pub_date_upadted"]
 [connection signal="item_edited" from="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" to="main_window/margin_container/app_console_split/margin_container/queued_file_changes_panel/margin_container/panel_container/margin_container/v_box_container/proposed_changes_display_tree" method="_on_item_edited"]

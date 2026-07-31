@@ -31,7 +31,7 @@ func _input(event: InputEvent) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%queued_file_changes_panel.hide()
-	%app_console_drawer_full.syntax_highlighter.add_color_region("!", "", Color.YELLOW, true)
+	#%app_console_drawer_full.syntax_highlighter.add_color_region("!", "", Color.YELLOW, true)
 	#%app_console_drawer_full.syntax_highlighter.add_keyword_color("Warning", Color.RED)
 	
 	Console.full_console_node = %app_console_drawer_full
@@ -145,9 +145,9 @@ func _on_open_database_file(path: String) -> void:
 				"BlogDatabase":
 					pass
 		else:
-			Console.print("Unexpected data")
+			Console.warn("!Unexpected data")
 	else:
-		Console.print("JSON Parse Error: ", json.get_error_message(), " in ", text, " at line ", json.get_error_line())
+		Console.warn("!JSON Parse Error: ", json.get_error_message(), " in\n", text, "\nat line ", json.get_error_line())
 
 func create_interactive_database():
 	if db_tree.get_root():
@@ -200,7 +200,7 @@ func _on_tree_cell_selected() -> void:
 	
 	%raw_data.text = JSON.stringify(obj.to_dict(), "\t", false)
 	
-	Console.print("Selected item:", obj.attributes.id)
+	#Console.print("Selected item:", obj.attributes.id)
 	
 	match obj.type:
 		ComicDatabase:

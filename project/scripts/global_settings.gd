@@ -57,7 +57,7 @@ func save_file():
 	var file = FileAccess.open(settings_path, FileAccess.WRITE)
 	if file:
 		file.store_string(settings_string)
-		Console.print("Saved: settings.ini")
+		#Console.print("Saved: settings.ini")
 	else:
 		var error = error_string(FileAccess.get_open_error())
 		Console.warn("!Error saving settings file: " + error)

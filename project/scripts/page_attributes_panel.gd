@@ -130,6 +130,8 @@ func _on_foldable_background_color_picker_container_folding_changed(is_folded: b
 		GlobalSettings.save_file()
 
 func _on_background_color_picker_color_changed(color: Color) -> void:
+	if color == Color(GlobalSettings.bg_color):
+		return
 	var container = %image_preview_container
 	var new_style=StyleBoxFlat.new()
 	new_style.bg_color = color
